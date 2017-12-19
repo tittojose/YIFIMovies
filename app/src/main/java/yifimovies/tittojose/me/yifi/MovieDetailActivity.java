@@ -34,7 +34,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         try {
             Glide.with(MovieDetailActivity.this)
-                    .load(movie.getMediumCoverImage())
+                    .load(movie.getBackgroundImage())
                     .listener(GlidePalette.with(movie.getLargeCoverImage())
                             .use(GlidePalette.Profile.MUTED_DARK)
                             .intoBackground(movieTitleText)
@@ -53,5 +53,11 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieTitleText.setText(movie.getTitle());
         movieDescriptionText.setText(movie.getDescriptionFull());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
     }
 }

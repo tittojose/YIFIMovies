@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -30,8 +32,33 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recyclerViewMoviesList)
     RecyclerView moviesRecyclerView;
 
+    @BindView(R.id.progressPagination)
+    ProgressBar paginationProgressBar;
+
     private List<Movie> movies;
     private RecyclerView.Adapter mAdapter;
+    private boolean isLoading = true;
+    private final int PAGE_SIZE = 10;
+    private int page = 1;
+    private boolean isLastPage = false;
+    private MovesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
+        @Override
+        public void onItemClickListener(Movie movie, ImageView imageView) {
+            ActivityOptions options = null;
+            Intent i = new Intent(MainActivity.this, MovieDetailActivity.class);
+            i.putExtra("movie", movie);
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//
+//                options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, imageView, getString(R.string.picture_transition_name));
+//
+//                ActivityCompat.startActivity(MainActivity.this, i, options.toBundle());
+//            } else {
+
+                startActivity(i);
+            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+//            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,43 +66,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         moviesRecyclerView.setLayoutManager(layoutManager);
         moviesRecyclerView.setHasFixedSize(true);
+        moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                        loadMovieData(page++);
+                    }
+                }
+            }
+        });
 
 
-        loadMovieData();
+        loadMovieData(page++);
     }
 
-    private void loadMovieData() {
+    private void loadMovieData(final int page) {
+        isLoading = true;
+        if (page > 1) {
+            paginationProgressBar.setVisibility(View.VISIBLE);
+        }
         moviesService = MoviesAPIClient.getMoviesAPIService();
 
-        moviesService.getLatestMovies().enqueue(new Callback<MovieAPIResponse>() {
+        moviesService.getLatestMovies(page, PAGE_SIZE).enqueue(new Callback<MovieAPIResponse>() {
             @Override
             public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
-                movies = response.body().getData().getMovies();
-                mAdapter = new MovesRecyclerAdapter(MainActivity.this, movies, new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
-                    @Override
-                    public void onItemClickListener(Movie movie, ImageView imageView) {
-                        ActivityOptions options = null;
-                        Intent i = new Intent(MainActivity.this, MovieDetailActivity.class);
-                        i.putExtra("movie", movie);
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                paginationProgressBar.setVisibility(View.GONE);
+                isLoading = false;
+                if (mAdapter == null) {
+                    movies = response.body().getData().getMovies();
+                    mAdapter = new MovesRecyclerAdapter(MainActivity.this, movies, recyclerAdapterListener);
+                    moviesRecyclerView.setAdapter(mAdapter);
+                } else {
+                    movies.addAll(response.body().getData().getMovies());
+                    mAdapter.notifyDataSetChanged();
+                }
 
-                            options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, imageView, getString(R.string.picture_transition_name));
+                int currentTotalItem = page * PAGE_SIZE;
 
-                            ActivityCompat.startActivity(MainActivity.this, i, options.toBundle());
-                        } else {
-
-                            startActivity(i);
-                        }
-                    }
-                });
-                moviesRecyclerView.setAdapter(mAdapter);
+                if (currentTotalItem >= response.body().getData().getMovieCount()) {
+                    isLastPage = true;
+                }
             }
 
             @Override
             public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
+                isLoading = false;
+                paginationProgressBar.setVisibility(View.GONE);
+
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

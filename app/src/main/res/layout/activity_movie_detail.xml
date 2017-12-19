@@ -10,55 +10,67 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor">
+        android:background="#111419">
 
-
-        <ImageView
-            android:id="@+id/imageViewMovieTitleImage"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cn"
             android:layout_width="0dp"
+
             android:layout_height="0dp"
-            android:background="#000"
-            android:scaleType="centerInside"
+            android:layout_marginBottom="8dp"
+            android:background="@color/backgroundColor"
             android:transitionName="@string/picture_transition_name"
-            app:layout_collapseMode="parallax"
             app:layout_constraintBottom_toTopOf="@+id/guidelineVertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageViewMovieTitleImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#111419"
+                android:scaleType="centerInside"
+
+                app:layout_constraintBottom_toTopOf="@+id/tvMovieTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tvMovieTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:maxLines="2"
+                android:padding="10dp"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.Guideline
             android:id="@+id/guidelineVertical"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.72" />
-
-        <TextView
-            android:id="@+id/tvMovieTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:lines="2"
-            android:maxLines="2"
-            android:padding="10dp"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/guidelineVertical" />
+            app:layout_constraintGuide_percent="0.45" />
 
         <TextView
             android:id="@+id/tvMovieDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/backgroundColor"
+            android:background="#111419"
             android:fontFamily="sans-serif"
             android:padding="10dp"
             android:textSize="17sp"
             android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/cn" />
 
 
     </android.support.constraint.ConstraintLayout>

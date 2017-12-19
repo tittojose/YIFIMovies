@@ -54,6 +54,7 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         ImageView movieImage = holder.movieImage;
 
         holder.movieTitle.setText(movie.getTitle());
+        holder.rating.setText(String.format("%.1f", movie.getRating()));
 //        Glide.with(context)
 //                .load(movie.getMediumCoverImage())
 //                .into(movieImage);
@@ -89,6 +90,12 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         return movies.size();
     }
 
+
+    public void updateMoviesList(List<Movie> items) {
+        movies = items;
+        notifyDataSetChanged();
+    }
+
     public class MoviesViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.imageViewMovieListItem)
@@ -97,6 +104,9 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         @BindView(R.id.tvTitleMovieListItem)
         TextView movieTitle;
 
+        @BindView(R.id.tvRatingMovieListItem)
+        TextView rating;
+
         public MoviesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -104,8 +114,4 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         }
     }
 
-    public void updateMoviesList(List<Movie> items) {
-        movies = items;
-        notifyDataSetChanged();
-    }
 }
