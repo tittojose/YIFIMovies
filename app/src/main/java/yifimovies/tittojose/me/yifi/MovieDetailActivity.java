@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.florent37.glidepalette.BitmapPalette;
 import com.github.florent37.glidepalette.GlidePalette;
 
 import butterknife.BindView;
@@ -36,13 +37,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             Glide.with(MovieDetailActivity.this)
                     .load(movie.getBackgroundImage())
                     .listener(GlidePalette.with(movie.getLargeCoverImage())
-                            .use(GlidePalette.Profile.MUTED_DARK)
-                            .intoBackground(movieTitleText)
-                            .intoTextColor(movieTitleText)
 
-                            .use(GlidePalette.Profile.VIBRANT)
+                            .use(GlidePalette.Profile.MUTED_DARK)
                             .intoBackground(movieTitleText, GlidePalette.Swatch.RGB)
-                            .intoTextColor(movieTitleText, GlidePalette.Swatch.BODY_TEXT_COLOR)
+                            .intoTextColor(movieTitleText, GlidePalette.Swatch.TITLE_TEXT_COLOR)
                             .crossfade(true)
                     )
                     .apply(new RequestOptions().centerCrop())

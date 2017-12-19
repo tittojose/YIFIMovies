@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.florent37.glidepalette.BitmapPalette;
 import com.github.florent37.glidepalette.GlidePalette;
 
 import java.util.List;
@@ -51,7 +53,6 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, int position) {
         final Movie movie = movies.get(position);
-        ImageView movieImage = holder.movieImage;
 
         holder.movieTitle.setText(movie.getTitle());
         holder.rating.setText(String.format("%.1f", movie.getRating()));
@@ -63,16 +64,13 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
             Glide.with(context).load(movie.getMediumCoverImage())
                     .listener(GlidePalette.with(movie.getLargeCoverImage())
                             .use(GlidePalette.Profile.MUTED_DARK)
-                            .intoBackground(holder.movieTitle)
-                            .intoTextColor(holder.movieTitle)
-
-                            .use(GlidePalette.Profile.VIBRANT)
                             .intoBackground(holder.movieTitle, GlidePalette.Swatch.RGB)
-                            .intoTextColor(holder.movieTitle, GlidePalette.Swatch.BODY_TEXT_COLOR)
+                            .intoTextColor(holder.movieTitle, GlidePalette.Swatch.TITLE_TEXT_COLOR)
                             .crossfade(true)
                     )
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .apply(new RequestOptions().centerCrop())
-                    .into(movieImage);
+                    .into(holder.movieImage);
         } catch (Exception e) {
             e.printStackTrace();
         }
