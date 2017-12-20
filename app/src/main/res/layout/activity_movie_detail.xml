@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:background="#111419"
     tools:context="yifimovies.tittojose.me.yifi.MovieDetailActivity">
 
 
@@ -63,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="10dp"
-            android:background="#0f1115"
             android:fontFamily="sans-serif"
             android:text="Downloads available"
             android:textSize="15sp"

@@ -11,6 +11,9 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 
 public interface MoviesService {
     @GET("v2/list_movies.json?sort_by=rating")
+    Call<MovieAPIResponse> getTopMovies(@Query("page") int page, @Query("limit") int limit);
+
+    @GET("v2/list_movies.json&sort_by=date_added")
     Call<MovieAPIResponse> getLatestMovies(@Query("page") int page, @Query("limit") int limit);
 
 }

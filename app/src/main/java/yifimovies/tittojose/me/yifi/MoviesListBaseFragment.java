@@ -2,11 +2,15 @@ package yifimovies.tittojose.me.yifi;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,7 +27,11 @@ import yifimovies.tittojose.me.yifi.api.MoviesService;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by titto.jose on 21-12-2017.
+ */
+
+public abstract class MoviesListBaseFragment extends Fragment {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     MoviesService moviesService;
@@ -37,14 +45,15 @@ public class MainActivity extends AppCompatActivity {
     private List<Movie> movies;
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
-    private final int PAGE_SIZE = 10;
-    private int page = 10;
+    final int PAGE_SIZE = 10;
+    int page = 0;
     private boolean isLastPage = false;
+
     private MovesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
         public void onItemClickListener(Movie movie, ImageView imageView) {
             ActivityOptions options = null;
-            Intent i = new Intent(MainActivity.this, MovieDetailActivity.class);
+            Intent i = new Intent(getActivity(), MovieDetailActivity.class);
             i.putExtra("movie", movie);
 //            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 //
@@ -54,18 +63,49 @@ public class MainActivity extends AppCompatActivity {
 //            } else {
 
             startActivity(i);
-            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 //            }
         }
     };
+    Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
+        @Override
+        public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
+            paginationProgressBar.setVisibility(View.GONE);
+            isLoading = false;
+            if (mAdapter == null) {
+                movies = response.body().getData().getMovies();
+                mAdapter = new MovesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
+                moviesRecyclerView.setAdapter(mAdapter);
+            } else {
+                movies.addAll(response.body().getData().getMovies());
+                mAdapter.notifyDataSetChanged();
+            }
+
+            int currentTotalItem = page * PAGE_SIZE;
+
+            if (currentTotalItem >= response.body().getData().getMovieCount()) {
+                isLastPage = true;
+            }
+        }
+
+        @Override
+        public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
+            isLoading = false;
+            paginationProgressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    public MoviesListBaseFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        final GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         moviesRecyclerView.setLayoutManager(layoutManager);
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,40 +135,25 @@ public class MainActivity extends AppCompatActivity {
         loadMovieData(page++);
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+
     private void loadMovieData(final int page) {
         isLoading = true;
         if (page > 1) {
             paginationProgressBar.setVisibility(View.VISIBLE);
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();
-
-        moviesService.getTopMovies(page, PAGE_SIZE).enqueue(new Callback<MovieAPIResponse>() {
-            @Override
-            public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
-                paginationProgressBar.setVisibility(View.GONE);
-                isLoading = false;
-                if (mAdapter == null) {
-                    movies = response.body().getData().getMovies();
-                    mAdapter = new MovesRecyclerAdapter(MainActivity.this, movies, recyclerAdapterListener);
-                    moviesRecyclerView.setAdapter(mAdapter);
-                } else {
-                    movies.addAll(response.body().getData().getMovies());
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                int currentTotalItem = page * PAGE_SIZE;
-
-                if (currentTotalItem >= response.body().getData().getMovieCount()) {
-                    isLastPage = true;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
-                isLoading = false;
-                paginationProgressBar.setVisibility(View.GONE);
-                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+makeMoviesAPICall();
     }
+
+    protected abstract void makeMoviesAPICall();
+
 }
