@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,6 +28,7 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     MoviesService moviesService;
 
     @BindView(R.id.recyclerViewMoviesList)
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
     private final int PAGE_SIZE = 10;
-    private int page = 1;
+    private int page = 10;
     private boolean isLastPage = false;
     private MovesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 //                ActivityCompat.startActivity(MainActivity.this, i, options.toBundle());
 //            } else {
 
-                startActivity(i);
+            startActivity(i);
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 //            }
         }
@@ -128,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
                 isLoading = false;
                 paginationProgressBar.setVisibility(View.GONE);
-
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

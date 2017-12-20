@@ -86,6 +86,9 @@ public class Movie implements Serializable {
     @SerializedName("date_uploaded_unix")
     private Integer dateUploadedUnix;
 
+    @SerializedName("torrents")
+    private List<Torrent> torrents;
+
     public Integer getId() {
         return id;
     }
@@ -284,5 +287,13 @@ public class Movie implements Serializable {
 
     public void setDateUploadedUnix(Integer dateUploadedUnix) {
         this.dateUploadedUnix = dateUploadedUnix;
+    }
+
+    public List<Torrent> getTorrents() {
+        return torrents;
+    }
+
+    public void setTorrents(List<Torrent> torrents) {
+        this.torrents = torrents;
     }
 }

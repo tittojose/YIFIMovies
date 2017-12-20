@@ -4,73 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     tools:context="yifimovies.tittojose.me.yifi.MovieDetailActivity">
+
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#111419">
+        android:layout_height="match_parent"
+        android:background="#111419"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/cn"
+
+        <ImageView
+            android:id="@+id/imageViewMovieTitleImage"
             android:layout_width="0dp"
-
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/backgroundColor"
-            android:transitionName="@string/picture_transition_name"
-            app:layout_constraintBottom_toTopOf="@+id/guidelineVertical"
+            android:layout_height="250dp"
+            android:background="#111419"
+            android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/imageViewMovieTitleImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#111419"
-                android:scaleType="centerInside"
-
-                app:layout_constraintBottom_toTopOf="@+id/tvMovieTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-            <TextView
-                android:id="@+id/tvMovieTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:maxLines="2"
-                android:padding="10dp"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guidelineVertical"
-            android:layout_width="1dp"
+        <TextView
+            android:id="@+id/tvMovieTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.45" />
+            android:fontFamily="sans-serif"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="Title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
+
 
         <TextView
             android:id="@+id/tvMovieDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="#111419"
             android:fontFamily="sans-serif"
             android:padding="10dp"
+            android:text="Sample"
             android:textSize="17sp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cn" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
+
+        <TextView
+            android:id="@+id/tvDownloadsAvailableLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="10dp"
+            android:background="#0f1115"
+            android:fontFamily="sans-serif"
+            android:text="Downloads available"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription" />
+
+        <Button
+            android:id="@+id/btn720Download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="720p"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn10800Download"
+            app:layout_constraintStart_toStartOf="@+id/tvDownloadsAvailableLabel"
+            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
+
+        <Button
+
+            android:id="@+id/btn10800Download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1080p"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/btn720Download"
+            app:layout_constraintRight_toLeftOf="@id/btn3DDownload"
+            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
+
+        <Button
+            android:id="@+id/btn3DDownload"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="3D"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tvDownloadsAvailableLabel"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
+            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
 
 
     </android.support.constraint.ConstraintLayout>
