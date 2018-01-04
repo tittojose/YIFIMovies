@@ -55,25 +55,25 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         final Movie movie = movies.get(position);
 
         holder.movieTitle.setText(movie.getTitle());
-        holder.rating.setText(String.format("%.1f", movie.getRating()));
-//        Glide.with(context)
-//                .load(movie.getMediumCoverImage())
-//                .into(movieImage);
+        holder.rating.setText(String.format("%d",(long) movie.getRating()));
+        Glide.with(context)
+                .load(movie.getLargeCoverImage())
+                .into(holder.movieImage);
 
-        try {
-            Glide.with(context).load(movie.getMediumCoverImage())
-                    .listener(GlidePalette.with(movie.getLargeCoverImage())
-                            .use(GlidePalette.Profile.MUTED_DARK)
-                            .intoBackground(holder.movieTitle, GlidePalette.Swatch.RGB)
-                            .intoTextColor(holder.movieTitle, GlidePalette.Swatch.TITLE_TEXT_COLOR)
-                            .crossfade(true)
-                    )
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .apply(new RequestOptions().centerCrop())
-                    .into(holder.movieImage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Glide.with(context).load(movie.getMediumCoverImage())
+//                    .listener(GlidePalette.with(movie.getLargeCoverImage())
+//                            .use(GlidePalette.Profile.MUTED_DARK)
+//                            .intoBackground(holder.movieTitle, GlidePalette.Swatch.RGB)
+//                            .intoTextColor(holder.movieTitle, GlidePalette.Swatch.TITLE_TEXT_COLOR)
+//                            .crossfade(true)
+//                    )
+//                    .transition(DrawableTransitionOptions.withCrossFade())
+//                    .apply(new RequestOptions().centerCrop())
+//                    .into(holder.movieImage);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

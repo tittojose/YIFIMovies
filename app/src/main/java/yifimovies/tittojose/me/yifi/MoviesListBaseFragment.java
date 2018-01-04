@@ -33,7 +33,7 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 
 public abstract class MoviesListBaseFragment extends Fragment {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MoviesListBaseFragment.class.getSimpleName();
     MoviesService moviesService;
 
     @BindView(R.id.recyclerViewMoviesList)

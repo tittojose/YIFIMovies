@@ -21,9 +21,18 @@
         <ImageView
             android:id="@+id/imageViewMovieTitleImage"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:background="#111419"
             android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:background="#64000000"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,15 +42,33 @@
             android:id="@+id/tvMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif"
             android:maxLines="2"
-            android:padding="10dp"
             android:text="Title"
+            android:textColor="#F7F8F7"
             android:textSize="22sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tvMovieYear"
+            app:layout_constraintEnd_toEndOf="@+id/tvMovieYear"
+            app:layout_constraintStart_toStartOf="@+id/tvMovieYear" />
+
+
+        <TextView
+            android:id="@+id/tvMovieYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif"
+            android:maxLines="1"
+            android:textColor="#F7F8F7"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
+            tools:text="1991" />
 
 
         <TextView
@@ -57,7 +84,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
 
         <TextView
             android:id="@+id/tvDownloadsAvailableLabel"

@@ -41,6 +41,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.btn3DDownload)
     Button threeDDownload;
 
+    @BindView(R.id.tvMovieYear)
+    TextView movieYearTextView;
+
     String[] torrentDownloadStrings = new String[3];
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
@@ -59,7 +62,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
 
         Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType( Uri.parse(url), "application/x-bittorrent");
+        i.setDataAndType(Uri.parse(url), "application/x-bittorrent");
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
     }
@@ -73,14 +76,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         try {
             Glide.with(MovieDetailActivity.this)
-                    .load(movie.getBackgroundImage())
-                    .listener(GlidePalette.with(movie.getLargeCoverImage())
-
-                            .use(GlidePalette.Profile.MUTED_DARK)
-                            .intoBackground(movieTitleText, GlidePalette.Swatch.RGB)
-                            .intoTextColor(movieTitleText, GlidePalette.Swatch.TITLE_TEXT_COLOR)
-                            .crossfade(true)
-                    )
+                    .load(movie.getLargeCoverImage())
                     .apply(new RequestOptions().centerCrop())
                     .into(movieTitleImage);
         } catch (Exception e) {
@@ -89,6 +85,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieTitleText.setText(movie.getTitle());
         movieDescriptionText.setText(movie.getDescriptionFull());
+        movieYearTextView.setText(String.format("%d",(long) movie.getYear()));
         initializeDownloadButtons(movie);
     }
 
