@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +43,9 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @BindView(R.id.progressPagination)
     ProgressBar paginationProgressBar;
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private List<Movie> movies;
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
@@ -72,6 +76,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
             paginationProgressBar.setVisibility(View.GONE);
             isLoading = false;
+            swipeRefreshLayout.setRefreshing(false);
             if (mAdapter == null) {
                 movies = response.body().getData().getMovies();
                 mAdapter = new MovesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
@@ -90,6 +95,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
+            swipeRefreshLayout.setRefreshing(false);
             isLoading = false;
             paginationProgressBar.setVisibility(View.GONE);
             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
@@ -103,6 +109,15 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 0;
+                mAdapter = null;
+                loadMovieData(page);
+            }
+        });
 
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
@@ -147,11 +162,15 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
     private void loadMovieData(final int page) {
         isLoading = true;
-        if (page > 1) {
+        if (page >= 1) {
             paginationProgressBar.setVisibility(View.VISIBLE);
         }
+
+        if (mAdapter == null) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
         moviesService = MoviesAPIClient.getMoviesAPIService();
-makeMoviesAPICall();
+        makeMoviesAPICall();
     }
 
     protected abstract void makeMoviesAPICall();
