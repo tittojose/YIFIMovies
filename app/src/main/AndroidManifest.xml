@@ -21,6 +21,10 @@
         <activity
             android:name=".MovieDetailActivity"
             android:theme="@style/AppTheme.Detail" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

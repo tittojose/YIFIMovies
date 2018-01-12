@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#111419"
+    android:background="#17171C"
     tools:context="yifimovies.tittojose.me.yifi.MovieDetailActivity">
 
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#111419"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,16 +20,16 @@
         <ImageView
             android:id="@+id/imageViewMovieTitleImage"
             android:layout_width="0dp"
-            android:layout_height="300dp"
-            android:background="#111419"
+            android:layout_height="260dp"
             android:scaleType="centerInside"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
+            android:id="@+id/view"
             android:layout_width="0dp"
-            android:layout_height="300dp"
+            android:layout_height="260dp"
             android:background="#64000000"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,100 +41,176 @@
             android:id="@+id/tvMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginStart="14dp"
             android:fontFamily="sans-serif"
             android:maxLines="2"
             android:text="Title"
-            android:textColor="#F7F8F7"
-            android:textSize="22sp"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tvMovieYear"
-            app:layout_constraintEnd_toEndOf="@+id/tvMovieYear"
-            app:layout_constraintStart_toStartOf="@+id/tvMovieYear" />
-
-
-        <TextView
-            android:id="@+id/tvMovieYear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:fontFamily="sans-serif"
-            android:maxLines="1"
-            android:textColor="#F7F8F7"
-            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="1991" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-
-        <TextView
-            android:id="@+id/tvMovieDescription"
+        <LinearLayout
+            android:id="@+id/layoutMovieDetailContents"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#111419"
-            android:fontFamily="sans-serif"
+            android:background="#25252f"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal"
+                    android:text="2017"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="2dp"
+                    android:background="#fff" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal"
+                    android:text="91 min"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="2dp"
+                    android:background="#fff" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center_horizontal"
+                    android:text="6.1 star"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/dividerDescriptionTop"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:background="#616161" />
+
+            <TextView
+                android:id="@+id/tvMovieDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:fontFamily="@font/roboto_medium"
+                android:lineSpacingExtra="1dp"
+                android:text="Sample"
+                android:textColor="#b8b8bb"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
+
+            <View
+                android:id="@+id/dividerDescriptionBottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#616161"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/layoutTorrentDownloads"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#25252f"
             android:padding="10dp"
-            android:text="Sample"
-            android:textSize="17sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutMovieDetailContents">
 
-        <TextView
-            android:id="@+id/tvDownloadsAvailableLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="10dp"
-            android:fontFamily="sans-serif"
-            android:text="Downloads available"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieDescription" />
+            <TextView
+                android:id="@+id/tvDownloadsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="DOWNLOADS"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn720Download"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="720p"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btn10800Download"
-            app:layout_constraintStart_toStartOf="@+id/tvDownloadsAvailableLabel"
-            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
+            <Button
+                android:id="@+id/btn720Download"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="720p"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/btn10800Download"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
 
-        <Button
+            <Button
 
-            android:id="@+id/btn10800Download"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="1080p"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/btn720Download"
-            app:layout_constraintRight_toLeftOf="@id/btn3DDownload"
-            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
+                android:id="@+id/btn10800Download"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1080p"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/btn720Download"
+                app:layout_constraintRight_toLeftOf="@id/btn3DDownload"
+                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
 
-        <Button
-            android:id="@+id/btn3DDownload"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="3D"
-            android:textAllCaps="false"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/tvDownloadsAvailableLabel"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
-            app:layout_constraintTop_toBottomOf="@+id/tvDownloadsAvailableLabel" />
+            <Button
+                android:id="@+id/btn3DDownload"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="3D"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
+                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
+
+        </android.support.constraint.ConstraintLayout>
 
 
     </android.support.constraint.ConstraintLayout>
