@@ -73,6 +73,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvMovieYear"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -88,6 +89,7 @@
                     android:background="#fff" />
 
                 <TextView
+                    android:id="@+id/tvMoviePlayTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -103,6 +105,7 @@
                     android:background="#fff" />
 
                 <TextView
+                    android:id="@+id/tvMovieRating"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -145,7 +148,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="#616161"
-                android:visibility="gone" />
+                android:visibility="visible" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvMovieGenre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
 

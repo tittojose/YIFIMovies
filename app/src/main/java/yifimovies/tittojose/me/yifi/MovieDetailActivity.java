@@ -40,9 +40,15 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.btn3DDownload)
     Button threeDDownload;
-//
-//    @BindView(R.id.tvMovieYear)
-//    TextView movieYearTextView;
+
+    @BindView(R.id.tvMovieYear)
+    TextView movieYearTextView;
+
+    @BindView(R.id.tvMoviePlayTime)
+    TextView moviePlayTimeTextView;
+
+    @BindView(R.id.tvMovieRating)
+    TextView movieRatingTextView;
 
     String[] torrentDownloadStrings = new String[3];
 
@@ -85,7 +91,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         movieTitleText.setText(movie.getTitle());
         movieDescriptionText.setText(movie.getDescriptionFull());
-//        movieYearTextView.setText(String.format("%d",(long) movie.getYear()));
+        movieYearTextView.setText(String.format("%d", (long) movie.getYear()));
+        moviePlayTimeTextView.setText(movie.getRuntime() + " mins");
+        movieRatingTextView.setText(movie.getRating() + " stars");
         initializeDownloadButtons(movie);
     }
 
