@@ -144,7 +144,6 @@
                 android:id="@+id/dividerDescriptionBottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:background="#616161"
@@ -154,7 +153,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvMovieGenre"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp" />
         </LinearLayout>
 
 
