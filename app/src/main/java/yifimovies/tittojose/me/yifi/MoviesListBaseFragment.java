@@ -115,7 +115,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             public void onRefresh() {
                 page = 0;
                 mAdapter = null;
-                loadMovieData(page);
+                loadMovieData(page++);
             }
         });
 
