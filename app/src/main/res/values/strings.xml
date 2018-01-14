@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Yifi Movies</string>
     <string name="picture_transition_name">trans</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search movies</string>
 </resources>

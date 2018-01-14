@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "611943886612",
+    "firebase_url": "https://yifimovies-251b4.firebaseio.com",
+    "project_id": "yifimovies-251b4",
+    "storage_bucket": "yifimovies-251b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611943886612:android:008339170baa7d95",
+        "android_client_info": {
+          "package_name": "yifimovies.tittojose.me.yifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611943886612-rp8e7f0nf489m05ra35cgtmsn7vg0nia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKAL5ZkVXyjCBZzVoZpF8zOYzNbOciKPw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
