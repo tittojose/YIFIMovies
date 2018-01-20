@@ -27,15 +27,11 @@
             android:theme="@style/AppTheme.Detail" />
 
         <activity
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:name=".search.SearchSuggestionActivity"
             android:theme="@style/Theme.Transparent" />
 
-        <activity android:name=".SearchResultsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
 
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
