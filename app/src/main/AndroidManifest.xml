@@ -26,6 +26,10 @@
             android:name=".MovieDetailActivity"
             android:theme="@style/AppTheme.Detail" />
 
+        <activity
+            android:name=".search.SearchSuggestionActivity"
+            android:theme="@style/Theme.Transparent" />
+
         <activity android:name=".SearchResultsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

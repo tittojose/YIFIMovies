@@ -20,7 +20,7 @@ import yifimovies.tittojose.me.yifi.api.model.Movie;
  * Created by titto.jose on 14-12-2017.
  */
 
-public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdapter.MoviesViewHolder> {
+public class MovesSuggestionsRecyclerAdapter extends RecyclerView.Adapter<MovesSuggestionsRecyclerAdapter.MoviesViewHolder> {
 
     public interface MoviesRecyclerAdapterListener {
         public void onItemClickListener(Movie movie, ImageView imageView);
@@ -31,7 +31,7 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
     MoviesRecyclerAdapterListener listener;
 
 
-    public MovesRecyclerAdapter(Context context, List<Movie> moviesList, MoviesRecyclerAdapterListener listener) {
+    public MovesSuggestionsRecyclerAdapter(Context context, List<Movie> moviesList, MoviesRecyclerAdapterListener listener) {
         this.movies = moviesList;
         this.context = context;
         this.listener = listener;
@@ -41,7 +41,7 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View movieView = inflater.inflate(R.layout.item_movie_list, parent, false);
+        View movieView = inflater.inflate(R.layout.item_movie_suggestion_list, parent, false);
         MoviesViewHolder viewHolder = new MoviesViewHolder(movieView);
         return viewHolder;
     }
@@ -49,32 +49,17 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
     @Override
     public void onBindViewHolder(final MoviesViewHolder holder, int position) {
         final Movie movie = movies.get(position);
-
         holder.movieTitle.setText(movie.getTitle());
-        holder.rating.setText(String.format("%d",(long) movie.getRating()));
         Glide.with(context)
-                .load(movie.getLargeCoverImage())
+                .load(movie.getMediumCoverImage())
                 .into(holder.movieImage);
-
-//        try {
-//            Glide.with(context).load(movie.getMediumCoverImage())
-//                    .listener(GlidePalette.with(movie.getLargeCoverImage())
-//                            .use(GlidePalette.Profile.MUTED_DARK)
-//                            .intoBackground(holder.movieTitle, GlidePalette.Swatch.RGB)
-//                            .intoTextColor(holder.movieTitle, GlidePalette.Swatch.TITLE_TEXT_COLOR)
-//                            .crossfade(true)
-//                    )
-//                    .transition(DrawableTransitionOptions.withCrossFade())
-//                    .apply(new RequestOptions().centerCrop())
-//                    .into(holder.movieImage);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClickListener(movie, holder.movieImage);
+                if (listener != null) {
+                    listener.onItemClickListener(movie, holder.movieImage);
+                }
             }
         });
     }
@@ -98,14 +83,9 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         @BindView(R.id.tvTitleMovieListItem)
         TextView movieTitle;
 
-        @BindView(R.id.tvRatingMovieListItem)
-        TextView rating;
-
         public MoviesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
-
 }
