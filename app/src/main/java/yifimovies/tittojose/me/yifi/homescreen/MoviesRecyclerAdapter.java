@@ -21,10 +21,10 @@ import yifimovies.tittojose.me.yifi.api.model.Movie;
  * Created by titto.jose on 14-12-2017.
  */
 
-public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdapter.MoviesViewHolder> {
+public class MoviesRecyclerAdapter extends RecyclerView.Adapter<MoviesRecyclerAdapter.MoviesViewHolder> {
 
     public interface MoviesRecyclerAdapterListener {
-        public void onItemClickListener(Movie movie, ImageView imageView);
+        void onItemClickListener(Movie movie, ImageView imageView);
     }
 
     List<Movie> movies;
@@ -32,7 +32,7 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
     MoviesRecyclerAdapterListener listener;
 
 
-    public MovesRecyclerAdapter(Context context, List<Movie> moviesList, MoviesRecyclerAdapterListener listener) {
+    public MoviesRecyclerAdapter(Context context, List<Movie> moviesList, MoviesRecyclerAdapterListener listener) {
         this.movies = moviesList;
         this.context = context;
         this.listener = listener;
@@ -54,7 +54,7 @@ public class MovesRecyclerAdapter extends RecyclerView.Adapter<MovesRecyclerAdap
         holder.movieTitle.setText(movie.getTitle());
         holder.rating.setText(String.format("%d",(long) movie.getRating()));
         Glide.with(context)
-                .load(movie.getLargeCoverImage())
+                .load(movie.getMediumCoverImage())
                 .into(holder.movieImage);
 
 //        try {

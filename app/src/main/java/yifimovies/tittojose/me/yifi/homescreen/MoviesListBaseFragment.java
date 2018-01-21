@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -55,7 +54,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
     int page = 0;
     private boolean isLastPage = false;
 
-    private MovesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
+    private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
         public void onItemClickListener(Movie movie, ImageView imageView) {
             ActivityOptions options = null;
@@ -76,22 +75,26 @@ public abstract class MoviesListBaseFragment extends Fragment {
     Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
-            paginationProgressBar.setVisibility(View.GONE);
-            isLoading = false;
-            swipeRefreshLayout.setRefreshing(false);
-            if (mAdapter == null) {
-                movies = response.body().getData().getMovies();
-                mAdapter = new MovesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
-                moviesRecyclerView.setAdapter(mAdapter);
+            if (response.isSuccessful()) {
+                paginationProgressBar.setVisibility(View.GONE);
+                isLoading = false;
+                swipeRefreshLayout.setRefreshing(false);
+                if (mAdapter == null) {
+                    movies = response.body().getData().getMovies();
+                    mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
+                    moviesRecyclerView.setAdapter(mAdapter);
+                } else {
+                    movies.addAll(response.body().getData().getMovies());
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                int currentTotalItem = page * PAGE_SIZE;
+
+                if (currentTotalItem >= response.body().getData().getMovieCount()) {
+                    isLastPage = true;
+                }
             } else {
-                movies.addAll(response.body().getData().getMovies());
-                mAdapter.notifyDataSetChanged();
-            }
-
-            int currentTotalItem = page * PAGE_SIZE;
-
-            if (currentTotalItem >= response.body().getData().getMovieCount()) {
-                isLastPage = true;
+                ((HomeActivity)getActivity()).handleError(response.errorBody());
             }
         }
 
@@ -100,7 +103,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
             isLoading = false;
             paginationProgressBar.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
         }
     };
 

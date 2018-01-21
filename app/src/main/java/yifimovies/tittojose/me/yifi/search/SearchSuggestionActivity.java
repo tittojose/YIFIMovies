@@ -3,6 +3,8 @@ package yifimovies.tittojose.me.yifi.search;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +27,7 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import yifimovies.tittojose.me.yifi.homescreen.MovesRecyclerAdapter;
+import yifimovies.tittojose.me.yifi.homescreen.MoviesRecyclerAdapter;
 import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
@@ -52,27 +54,48 @@ public class SearchSuggestionActivity extends AppCompatActivity {
 
     @BindView(R.id.etSearch)
     EditText searchEditText;
+
+    @BindView(R.id.coordinatorSearch)
+    CoordinatorLayout parentCoordinatorLayout;
+
+
     private MoviesService moviesService;
     private Call<MovieAPIResponse> suggestionAPICall;
     private List<Movie> movies;
-    private MovesRecyclerAdapter mAdapter;
+    private MoviesRecyclerAdapter mAdapter;
     private Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
-            progressLayout.setVisibility(View.GONE);
-            movies = response.body().getData().getMovies();
-            mAdapter = new MovesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
-            movieSuggestionsRecyclerView.setAdapter(mAdapter);
+            if (response.isSuccessful()) {
+                progressLayout.setVisibility(View.GONE);
+                if (response.body() != null && response.body().getData() != null && response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
+                    movies = response.body().getData().getMovies();
+                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
+                    movieSuggestionsRecyclerView.setAdapter(mAdapter);
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(parentCoordinatorLayout, "Not movies found. Please try a different keyword.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(parentCoordinatorLayout, "Network error. Please try again.", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         }
 
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
             //TODO : Handle error.
             progressLayout.setVisibility(View.GONE);
+            Snackbar snackbar = Snackbar
+                    .make(parentCoordinatorLayout, "No Internet connection available. Please check your network connectivity and try again.", Snackbar.LENGTH_LONG);
+
+            snackbar.show();
         }
     };
 
-    private MovesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MovesRecyclerAdapter.MoviesRecyclerAdapterListener() {
+    private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
         public void onItemClickListener(Movie movie, ImageView imageView) {
             Intent i = new Intent(SearchSuggestionActivity.this, MovieDetailActivity.class);
@@ -104,8 +127,7 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                     moviesService = MoviesAPIClient.getMoviesAPIService();
                     suggestionAPICall = moviesService.getMovieSuggestions(queryString);
                     suggestionAPICall.enqueue(apiCallback);
-                    Toast.makeText(SearchSuggestionActivity.this, queryString, Toast.LENGTH_SHORT).show();
-                    mAdapter = new MovesRecyclerAdapter(SearchSuggestionActivity.this, new ArrayList<Movie>(), recyclerAdapterListener);
+                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, new ArrayList<Movie>(), recyclerAdapterListener);
                     movieSuggestionsRecyclerView.setAdapter(mAdapter);
                     progressLayout.setVisibility(View.VISIBLE);
                     return true;
