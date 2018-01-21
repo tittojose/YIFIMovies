@@ -3,6 +3,7 @@ package yifimovies.tittojose.me.yifi.moviedetailscreen;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,10 +74,34 @@ public class MovieDetailActivity extends AppCompatActivity {
                 break;
         }
 
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(Uri.parse(url), "application/x-bittorrent");
-        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(i);
+        try {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setDataAndType(Uri.parse(url), "application/x-bittorrent");
+            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(i);
+        } catch (Exception e) {
+            try {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Cannot find any apps in the phone to download this movie. Please install a torrent app and try again.", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setMaxLines(5);
+
+                snackbar.setAction("Search", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=torrent&c=apps")));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+
+                        }
+                    }
+                });
+
+                snackbar.show();
+            } catch (Exception e1) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
