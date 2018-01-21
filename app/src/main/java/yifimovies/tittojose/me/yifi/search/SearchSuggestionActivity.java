@@ -1,6 +1,5 @@
 package yifimovies.tittojose.me.yifi.search;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,8 +25,8 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import yifimovies.tittojose.me.yifi.MovesRecyclerAdapter;
-import yifimovies.tittojose.me.yifi.MovieDetailActivity;
+import yifimovies.tittojose.me.yifi.homescreen.MovesRecyclerAdapter;
+import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;

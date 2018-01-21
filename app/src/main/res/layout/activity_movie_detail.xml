@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="#17171C"
-    tools:context="yifimovies.tittojose.me.yifi.MovieDetailActivity">
+    tools:context="yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity">
 
 
     <android.support.constraint.ConstraintLayout

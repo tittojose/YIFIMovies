@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi;
+package yifimovies.tittojose.me.yifi.homescreen;
 
 /**
  * Created by titto.jose on 21-12-2017.

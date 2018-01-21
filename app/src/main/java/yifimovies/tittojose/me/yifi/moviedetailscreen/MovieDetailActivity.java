@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi;
+package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.Torrent;
 

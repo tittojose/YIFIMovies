@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeActivity"
+            android:name=".homescreen.HomeActivity"
             android:label="Yifi Movies">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".MovieDetailActivity"
+            android:name=".moviedetailscreen.MovieDetailActivity"
             android:theme="@style/AppTheme.Detail" />
 
         <activity

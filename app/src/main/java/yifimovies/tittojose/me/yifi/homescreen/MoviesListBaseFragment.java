@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi;
+package yifimovies.tittojose.me.yifi.homescreen;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
+import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;
 import yifimovies.tittojose.me.yifi.api.model.Movie;

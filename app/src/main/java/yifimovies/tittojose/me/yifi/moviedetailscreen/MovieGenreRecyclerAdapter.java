@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi;
+package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import yifimovies.tittojose.me.yifi.R;
 
 /**
  * Created by titto.jose on 14-12-2017.
