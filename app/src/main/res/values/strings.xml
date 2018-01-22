@@ -3,4 +3,5 @@
     <string name="picture_transition_name">trans</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Search movies</string>
+    <string name="shared_via"><![CDATA[Hey check this cool app to download the Latest and Popular Movies available on torrents : YIFY Movies.\n https://play.google.com/store/apps/details?id=yifimovies.tittojose.me.yifi]]></string>
 </resources>
