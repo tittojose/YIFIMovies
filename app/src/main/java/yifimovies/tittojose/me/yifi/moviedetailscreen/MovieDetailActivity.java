@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
 
@@ -58,6 +59,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     RecyclerView movieGenereRecyclerView;
 
     String[] torrentDownloadStrings = new String[3];
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
     public void onDownloadClick(View v) {
@@ -127,6 +130,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieRatingTextView.setText(movie.getRating() + " stars");
         initializeMovieGenreList(movie.getGenres());
         initializeDownloadButtons(movie);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "MovieDetail");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, movie.getTitle());
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "movie");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
     }
 
     private void initializeMovieGenreList(List<String> genres) {

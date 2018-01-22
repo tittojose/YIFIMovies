@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "611943886612-pvm2qhlqt4n2ck16s3kgkq5eub7s83ot.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "yifimovies.tittojose.me.yifi",
+            "certificate_hash": "8b6edf5a93c957cda48aa7561cf5c6d86fff73e9"
+          }
+        },
+        {
           "client_id": "611943886612-rp8e7f0nf489m05ra35cgtmsn7vg0nia.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611943886612-rp8e7f0nf489m05ra35cgtmsn7vg0nia.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

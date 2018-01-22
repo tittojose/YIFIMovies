@@ -20,6 +20,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
@@ -49,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
@@ -72,6 +75,8 @@ public class HomeActivity extends AppCompatActivity {
 
             snackbar.show();
         }
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void setupNavigationDrawer() {
@@ -101,6 +106,12 @@ public class HomeActivity extends AppCompatActivity {
                 getString(R.string.shared_via));
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "ShareApp");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ShareAppClicked");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "click");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     private void startRateAppIntent() {
@@ -117,6 +128,13 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
         }
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "RateApp");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "RateAppClicked");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "click");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     private void setupSuggestionsRecyclerView() {
