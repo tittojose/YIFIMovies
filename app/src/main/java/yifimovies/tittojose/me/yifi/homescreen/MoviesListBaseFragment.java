@@ -94,7 +94,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
                     isLastPage = true;
                 }
             } else {
-                ((HomeActivity)getActivity()).handleError(response.errorBody());
+                ((HomeActivity) getActivity()).handleError("");
             }
         }
 
@@ -104,6 +104,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             isLoading = false;
             paginationProgressBar.setVisibility(View.GONE);
 //            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+            ((HomeActivity) getActivity()).handleError("");
         }
     };
 

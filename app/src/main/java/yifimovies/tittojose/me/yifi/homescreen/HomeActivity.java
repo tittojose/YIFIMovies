@@ -17,7 +17,6 @@ import android.view.View;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 import yifimovies.tittojose.me.yifi.utils.NetworkUtils;
@@ -102,7 +101,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void handleError(ResponseBody responseBody) {
+    public void handleError(String responseBody) {
         Snackbar snackbar = Snackbar
                 .make(parentCoordinatorLayout, "Network error. Please try again.", Snackbar.LENGTH_LONG);
         snackbar.show();
