@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
     private void startShareAppIntent() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "My application name");
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "YIFY Movies.");
         sendIntent.putExtra(Intent.EXTRA_TEXT,
                 getString(R.string.shared_via));
         sendIntent.setType("text/plain");
