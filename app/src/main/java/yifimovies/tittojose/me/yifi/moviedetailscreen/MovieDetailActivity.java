@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +58,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.rvMovieGenre)
     RecyclerView movieGenereRecyclerView;
+
+    @BindView(R.id.layoutTorrentDownloads)
+    ViewGroup downloadsLayout;
 
     String[] torrentDownloadStrings = new String[3];
 
@@ -150,17 +154,21 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initializeDownloadButtons(Movie movie) {
-        for (Torrent torrent : movie.getTorrents()) {
-            if (torrent.getQuality().equalsIgnoreCase("720p")) {
-                hd720pDownload.setVisibility(View.VISIBLE);
-                torrentDownloadStrings[0] = torrent.getUrl();
-            } else if (torrent.getQuality().equalsIgnoreCase("1080p")) {
-                fullHD1080pDownload.setVisibility(View.VISIBLE);
-                torrentDownloadStrings[1] = torrent.getUrl();
-            } else if (torrent.getQuality().equalsIgnoreCase("3D")) {
-                threeDDownload.setVisibility(View.VISIBLE);
-                torrentDownloadStrings[2] = torrent.getUrl();
+        if (movie.getTorrents() != null) {
+            for (Torrent torrent : movie.getTorrents()) {
+                if (torrent.getQuality().equalsIgnoreCase("720p")) {
+                    hd720pDownload.setVisibility(View.VISIBLE);
+                    torrentDownloadStrings[0] = torrent.getUrl();
+                } else if (torrent.getQuality().equalsIgnoreCase("1080p")) {
+                    fullHD1080pDownload.setVisibility(View.VISIBLE);
+                    torrentDownloadStrings[1] = torrent.getUrl();
+                } else if (torrent.getQuality().equalsIgnoreCase("3D")) {
+                    threeDDownload.setVisibility(View.VISIBLE);
+                    torrentDownloadStrings[2] = torrent.getUrl();
+                }
             }
+        } else {
+            downloadsLayout.setVisibility(View.GONE);
         }
     }
 

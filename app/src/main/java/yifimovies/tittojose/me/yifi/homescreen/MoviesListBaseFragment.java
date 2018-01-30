@@ -100,11 +100,15 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
-            swipeRefreshLayout.setRefreshing(false);
-            isLoading = false;
-            paginationProgressBar.setVisibility(View.GONE);
+            try {
+                swipeRefreshLayout.setRefreshing(false);
+                isLoading = false;
+                paginationProgressBar.setVisibility(View.GONE);
 //            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-            ((HomeActivity) getActivity()).handleError("");
+                ((HomeActivity) getActivity()).handleError("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     };
 
