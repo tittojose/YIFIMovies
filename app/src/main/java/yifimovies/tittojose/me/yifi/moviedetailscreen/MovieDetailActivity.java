@@ -4,9 +4,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +31,8 @@ import butterknife.OnClick;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.Torrent;
+import yifimovies.tittojose.me.yifi.homescreen.HomeActivity;
+import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -62,9 +70,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.layoutTorrentDownloads)
     ViewGroup downloadsLayout;
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
     String[] torrentDownloadStrings = new String[3];
 
     private FirebaseAnalytics mFirebaseAnalytics;
+    private Movie movie;
+    private String downloadLinksURL = "";
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
     public void onDownloadClick(View v) {
@@ -116,7 +129,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
-        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        movie = (Movie) getIntent().getSerializableExtra("movie");
 
         try {
             Glide.with(MovieDetailActivity.this)
@@ -159,12 +175,15 @@ public class MovieDetailActivity extends AppCompatActivity {
                 if (torrent.getQuality().equalsIgnoreCase("720p")) {
                     hd720pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[0] = torrent.getUrl();
+                    generateShareEmailBodyDownloadLinks("720p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("1080p")) {
                     fullHD1080pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[1] = torrent.getUrl();
+                    generateShareEmailBodyDownloadLinks("1080p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("3D")) {
                     threeDDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[2] = torrent.getUrl();
+                    generateShareEmailBodyDownloadLinks("3D", torrent.getUrl());
                 }
             }
         } else {
@@ -172,9 +191,58 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail_screen_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.share_movie_torrent);
+        if (movie.getTorrents() != null && movie.getTorrents().size() > 0) {
+            item.setVisible(true);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.share_movie_torrent:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/html");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "YiFy Torrents App");
+                intent.putExtra(Intent.EXTRA_TEXT, generateShareEmailBody());
+                startActivity(Intent.createChooser(intent, "Share movie torrent"));
+                break;
+
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private String generateShareEmailBody() {
+        String movieTitle = movie.getTitle() + " - " + movie.getYear();
+        String downloadLinks = this.downloadLinksURL;
+
+
+        return movieTitle + "\n\n" + downloadLinks;
+    }
+
+
+    private void generateShareEmailBodyDownloadLinks(String type, String url) {
+        String downloadLink = "\t" + type + " - " + url + "\n\n";
+        this.downloadLinksURL += downloadLink;
     }
 }

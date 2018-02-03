@@ -17,6 +17,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+
+
         <ImageView
             android:id="@+id/imageViewMovieTitleImage"
             android:layout_width="0dp"
@@ -52,7 +54,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         <LinearLayout
             android:id="@+id/layoutMovieDetailContents"
             android:layout_width="0dp"
