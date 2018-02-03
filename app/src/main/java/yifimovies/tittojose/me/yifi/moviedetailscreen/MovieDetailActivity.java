@@ -170,7 +170,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initializeDownloadButtons(Movie movie) {
-        if (movie.getTorrents() != null) {
+        if (movie.getTorrents() != null && movie.getTorrents().size() > 0) {
             for (Torrent torrent : movie.getTorrents()) {
                 if (torrent.getQuality().equalsIgnoreCase("720p")) {
                     hd720pDownload.setVisibility(View.VISIBLE);
