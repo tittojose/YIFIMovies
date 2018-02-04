@@ -15,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.facebook.ads.Ad;
+import com.facebook.ads.AdError;
+import com.facebook.ads.AdListener;
+import com.facebook.ads.NativeAd;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,10 +53,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private List<Movie> movies;
+    private List<Object> movies = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
-    final int PAGE_SIZE = 10;
+    final int PAGE_SIZE = 30;
     int page = 0;
     private boolean isLastPage = false;
 
@@ -80,9 +86,14 @@ public abstract class MoviesListBaseFragment extends Fragment {
                 isLoading = false;
                 swipeRefreshLayout.setRefreshing(false);
                 if (mAdapter == null) {
-                    movies = response.body().getData().getMovies();
+//                    movies = response.body().getData().getMovies();
+                    movies.addAll(response.body().getData().getMovies());
                     mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
                     moviesRecyclerView.setAdapter(mAdapter);
+
+
+                    nativeAd.loadAd();
+
                 } else {
                     movies.addAll(response.body().getData().getMovies());
                     mAdapter.notifyDataSetChanged();
@@ -111,6 +122,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             }
         }
     };
+    private NativeAd nativeAd;
 
     public MoviesListBaseFragment() {
         // Required empty public constructor
@@ -119,6 +131,30 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
+        nativeAd.setAdListener(new AdListener() {
+            @Override
+            public void onError(Ad ad, AdError adError) {
+
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                movies.add(4, ad);
+                mAdapter.notifyItemInserted(4);
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -131,6 +167,19 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (mAdapter.getItemViewType(position)) {
+                    case MoviesRecyclerAdapter.NATIVE_AD:
+                        return 2;
+                    case MoviesRecyclerAdapter.MOVIE:
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
         moviesRecyclerView.setLayoutManager(layoutManager);
         moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

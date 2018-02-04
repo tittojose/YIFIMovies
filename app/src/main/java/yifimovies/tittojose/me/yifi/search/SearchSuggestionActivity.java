@@ -61,7 +61,7 @@ public class SearchSuggestionActivity extends AppCompatActivity {
 
     private MoviesService moviesService;
     private Call<MovieAPIResponse> suggestionAPICall;
-    private List<Movie> movies;
+    private List<Object> movies;
     private MoviesRecyclerAdapter mAdapter;
     private Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
@@ -69,7 +69,10 @@ public class SearchSuggestionActivity extends AppCompatActivity {
             if (response.isSuccessful()) {
                 progressLayout.setVisibility(View.GONE);
                 if (response.body() != null && response.body().getData() != null && response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
-                    movies = response.body().getData().getMovies();
+//                    movies = response.body().getData().getMovies();
+                    for (Movie movie : response.body().getData().getMovies()) {
+                        movies.add(movie);
+                    }
                     mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
                     movieSuggestionsRecyclerView.setAdapter(mAdapter);
                 } else {
@@ -127,7 +130,7 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                     moviesService = MoviesAPIClient.getMoviesAPIService();
                     suggestionAPICall = moviesService.getMovieSuggestions(queryString);
                     suggestionAPICall.enqueue(apiCallback);
-                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, new ArrayList<Movie>(), recyclerAdapterListener);
+                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
                     movieSuggestionsRecyclerView.setAdapter(mAdapter);
                     progressLayout.setVisibility(View.VISIBLE);
                     return true;
