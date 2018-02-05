@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
+import com.facebook.ads.NativeAdsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,9 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 public abstract class MoviesListBaseFragment extends Fragment {
 
     private static final String TAG = MoviesListBaseFragment.class.getSimpleName();
+
+    public static String AD_PLACEMENT_ID = "334553013694096_334884876994243";
+
     MoviesService moviesService;
 
     @BindView(R.id.recyclerViewMoviesList)
@@ -56,8 +61,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
     private List<Object> movies = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
-    final int PAGE_SIZE = 30;
+    final int PAGE_SIZE = 20;
     int page = 0;
+    int lastAdPosition = -1;
+    int ADS_PER_ITEMS = 7;
     private boolean isLastPage = false;
 
     private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
@@ -85,18 +92,20 @@ public abstract class MoviesListBaseFragment extends Fragment {
                 paginationProgressBar.setVisibility(View.GONE);
                 isLoading = false;
                 swipeRefreshLayout.setRefreshing(false);
-                if (mAdapter == null) {
+                if (page == 1) {
+                    movies = new ArrayList<>();
 //                    movies = response.body().getData().getMovies();
                     movies.addAll(response.body().getData().getMovies());
                     mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
                     moviesRecyclerView.setAdapter(mAdapter);
 
+                    Log.d(TAG, "onResponse: ");
 
-                    nativeAd.loadAd();
-
+                    loadAdsToList();
                 } else {
                     movies.addAll(response.body().getData().getMovies());
                     mAdapter.notifyDataSetChanged();
+                    loadAdsToList();
                 }
 
                 int currentTotalItem = page * PAGE_SIZE;
@@ -122,6 +131,48 @@ public abstract class MoviesListBaseFragment extends Fragment {
             }
         }
     };
+
+    private void loadAdsToList() {
+        final NativeAdsManager mAds = new NativeAdsManager(getActivity(), AD_PLACEMENT_ID, 3);
+
+        mAds.setListener(new NativeAdsManager.Listener() {
+            @Override
+            public void onAdsLoaded() {
+                try {
+                    NativeAd nativeAd1 = mAds.nextNativeAd();
+                    NativeAd nativeAd2 = mAds.nextNativeAd();
+                    NativeAd nativeAd3 = mAds.nextNativeAd();
+
+                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                        lastAdPosition += ADS_PER_ITEMS;
+                        movies.add(lastAdPosition, nativeAd1);
+                    }
+
+                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                        lastAdPosition += ADS_PER_ITEMS;
+                        movies.add(lastAdPosition, nativeAd2);
+                    }
+
+                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                        lastAdPosition += ADS_PER_ITEMS;
+                        movies.add(lastAdPosition, nativeAd3);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                mAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onAdError(AdError adError) {
+
+            }
+        });
+
+        mAds.loadAds();
+    }
+
     private NativeAd nativeAd;
 
     public MoviesListBaseFragment() {
@@ -132,35 +183,36 @@ public abstract class MoviesListBaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
-        nativeAd.setAdListener(new AdListener() {
-            @Override
-            public void onError(Ad ad, AdError adError) {
-
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                movies.add(4, ad);
-                mAdapter.notifyItemInserted(4);
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-
-            }
-        });
+//        nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
+//        nativeAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onError(Ad ad, AdError adError) {
+//                Log.d(TAG, "onError: " + adError.getErrorMessage());
+//            }
+//
+//            @Override
+//            public void onAdLoaded(Ad ad) {
+//                Log.d(TAG, "onAdLoaded: ");
+//                movies.add(4, ad);
+//                mAdapter.notifyItemInserted(4);
+//            }
+//
+//            @Override
+//            public void onAdClicked(Ad ad) {
+//
+//            }
+//
+//            @Override
+//            public void onLoggingImpression(Ad ad) {
+//
+//            }
+//        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
                 page = 0;
-                mAdapter = null;
                 loadMovieData(page++);
             }
         });

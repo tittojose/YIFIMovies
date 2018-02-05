@@ -99,6 +99,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             NativeAd.downloadAndDisplayImage(nativeAd.getAdIcon(), adImage);
             btnCTA.setText(nativeAd.getAdCallToAction());
             AdChoicesView adChoicesView = new AdChoicesView(context, nativeAd, true);
+            adChoicesContainer.removeAllViews();
             adChoicesContainer.addView(adChoicesView);
             mediaView.setNativeAd(nativeAd);
 
