@@ -281,6 +281,13 @@ public class MovieDetailActivity extends AppCompatActivity {
                 intent.putExtra(Intent.EXTRA_SUBJECT, "YiFy Torrents App");
                 intent.putExtra(Intent.EXTRA_TEXT, generateShareEmailBody());
                 startActivity(Intent.createChooser(intent, "Share movie torrent"));
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "ShareMovieTorrent");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ShareMovieTorrent");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "ShareMovieTorrent");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 break;
 
             case android.R.id.home:

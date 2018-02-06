@@ -12,18 +12,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 import yifimovies.tittojose.me.yifi.utils.NetworkUtils;
@@ -38,9 +38,6 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
-    @BindView(R.id.recyclerViewMoviesSuggestionsList)
-    RecyclerView movieSuggestionRecyclerView;
 
 
     @BindView(R.id.coordinatorLayoutHome)
@@ -68,18 +65,49 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         setupNavigationDrawer();
         setupViewPager(viewPager);
-        setupSuggestionsRecyclerView();
 
         if (!NetworkUtils.isNetworkConnected(getApplicationContext())) {
             Snackbar snackbar = Snackbar
                     .make(parentCoordinatorLayout, "No Internet connection available. Please check your network connectivity and try again.", Snackbar.LENGTH_LONG);
 
             snackbar.show();
+        } else {
+            AppRate.with(this)
+                    .setInstallDays(3) // default 10, 0 means install day.
+                    .setLaunchTimes(5) // default 10
+                    .setRemindInterval(5) // default 1
+                    .setShowLaterButton(true) // default true
+                    .setDebug(false) // default false
+                    .setOnClickButtonListener(new OnClickButtonListener() { // callback listener.
+                        @Override
+                        public void onClickButton(int which) {
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "RateAppClicked");
+                            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "PromptRateApp");
+
+                            if (which == -3) {
+                                //remind
+                                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "RemindToRate");
+                            } else if (which == -2) {
+                                // no thanks clicked
+                                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "NoThanks");
+                            } else {
+                                // rate now
+                                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "RateNow");
+                            }
+                            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                        }
+                    })
+                    .monitor();
+
+            // Show a dialog if meets conditions
+            AppRate.showRateDialogIfMeetsConditions(this);
         }
 
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void setupNavigationDrawer() {
@@ -140,12 +168,6 @@ public class HomeActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
-    private void setupSuggestionsRecyclerView() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(HomeActivity.this);
-        movieSuggestionRecyclerView.setLayoutManager(layoutManager);
-        movieSuggestionRecyclerView.setHasFixedSize(true);
-
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -179,14 +201,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (movieSuggestionRecyclerView.getVisibility() == View.VISIBLE) {
-            movieSuggestionRecyclerView.setVisibility(View.GONE);
-        }
     }
 
     public void handleError(String responseBody) {
