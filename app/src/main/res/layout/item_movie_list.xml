@@ -12,19 +12,19 @@
     <ImageView
         android:id="@+id/imageViewMovieListItem"
         android:layout_width="0dp"
-        android:layout_height="270dp"
-        android:scaleType="fitXY"
+        android:layout_height="@dimen/movie_list_item_image_height"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/colorPrimary" />
+        app:srcCompat="@color/backgroundColor" />
 
 
     <TextView
-        android:background="#2F3030"
         android:id="@+id/tvTitleMovieListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#2F3030"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
         android:lines="2"
@@ -48,10 +48,10 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:text="8"
-        android:visibility="gone"
         android:textColor="#FFFEFD"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
