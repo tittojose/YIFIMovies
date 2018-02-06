@@ -17,8 +17,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-
-
         <ImageView
             android:id="@+id/imageViewMovieTitleImage"
             android:layout_width="0dp"
@@ -54,6 +52,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -63,6 +62,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
         <LinearLayout
             android:id="@+id/layoutMovieDetailContents"
             android:layout_width="0dp"
@@ -229,6 +229,39 @@
                 app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
                 app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
 
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/youtubeViewMovieTrailerContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#25252f"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">
+
+            <TextView
+                android:id="@+id/tvMovieTrailerLbl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="TRAILER"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/youtubeViewMovieTrailer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMovieTrailerLbl" />
         </android.support.constraint.ConstraintLayout>
 
 

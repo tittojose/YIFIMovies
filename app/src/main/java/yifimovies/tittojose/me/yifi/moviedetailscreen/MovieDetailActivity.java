@@ -1,5 +1,8 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,9 +21,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.List;
@@ -35,6 +42,8 @@ import yifimovies.tittojose.me.yifi.homescreen.HomeActivity;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 
 public class MovieDetailActivity extends AppCompatActivity {
+
+    private static String YOUTUBE_API_KEY = "AIzaSyBcdx13v4s97QAxxM921ka4WGfCt_91CCU";
 
 
     @BindView(R.id.imageViewMovieTitleImage)
@@ -69,6 +78,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.layoutTorrentDownloads)
     ViewGroup downloadsLayout;
+
+    @BindView(R.id.youtubeViewMovieTrailerContainer)
+    ViewGroup youtubeTrailerContainer;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -150,6 +162,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieRatingTextView.setText(movie.getRating() + " stars");
         initializeMovieGenreList(movie.getGenres());
         initializeDownloadButtons(movie);
+        initializeYoutubeTrailerView();
+
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
@@ -158,6 +172,39 @@ public class MovieDetailActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "movie");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
+
+    }
+
+    private void initializeYoutubeTrailerView() {
+        if (movie.getYtTrailerCode() != null && !movie.getYtTrailerCode().isEmpty()) {
+            YouTubePlayerSupportFragment mYoutubePlayerFragment = new YouTubePlayerSupportFragment();
+            mYoutubePlayerFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
+                @Override
+                public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                    if (!b) {
+                        youTubePlayer.cueVideo(movie.getYtTrailerCode());
+                    } else {
+                        hideYTTrailerLayout();
+                    }
+                }
+
+                @Override
+                public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                    Toast.makeText(MovieDetailActivity.this, "Youtube initialized error", Toast.LENGTH_SHORT);
+
+                }
+            });
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.youtubeViewMovieTrailer, mYoutubePlayerFragment);
+            fragmentTransaction.commit();
+        } else {
+            hideYTTrailerLayout();
+        }
+    }
+
+    private void hideYTTrailerLayout() {
+        youtubeTrailerContainer.setVisibility(View.GONE);
     }
 
     private void initializeMovieGenreList(List<String> genres) {
