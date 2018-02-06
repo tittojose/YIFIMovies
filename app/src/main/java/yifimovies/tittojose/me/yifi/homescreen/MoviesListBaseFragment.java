@@ -100,7 +100,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
                     moviesRecyclerView.setAdapter(mAdapter);
 
                     Log.d(TAG, "onResponse: ");
-
+                    lastAdPosition = -1;
                     loadAdsToList();
                 } else {
                     movies.addAll(response.body().getData().getMovies());
