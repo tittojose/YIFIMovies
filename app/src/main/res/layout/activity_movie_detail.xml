@@ -231,6 +231,17 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:id="@+id/banner_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/youtubeViewMovieTrailerContainer"
             android:layout_width="0dp"
@@ -240,7 +251,7 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">
+            app:layout_constraintTop_toBottomOf="@+id/banner_container">
 
             <TextView
                 android:id="@+id/tvMovieTrailerLbl"

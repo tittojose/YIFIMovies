@@ -1,14 +1,11 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,11 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.ads.AdSize;
+import com.facebook.ads.AdView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -38,12 +38,11 @@ import butterknife.OnClick;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.Torrent;
-import yifimovies.tittojose.me.yifi.homescreen.HomeActivity;
-import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static String YOUTUBE_API_KEY = "AIzaSyBcdx13v4s97QAxxM921ka4WGfCt_91CCU";
+    private static String FB_AD_BANNER_ID = "334553013694096_343276972821700";
 
 
     @BindView(R.id.imageViewMovieTitleImage)
@@ -82,6 +81,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.youtubeViewMovieTrailerContainer)
     ViewGroup youtubeTrailerContainer;
 
+    @BindView(R.id.banner_container)
+    LinearLayout adBannerContainer;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -90,6 +92,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private Movie movie;
     private String downloadLinksURL = "";
+    private AdView adView;
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
     public void onDownloadClick(View v) {
@@ -163,6 +166,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         initializeMovieGenreList(movie.getGenres());
         initializeDownloadButtons(movie);
         initializeYoutubeTrailerView();
+        initializeBannerAdd();
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -173,6 +177,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
 
+    }
+
+    private void initializeBannerAdd() {
+        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
+
+        adBannerContainer.addView(adView);
+
+        // Request an ad
+        adView.loadAd();
     }
 
     private void initializeYoutubeTrailerView() {
@@ -291,5 +304,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void generateShareEmailBodyDownloadLinks(String type, String url) {
         String downloadLink = "\t" + type + " - " + url + "\n\n";
         this.downloadLinksURL += downloadLink;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+
     }
 }
