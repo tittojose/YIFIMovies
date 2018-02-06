@@ -61,7 +61,7 @@ public class SearchSuggestionActivity extends AppCompatActivity {
 
     private MoviesService moviesService;
     private Call<MovieAPIResponse> suggestionAPICall;
-    private List<Object> movies;
+    private List<Object> movies = new ArrayList<>();
     private MoviesRecyclerAdapter mAdapter;
     private Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
@@ -70,14 +70,12 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                 progressLayout.setVisibility(View.GONE);
                 if (response.body() != null && response.body().getData() != null && response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
 //                    movies = response.body().getData().getMovies();
-                    for (Movie movie : response.body().getData().getMovies()) {
-                        movies.add(movie);
-                    }
+                    movies.addAll(response.body().getData().getMovies());
                     mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
                     movieSuggestionsRecyclerView.setAdapter(mAdapter);
                 } else {
                     Snackbar snackbar = Snackbar
-                            .make(parentCoordinatorLayout, "Not movies found. Please try a different keyword.", Snackbar.LENGTH_LONG);
+                            .make(parentCoordinatorLayout, "No movies found. Please try a different keyword.", Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             } else {
