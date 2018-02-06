@@ -45,7 +45,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
     private static final String TAG = MoviesListBaseFragment.class.getSimpleName();
 
-    public static String AD_PLACEMENT_ID = "334553013694096_334884876994243";
+    public String AD_PLACEMENT_ID;
 
     MoviesService moviesService;
 
@@ -183,30 +183,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
-//        nativeAd.setAdListener(new AdListener() {
-//            @Override
-//            public void onError(Ad ad, AdError adError) {
-//                Log.d(TAG, "onError: " + adError.getErrorMessage());
-//            }
-//
-//            @Override
-//            public void onAdLoaded(Ad ad) {
-//                Log.d(TAG, "onAdLoaded: ");
-//                movies.add(4, ad);
-//                mAdapter.notifyItemInserted(4);
-//            }
-//
-//            @Override
-//            public void onAdClicked(Ad ad) {
-//
-//            }
-//
-//            @Override
-//            public void onLoggingImpression(Ad ad) {
-//
-//            }
-//        });
+        setAdPlacementId();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -285,5 +262,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
     }
 
     protected abstract void makeMoviesAPICall();
+
+    protected abstract void setAdPlacementId();
 
 }
