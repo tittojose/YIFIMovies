@@ -221,11 +221,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initializeMovieGenreList(List<String> genres) {
-        MovieGenreRecyclerAdapter movieGenreRecyclerAdapter = new MovieGenreRecyclerAdapter(MovieDetailActivity.this, genres);
-        final GridLayoutManager layoutManager = new GridLayoutManager(MovieDetailActivity.this, 3);
-        movieGenereRecyclerView.setLayoutManager(layoutManager);
-        movieGenereRecyclerView.setHasFixedSize(true);
-        movieGenereRecyclerView.setAdapter(movieGenreRecyclerAdapter);
+        if(genres != null && genres.size()==0) {
+            MovieGenreRecyclerAdapter movieGenreRecyclerAdapter = new MovieGenreRecyclerAdapter(MovieDetailActivity.this, genres);
+            final GridLayoutManager layoutManager = new GridLayoutManager(MovieDetailActivity.this, 3);
+            movieGenereRecyclerView.setLayoutManager(layoutManager);
+            movieGenereRecyclerView.setHasFixedSize(true);
+            movieGenereRecyclerView.setAdapter(movieGenreRecyclerAdapter);
+        }else {
+
+        }
 
     }
 
