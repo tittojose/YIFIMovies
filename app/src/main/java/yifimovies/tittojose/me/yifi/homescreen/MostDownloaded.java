@@ -14,6 +14,6 @@ public class MostDownloaded extends MoviesListBaseFragment {
 
     @Override
     protected void setAdPlacementId() {
-        AD_PLACEMENT_ID = "334553013694096_334884876994243";
+        AD_PLACEMENT_ID = "334553013694096_350306885452042";
     }
 }

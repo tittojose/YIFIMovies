@@ -30,6 +30,6 @@ public class GenreMovieListFragment extends MoviesListBaseFragment {
 
     @Override
     protected void setAdPlacementId() {
-        AD_PLACEMENT_ID = "334553013694096_343259462823451";
+        AD_PLACEMENT_ID = "334553013694096_350307315451999";
     }
 }
