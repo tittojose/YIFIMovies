@@ -1,11 +1,14 @@
-package yifimovies.tittojose.me.yifi.homescreen;
+package yifimovies.tittojose.me.yifi.homescreen.genre;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,11 +21,11 @@ import yifimovies.tittojose.me.yifi.R;
 public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private String[] genreList;
+    private List<GenreModel> genreModelList;
 
     public GenreRecyclerAdapter(Context context, String[] genreList) {
         this.context = context;
-        this.genreList = genreList;
+        genreModelList = GenreModel.getGenreModelList();
     }
 
     @Override
@@ -34,18 +37,22 @@ public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.genreTextView.setText(genreList[position]);
+        holder.genreTextView.setText(genreModelList.get(position).getGenreName());
+        holder.genreImageView.setImageResource(genreModelList.get(position).getGenreIcon());
     }
 
     @Override
     public int getItemCount() {
-        return genreList.length;
+        return genreModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tvGenreListItem)
         TextView genreTextView;
+
+        @BindView(R.id.imgViewGenreIcon)
+        ImageView genreImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);

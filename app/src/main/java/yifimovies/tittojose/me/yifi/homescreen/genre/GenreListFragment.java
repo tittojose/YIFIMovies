@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi.homescreen;
+package yifimovies.tittojose.me.yifi.homescreen.genre;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +35,10 @@ public class GenreListFragment extends Fragment {
             "Comedy-Romance",
             "Action-Comedy",
             "SuperHero"
+    };
+
+    private static final int[] genreIconArray = {
+
     };
 
     @BindView(R.id.rvGenreList)

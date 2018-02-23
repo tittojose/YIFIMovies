@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +24,7 @@ import butterknife.ButterKnife;
 import hotchemi.android.rate.AppRate;
 import hotchemi.android.rate.OnClickButtonListener;
 import yifimovies.tittojose.me.yifi.R;
+import yifimovies.tittojose.me.yifi.homescreen.genre.GenreListFragment;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 import yifimovies.tittojose.me.yifi.utils.NetworkUtils;
 
