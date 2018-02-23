@@ -1,5 +1,6 @@
 package yifimovies.tittojose.me.yifi.homescreen.genre;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,15 @@ public class GenreListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         genreRecyclerView.setLayoutManager(linearLayoutManager);
-        GenreRecyclerAdapter genreRecyclerAdapter = new GenreRecyclerAdapter(getActivity());
+        GenreRecyclerAdapter genreRecyclerAdapter = new GenreRecyclerAdapter(getActivity(), new GenreRecyclerAdapter.OnGenreListItemClickListener() {
+            @Override
+            public void onGenreItemClicked(GenreModel genreModel) {
+                String genreName = genreModel.getGenreName();
+                Intent i = new Intent(getActivity(), MoviesListForGenreActivity.class);
+                i.putExtra("genre", genreName);
+                startActivity(i);
+            }
+        });
         genreRecyclerView.setAdapter(genreRecyclerAdapter);
 
     }

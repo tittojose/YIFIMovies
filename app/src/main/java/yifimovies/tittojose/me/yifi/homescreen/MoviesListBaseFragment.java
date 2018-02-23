@@ -47,7 +47,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
     public String AD_PLACEMENT_ID;
 
-    MoviesService moviesService;
+    public MoviesService moviesService;
 
     @BindView(R.id.recyclerViewMoviesList)
     RecyclerView moviesRecyclerView;
@@ -61,8 +61,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
     private List<Object> movies = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private boolean isLoading = true;
-    final int PAGE_SIZE = 20;
-    int page = 0;
+    public final int PAGE_SIZE = 20;
+    public int page = 0;
     int lastAdPosition = -1;
     int ADS_PER_ITEMS = 7;
     private boolean isLastPage = false;
@@ -85,36 +85,42 @@ public abstract class MoviesListBaseFragment extends Fragment {
 //            }
         }
     };
-    Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
+    public Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
             if (response.isSuccessful()) {
                 paginationProgressBar.setVisibility(View.GONE);
                 isLoading = false;
                 swipeRefreshLayout.setRefreshing(false);
-                if (page == 1) {
-                    movies = new ArrayList<>();
+                if (response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
+                    if (page == 1) {
+                        movies = new ArrayList<>();
 //                    movies = response.body().getData().getMovies();
-                    movies.addAll(response.body().getData().getMovies());
-                    mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
-                    moviesRecyclerView.setAdapter(mAdapter);
+                        movies.addAll(response.body().getData().getMovies());
+                        mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
+                        moviesRecyclerView.setAdapter(mAdapter);
 
-                    Log.d(TAG, "onResponse: ");
-                    lastAdPosition = -1;
-                    loadAdsToList();
-                } else {
-                    movies.addAll(response.body().getData().getMovies());
-                    mAdapter.notifyDataSetChanged();
-                    loadAdsToList();
-                }
+                        Log.d(TAG, "onResponse: ");
+                        lastAdPosition = -1;
+                        loadAdsToList();
+                    } else {
+                        movies.addAll(response.body().getData().getMovies());
+                        mAdapter.notifyDataSetChanged();
+                        loadAdsToList();
+                    }
 
-                int currentTotalItem = page * PAGE_SIZE;
+                    int currentTotalItem = page * PAGE_SIZE;
 
-                if (currentTotalItem >= response.body().getData().getMovieCount()) {
-                    isLastPage = true;
+                    if (currentTotalItem >= response.body().getData().getMovieCount()) {
+                        isLastPage = true;
+                    }
                 }
             } else {
-                ((HomeActivity) getActivity()).handleError("");
+                try {
+                    ((HomeActivity) getActivity()).handleError("");
+                } catch (Exception e) {
+                    Log.e(TAG, "onResponse: " + e.toString());
+                }
             }
         }
 

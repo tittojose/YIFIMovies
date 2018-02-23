@@ -20,12 +20,19 @@ import yifimovies.tittojose.me.yifi.R;
 
 public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdapter.ViewHolder> {
 
+    private final OnGenreListItemClickListener genreListItemClickListener;
+
+    public interface OnGenreListItemClickListener {
+        void onGenreItemClicked(GenreModel genreModel);
+    }
+
     private Context context;
     private List<GenreModel> genreModelList;
 
-    public GenreRecyclerAdapter(Context context) {
+    public GenreRecyclerAdapter(Context context, OnGenreListItemClickListener genreListItemClickListener) {
         this.context = context;
         genreModelList = GenreModel.getGenreModelList();
+        this.genreListItemClickListener = genreListItemClickListener;
     }
 
     @Override
@@ -36,9 +43,15 @@ public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.genreTextView.setText(genreModelList.get(position).getGenreName());
         holder.genreImageView.setImageResource(genreModelList.get(position).getGenreIcon());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                genreListItemClickListener.onGenreItemClicked(genreModelList.get(position));
+            }
+        });
     }
 
     @Override

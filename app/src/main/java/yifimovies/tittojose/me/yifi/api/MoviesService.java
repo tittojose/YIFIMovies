@@ -20,6 +20,9 @@ public interface MoviesService {
     @GET("v2/list_movies.json?sort_by=download_count")
     Call<MovieAPIResponse> getMostDownloadedMovies(@Query("page") int page, @Query("limit") int limit);
 
+    @GET("v2/list_movies.json?sort_by=date_added")
+    Call<MovieAPIResponse> getMoviesForGenre(@Query("genre") String genre, @Query("page") int page, @Query("limit") int limit);
+
 
     @GET("v2/list_movies.json?sort_by=date_added&page=1&limit=50")
     Call<MovieAPIResponse> getMovieSuggestions(@Query("query_term") String query);

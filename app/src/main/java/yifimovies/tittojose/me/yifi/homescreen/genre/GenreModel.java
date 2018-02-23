@@ -72,9 +72,9 @@ public class GenreModel {
         genreModelList.add(new GenreModel("Animation", R.drawable.ic_genre_animation));
         genreModelList.add(new GenreModel("Adventure", R.drawable.ic_genre_adventure_large));
         genreModelList.add(new GenreModel("Fantasy", R.drawable.ic_genre_fantasy_large));
-        genreModelList.add(new GenreModel("Comedy-Romance", R.drawable.ic_genre_comedy_large));
-        genreModelList.add(new GenreModel("Action-Comedy", R.drawable.ic_genre_action_large));
-        genreModelList.add(new GenreModel("SuperHero", R.drawable.ic_genre_history_large));
+//        genreModelList.add(new GenreModel("Comedy-Romance", R.drawable.ic_genre_comedy_large));
+//        genreModelList.add(new GenreModel("Action-Comedy", R.drawable.ic_genre_action_large));
+//        genreModelList.add(new GenreModel("SuperHero", R.drawable.ic_genre_history_large));
         return genreModelList;
     }
 }
