@@ -88,39 +88,43 @@ public abstract class MoviesListBaseFragment extends Fragment {
     public Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
-            if (response.isSuccessful()) {
-                paginationProgressBar.setVisibility(View.GONE);
-                isLoading = false;
-                swipeRefreshLayout.setRefreshing(false);
-                if (response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
-                    if (page == 1) {
-                        movies = new ArrayList<>();
+            try {
+                if (response.isSuccessful()) {
+                    paginationProgressBar.setVisibility(View.GONE);
+                    isLoading = false;
+                    swipeRefreshLayout.setRefreshing(false);
+                    if (response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
+                        if (page == 1) {
+                            movies = new ArrayList<>();
 //                    movies = response.body().getData().getMovies();
-                        movies.addAll(response.body().getData().getMovies());
-                        mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
-                        moviesRecyclerView.setAdapter(mAdapter);
+                            movies.addAll(response.body().getData().getMovies());
+                            mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
+                            moviesRecyclerView.setAdapter(mAdapter);
 
-                        Log.d(TAG, "onResponse: ");
-                        lastAdPosition = -1;
-                        loadAdsToList();
-                    } else {
-                        movies.addAll(response.body().getData().getMovies());
-                        mAdapter.notifyDataSetChanged();
-                        loadAdsToList();
+                            Log.d(TAG, "onResponse: ");
+                            lastAdPosition = -1;
+                            loadAdsToList();
+                        } else {
+                            movies.addAll(response.body().getData().getMovies());
+                            mAdapter.notifyDataSetChanged();
+                            loadAdsToList();
+                        }
+
+                        int currentTotalItem = page * PAGE_SIZE;
+
+                        if (currentTotalItem >= response.body().getData().getMovieCount()) {
+                            isLastPage = true;
+                        }
                     }
-
-                    int currentTotalItem = page * PAGE_SIZE;
-
-                    if (currentTotalItem >= response.body().getData().getMovieCount()) {
-                        isLastPage = true;
+                } else {
+                    try {
+                        ((HomeActivity) getActivity()).handleError("");
+                    } catch (Exception e) {
+                        Log.e(TAG, "onResponse: " + e.toString());
                     }
                 }
-            } else {
-                try {
-                    ((HomeActivity) getActivity()).handleError("");
-                } catch (Exception e) {
-                    Log.e(TAG, "onResponse: " + e.toString());
-                }
+            } catch (Exception e) {
+                Log.e(TAG, "onResponse: " + e.toString());
             }
         }
 
@@ -139,44 +143,48 @@ public abstract class MoviesListBaseFragment extends Fragment {
     };
 
     private void loadAdsToList() {
-        final NativeAdsManager mAds = new NativeAdsManager(getActivity(), AD_PLACEMENT_ID, 3);
+        try {
+            final NativeAdsManager mAds = new NativeAdsManager(getActivity(), AD_PLACEMENT_ID, 3);
 
-        mAds.setListener(new NativeAdsManager.Listener() {
-            @Override
-            public void onAdsLoaded() {
-                try {
-                    NativeAd nativeAd1 = mAds.nextNativeAd();
-                    NativeAd nativeAd2 = mAds.nextNativeAd();
-                    NativeAd nativeAd3 = mAds.nextNativeAd();
+            mAds.setListener(new NativeAdsManager.Listener() {
+                @Override
+                public void onAdsLoaded() {
+                    try {
+                        NativeAd nativeAd1 = mAds.nextNativeAd();
+                        NativeAd nativeAd2 = mAds.nextNativeAd();
+                        NativeAd nativeAd3 = mAds.nextNativeAd();
 
-                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                        lastAdPosition += ADS_PER_ITEMS;
-                        movies.add(lastAdPosition, nativeAd1);
+                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                            lastAdPosition += ADS_PER_ITEMS;
+                            movies.add(lastAdPosition, nativeAd1);
+                        }
+
+                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                            lastAdPosition += ADS_PER_ITEMS;
+                            movies.add(lastAdPosition, nativeAd2);
+                        }
+
+                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
+                            lastAdPosition += ADS_PER_ITEMS;
+                            movies.add(lastAdPosition, nativeAd3);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    mAdapter.notifyDataSetChanged();
 
-                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                        lastAdPosition += ADS_PER_ITEMS;
-                        movies.add(lastAdPosition, nativeAd2);
-                    }
-
-                    if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                        lastAdPosition += ADS_PER_ITEMS;
-                        movies.add(lastAdPosition, nativeAd3);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                mAdapter.notifyDataSetChanged();
 
-            }
+                @Override
+                public void onAdError(AdError adError) {
 
-            @Override
-            public void onAdError(AdError adError) {
+                }
+            });
 
-            }
-        });
-
-        mAds.loadAds();
+            mAds.loadAds();
+        } catch (Exception e) {
+            Log.e(TAG, "loadAdsToList: " + e.toString());
+        }
     }
 
     private NativeAd nativeAd;

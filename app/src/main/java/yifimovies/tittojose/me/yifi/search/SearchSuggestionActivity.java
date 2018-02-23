@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 public class SearchSuggestionActivity extends AppCompatActivity {
 
 
+    private static final String TAG = SearchSuggestionActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -70,9 +72,13 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                 progressLayout.setVisibility(View.GONE);
                 if (response.body() != null && response.body().getData() != null && response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
 //                    movies = response.body().getData().getMovies();
-                    movies.addAll(response.body().getData().getMovies());
-                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
-                    movieSuggestionsRecyclerView.setAdapter(mAdapter);
+                    try {
+                        movies.addAll(response.body().getData().getMovies());
+                        mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
+                        movieSuggestionsRecyclerView.setAdapter(mAdapter);
+                    } catch (Exception e) {
+                        Log.e(TAG, "onResponse: " + e.toString());
+                    }
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(parentCoordinatorLayout, "No movies found. Please try a different keyword.", Snackbar.LENGTH_LONG);
