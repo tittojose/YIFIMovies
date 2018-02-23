@@ -19,30 +19,9 @@ import yifimovies.tittojose.me.yifi.R;
 
 public class GenreListFragment extends Fragment {
 
-    private static final String[] genreArray = {
-            "Comedy",
-            "Sci-Fi",
-            "Horror",
-            "Romance",
-            "Action",
-            "Thriller",
-            "Drama",
-            "Mystery",
-            "Crime",
-            "Animation",
-            "Adventure",
-            "Fantasy",
-            "Comedy-Romance",
-            "Action-Comedy",
-            "SuperHero"
-    };
-
-    private static final int[] genreIconArray = {
-
-    };
-
     @BindView(R.id.rvGenreList)
     RecyclerView genreRecyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,10 +35,10 @@ public class GenreListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         genreRecyclerView.setLayoutManager(linearLayoutManager);
-        genreRecyclerView.setHasFixedSize(true);
-        GenreRecyclerAdapter genreRecyclerAdapter = new GenreRecyclerAdapter(getActivity(), genreArray);
+        GenreRecyclerAdapter genreRecyclerAdapter = new GenreRecyclerAdapter(getActivity());
         genreRecyclerView.setAdapter(genreRecyclerAdapter);
+
     }
 }

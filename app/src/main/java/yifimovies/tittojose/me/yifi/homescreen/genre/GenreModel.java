@@ -75,7 +75,6 @@ public class GenreModel {
         genreModelList.add(new GenreModel("Comedy-Romance", R.drawable.ic_genre_comedy_large));
         genreModelList.add(new GenreModel("Action-Comedy", R.drawable.ic_genre_action_large));
         genreModelList.add(new GenreModel("SuperHero", R.drawable.ic_genre_history_large));
-        Collections.reverse(genreModelList);
         return genreModelList;
     }
 }

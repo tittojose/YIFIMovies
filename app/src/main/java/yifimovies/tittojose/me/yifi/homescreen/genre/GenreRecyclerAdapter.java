@@ -23,7 +23,7 @@ public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdap
     private Context context;
     private List<GenreModel> genreModelList;
 
-    public GenreRecyclerAdapter(Context context, String[] genreList) {
+    public GenreRecyclerAdapter(Context context) {
         this.context = context;
         genreModelList = GenreModel.getGenreModelList();
     }
