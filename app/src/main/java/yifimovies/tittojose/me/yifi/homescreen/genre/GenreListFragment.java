@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
@@ -23,6 +25,7 @@ public class GenreListFragment extends Fragment {
     @BindView(R.id.rvGenreList)
     RecyclerView genreRecyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,10 +44,19 @@ public class GenreListFragment extends Fragment {
         GenreRecyclerAdapter genreRecyclerAdapter = new GenreRecyclerAdapter(getActivity(), new GenreRecyclerAdapter.OnGenreListItemClickListener() {
             @Override
             public void onGenreItemClicked(GenreModel genreModel) {
+                if (getActivity() != null) {
+                    mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Genre");
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, genreModel.getGenreName());
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Genre");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                }
                 String genreName = genreModel.getGenreName();
                 Intent i = new Intent(getActivity(), MoviesListForGenreActivity.class);
                 i.putExtra("genre", genreName);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
         genreRecyclerView.setAdapter(genreRecyclerAdapter);
