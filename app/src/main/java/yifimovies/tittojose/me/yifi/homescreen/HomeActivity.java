@@ -170,10 +170,14 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
+        viewPager.setOffscreenPageLimit(4);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new GenreListFragment(), "Genre");
         adapter.addFragment(new LatestMoviesFragment(), "Latest");
         adapter.addFragment(new TopMoviesFragment(), "Top");
+        adapter.addFragment(new MostDownloaded(), "Popular");
         viewPager.setAdapter(adapter);
+//        viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
     }
 
