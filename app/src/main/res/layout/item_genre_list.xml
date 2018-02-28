@@ -15,7 +15,8 @@
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/ic_genre_action_large" />
+            android:src="@drawable/ic_genre_action_large"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tvGenreListItem"
