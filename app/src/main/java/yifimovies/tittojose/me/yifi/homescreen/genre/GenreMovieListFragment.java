@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.homescreen.MoviesListBaseFragment;
 
 /**
@@ -32,4 +35,6 @@ public class GenreMovieListFragment extends MoviesListBaseFragment {
     protected void setAdPlacementId() {
         AD_PLACEMENT_ID = "334553013694096_350307315451999";
     }
+
+
 }

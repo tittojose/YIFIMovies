@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
 
@@ -30,6 +28,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import yifimovies.tittojose.me.yifi.homescreen.movieslist.MoviesListPresenter;
+import yifimovies.tittojose.me.yifi.homescreen.movieslist.MoviesListView;
 import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
@@ -41,7 +41,7 @@ import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
  * Created by titto.jose on 21-12-2017.
  */
 
-public abstract class MoviesListBaseFragment extends Fragment {
+public abstract class MoviesListBaseFragment extends Fragment implements MoviesListView {
 
     private static final String TAG = MoviesListBaseFragment.class.getSimpleName();
 
@@ -70,7 +70,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
     private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
         public void onItemClickListener(Movie movie, ImageView imageView) {
-            ActivityOptions options = null;
             Intent i = new Intent(getActivity(), MovieDetailActivity.class);
             i.putExtra("movie", movie);
 //            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -141,6 +140,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             }
         }
     };
+    private MoviesListPresenter moviesListPresenter;
 
     private void loadAdsToList() {
         try {
@@ -250,6 +250,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
 
         loadMovieData(page++);
+
+        moviesListPresenter = new MoviesListPresenter(this, null);
     }
 
     @Override
@@ -273,6 +275,16 @@ public abstract class MoviesListBaseFragment extends Fragment {
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();
         makeMoviesAPICall();
+    }
+
+    @Override
+    public void displayMoviesList(List<Movie> movies) {
+
+    }
+
+    @Override
+    public void displayErrorWhenNoMoviesLoaded(String errorMessage) {
+
     }
 
     protected abstract void makeMoviesAPICall();
