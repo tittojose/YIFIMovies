@@ -1,6 +1,5 @@
 package yifimovies.tittojose.me.yifi.homescreen;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +18,8 @@ import android.widget.ProgressBar;
 import com.facebook.ads.AdError;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +279,7 @@ public abstract class MoviesListBaseFragment extends Fragment implements MoviesL
     }
 
     @Override
-    public void displayMoviesList(List<Movie> movies) {
+    public void displayMoviesList(@NotNull List<? extends Movie> movies) {
 
     }
 

@@ -1,30 +1,28 @@
 package yifimovies.tittojose.me.yifi.homescreen.movieslist;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import yifimovies.tittojose.me.yifi.api.model.Movie;
-import yifimovies.tittojose.me.yifi.repositories.MovieRepositories;
+import yifimovies.tittojose.me.yifi.repositories.MoviesRepository;
 
 /**
  * Created by titto.jose on 01-03-2018.
  */
 public class MoviesListPresenterTest {
 
-    @Test
-    public void shouldPass() {
-        Assert.assertEquals(1, 1);
-    }
 
     @Test
     public void shouldPassBooksToView() {
         //give
         MoviesListView view = new MockView();
-        MovieRepositories mockMovieRepositories = new MockMoviesRepo(true);
+        MoviesRepository mockMovieRepositories = new MockMoviesRepo(true);
 
         // when
         MoviesListPresenter moviesListPresenter = new MoviesListPresenter(view, mockMovieRepositories);
@@ -39,7 +37,7 @@ public class MoviesListPresenterTest {
     public void shouldShowErrorMessageToView() {
         //give
         MoviesListView view = new MockView();
-        MovieRepositories mockMovieRepositories = new MockMoviesRepo(false);
+        MoviesRepository mockMovieRepositories = new MockMoviesRepo(false);
 
         // when
         MoviesListPresenter moviesListPresenter = new MoviesListPresenter(view, mockMovieRepositories);
@@ -54,7 +52,7 @@ public class MoviesListPresenterTest {
         boolean displayErrorMessageCalled;
 
         @Override
-        public void displayMoviesList(List<Movie> movies) {
+        public void displayMoviesList(@NotNull List<? extends Movie> movies) {
             displayBooksCalled = true;
         }
 
@@ -64,7 +62,7 @@ public class MoviesListPresenterTest {
         }
     }
 
-    private class MockMoviesRepo implements MovieRepositories {
+    private class MockMoviesRepo implements MoviesRepository {
 
 
         private boolean shouldReturnMovies;
@@ -79,7 +77,7 @@ public class MoviesListPresenterTest {
             if (shouldReturnMovies) {
                 return Arrays.asList(new Movie(), new Movie(), new Movie());
             } else {
-                return null;
+                return Collections.emptyList();
             }
         }
     }
