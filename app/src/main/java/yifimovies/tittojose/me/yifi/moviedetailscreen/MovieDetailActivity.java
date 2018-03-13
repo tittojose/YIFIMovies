@@ -116,7 +116,7 @@ public class MovieDetailActivity extends AppCompatActivity {
             startActivity(i);
         } catch (Exception e) {
             try {
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Cannot find any apps in the phone to download this movie. Please install a torrent app and try again.", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.trorrent_app_redirect_message, Snackbar.LENGTH_LONG);
                 View snackbarView = snackbar.getView();
                 TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
                 textView.setMaxLines(5);
@@ -125,14 +125,30 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=torrent&c=apps")));
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
                         } catch (android.content.ActivityNotFoundException anfe) {
 
                         }
                     }
                 });
+                snackbar.addCallback(new Snackbar.Callback() {
 
-                snackbar.show();
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+
+                    }
+                });
+
+
             } catch (Exception e1) {
                 e.printStackTrace();
             }
