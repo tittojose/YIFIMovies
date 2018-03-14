@@ -36,6 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.Torrent;
@@ -127,7 +128,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
                         } catch (Exception e) {
                             Log.e(TAG, e.toString());
                         }
@@ -138,7 +139,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
                         } catch (Exception e) {
                             Log.e(TAG, e.toString());
                         }

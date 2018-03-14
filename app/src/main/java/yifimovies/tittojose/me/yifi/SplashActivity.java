@@ -32,6 +32,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getDataEndPointData() {
         Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
+        Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
         long cacheExpiration = 900;
 
         mFirebaseRemoteConfig.fetch(cacheExpiration)
@@ -44,6 +45,7 @@ public class SplashActivity extends AppCompatActivity {
                             mFirebaseRemoteConfig.activateFetched();
                         }
                         Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
+                        Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
 
                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

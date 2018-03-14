@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hotchemi.android.rate.AppRate;
 import hotchemi.android.rate.OnClickButtonListener;
+import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.homescreen.genre.GenreListFragment;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
@@ -133,7 +134,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void navigateToTorrentPlayStore() {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
     }
 
     private void startShareAppIntent() {

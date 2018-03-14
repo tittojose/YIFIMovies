@@ -16,9 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
 
@@ -30,12 +28,12 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
+import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 
 /**
  * Created by titto.jose on 21-12-2017.
@@ -57,6 +55,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+
+    @BindView(R.id.errorLayout)
+    ViewGroup errorLayout;
 
     private List<Object> movies = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
@@ -94,6 +96,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
                     isLoading = false;
                     swipeRefreshLayout.setRefreshing(false);
                     if (response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
+                        errorLayout.setVisibility(View.GONE);
+                        moviesRecyclerView.setVisibility(View.VISIBLE);
                         if (page == 1) {
                             movies = new ArrayList<>();
 //                    movies = response.body().getData().getMovies();
@@ -118,6 +122,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
                     }
                 } else {
                     try {
+                        if (movies.size() == 0) {
+                            moviesRecyclerView.setVisibility(View.GONE);
+                            errorLayout.setVisibility(View.VISIBLE);
+                        }
                         ((HomeActivity) getActivity()).handleError("");
                     } catch (Exception e) {
                         Log.e(TAG, "onResponse: " + e.toString());
@@ -131,6 +139,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
             try {
+                if (movies.size() == 0) {
+                    moviesRecyclerView.setVisibility(View.GONE);
+                    errorLayout.setVisibility(View.VISIBLE);
+                }
                 swipeRefreshLayout.setRefreshing(false);
                 isLoading = false;
                 paginationProgressBar.setVisibility(View.GONE);
