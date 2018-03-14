@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ import yifimovies.tittojose.me.yifi.api.model.Torrent;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
+    public static final String TAG = MovieDetailActivity.class.getSimpleName();
     private static String YOUTUBE_API_KEY = "AIzaSyBcdx13v4s97QAxxM921ka4WGfCt_91CCU";
     private static String FB_AD_BANNER_ID = "334553013694096_343276972821700";
 
@@ -126,8 +128,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-
+                        } catch (Exception e) {
+                            Log.e(TAG, e.toString());
                         }
                     }
                 });
@@ -137,8 +139,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                     public void onDismissed(Snackbar snackbar, int event) {
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-
+                        } catch (Exception e) {
+                            Log.e(TAG, e.toString());
                         }
                     }
 

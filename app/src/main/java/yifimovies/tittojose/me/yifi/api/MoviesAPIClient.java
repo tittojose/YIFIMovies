@@ -5,6 +5,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static yifimovies.tittojose.me.yifi.Constants.BASE_URL;
+
 /**
  * Created by titto.jose on 14-12-2017.
  */
@@ -28,7 +30,6 @@ public class MoviesAPIClient {
         return retrofit;
     }
 
-    public static final String BASE_URL = "https://yts.am/api/";
 
     public static MoviesService getMoviesAPIService() {
         return MoviesAPIClient.getClient(BASE_URL).create(MoviesService.class);
