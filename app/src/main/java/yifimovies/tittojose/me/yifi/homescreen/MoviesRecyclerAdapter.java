@@ -71,7 +71,7 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             final Movie movie = (Movie) movies.get(position);
             final MoviesViewHolder moviesViewHolder = (MoviesViewHolder) holder;
-            moviesViewHolder.movieTitle.setText(movie.getTitle());
+            moviesViewHolder.movieTitle.setText(movie.getTitle() + " - (" + movie.getYear()+")");
             moviesViewHolder.rating.setText(String.format("%d", (long) movie.getRating()));
             Glide.with(context)
                     .load(movie.getMediumCoverImage())
