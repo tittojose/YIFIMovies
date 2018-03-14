@@ -6,5 +6,6 @@
     <color name="backgroundColor">#292830</color>
     <color name="black">#212121</color>
     <color name="divider">#303030</color>
-    <color name="genreBackground">#1C1D21</color>
+    <color name="genreBackground">#15181e</color>
+    <color name="blackBackground">#15181e</color>
 </resources>
