@@ -122,11 +122,18 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.drawer_share_app:
                         startShareAppIntent();
                         break;
+                    case R.id.drawer_torrent_app:
+                        navigateToTorrentPlayStore();
+                        break;
                 }
                 drawerLayout.closeDrawers();
                 return true;
             }
         });
+    }
+
+    private void navigateToTorrentPlayStore() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.torrent_link))));
     }
 
     private void startShareAppIntent() {
