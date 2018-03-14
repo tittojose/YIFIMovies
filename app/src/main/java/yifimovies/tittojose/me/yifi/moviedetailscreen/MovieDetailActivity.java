@@ -24,13 +24,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
+import com.facebook.ads.AdChoicesView;
+import com.facebook.ads.AdError;
+import com.facebook.ads.MediaView;
+import com.facebook.ads.NativeAd;
+import com.facebook.ads.NativeAdsManager;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -95,7 +99,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private Movie movie;
     private String downloadLinksURL = "";
-    private AdView adView;
+    private View adContainer;
+    private String AD_PLACEMENT_ID = "334553013694096_358571807958883";
+    private ImageView adImage;
+    private TextView tvAdTitle;
+    private TextView tvAdBody;
+    private Button btnCTA;
+    private LinearLayout adChoicesContainer;
+    private MediaView mediaView;
+    private NativeAdsManager mAds;
+    private NativeAd nativeAd;
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
     public void onDownloadClick(View v) {
@@ -195,16 +208,71 @@ public class MovieDetailActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "movie");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
+        loadNativeAds();
+    }
 
+    private void loadNativeAds() {
+
+        this.adContainer = findViewById(R.id.nativeAdContainer);
+        adImage = findViewById(R.id.adImage);
+        tvAdTitle = findViewById(R.id.tvAdTitle);
+        tvAdBody = findViewById(R.id.tvAdBody);
+        btnCTA = findViewById(R.id.btnCTA);
+        adChoicesContainer = findViewById(R.id.adChoicesContainer);
+        mediaView = findViewById(R.id.mediaView);
+
+        try {
+            mAds = new NativeAdsManager(MovieDetailActivity.this, AD_PLACEMENT_ID, 1);
+
+            mAds.setListener(new NativeAdsManager.Listener() {
+                @Override
+                public void onAdsLoaded() {
+                    try {
+                        adBannerContainer.setVisibility(View.VISIBLE);
+                        nativeAd = mAds.nextNativeAd();
+
+
+                        tvAdTitle.setText(nativeAd.getAdTitle());
+                        tvAdBody.setText(nativeAd.getAdBody());
+                        NativeAd.downloadAndDisplayImage(nativeAd.getAdIcon(), adImage);
+                        btnCTA.setText(nativeAd.getAdCallToAction());
+                        AdChoicesView adChoicesView = new AdChoicesView(MovieDetailActivity.this, nativeAd, true);
+                        adChoicesContainer.removeAllViews();
+                        adChoicesContainer.addView(adChoicesView);
+                        mediaView.setNativeAd(nativeAd);
+
+                        List<View> clickableViews = new ArrayList<>();
+                        clickableViews.add(adImage);
+                        clickableViews.add(btnCTA);
+                        clickableViews.add(mediaView);
+                        nativeAd.registerViewForInteraction(adContainer, clickableViews);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onAdError(AdError adError) {
+
+                }
+            });
+
+            mAds.loadAds();
+        } catch (Exception e) {
+            Log.e(TAG, "loadAdsToList: " + e.toString());
+        }
     }
 
     private void initializeBannerAdd() {
-        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
+//        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
 
-        adBannerContainer.addView(adView);
+//        adBannerContainer.addView(adView);
 
         // Request an ad
-        adView.loadAd();
+//        adView.loadAd();
     }
 
     private void initializeYoutubeTrailerView() {
@@ -338,8 +406,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (adView != null) {
-            adView.destroy();
+        if (nativeAd != null) {
+            nativeAd.destroy();
         }
         super.onDestroy();
 

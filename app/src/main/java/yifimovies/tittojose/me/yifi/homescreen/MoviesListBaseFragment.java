@@ -92,12 +92,14 @@ public abstract class MoviesListBaseFragment extends Fragment {
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
             try {
                 if (response.isSuccessful()) {
+                    errorLayout.setVisibility(View.GONE);
+                    moviesRecyclerView.setVisibility(View.VISIBLE);
+
                     paginationProgressBar.setVisibility(View.GONE);
                     isLoading = false;
                     swipeRefreshLayout.setRefreshing(false);
                     if (response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
-                        errorLayout.setVisibility(View.GONE);
-                        moviesRecyclerView.setVisibility(View.VISIBLE);
+
                         if (page == 1) {
                             movies = new ArrayList<>();
 //                    movies = response.body().getData().getMovies();
