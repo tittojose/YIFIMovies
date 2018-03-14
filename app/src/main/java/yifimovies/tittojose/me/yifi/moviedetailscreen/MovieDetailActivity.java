@@ -149,7 +149,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                     }
                 });
-
+                snackbar.show();
 
             } catch (Exception e1) {
                 e.printStackTrace();
