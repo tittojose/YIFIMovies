@@ -14,8 +14,8 @@ android {
         applicationId "yifimovies.tittojose.me.yifi"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 8
-        versionName "1.4.2"
+        versionCode 9
+        versionName "1.4.3"
         manifestPlaceholders = [onesignal_app_id               : "854eb9d2-3826-45e0-aab2-d7dd6ebc9cb4",
                                 // Project number pulled from dashboard, local value is ignored.
                                 onesignal_google_project_number: "REMOTE"]
