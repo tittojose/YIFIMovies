@@ -241,16 +241,21 @@
         <!--app:layout_constraintEnd_toEndOf="parent"-->
         <!--app:layout_constraintStart_toStartOf="parent"-->
         <!--app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />-->
-
-        <include
+        <LinearLayout
             android:visibility="gone"
-            android:id="@+id/banner_container"
-            layout="@layout/item_native_ad"
+            android:id="@+id/native_ad_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">
+
+            <include
+                layout="@layout/item_native_ad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/youtubeViewMovieTrailerContainer"
@@ -261,7 +266,7 @@
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/banner_container">
+            app:layout_constraintTop_toBottomOf="@+id/native_ad_container">
 
             <TextView
                 android:id="@+id/tvMovieTrailerLbl"
