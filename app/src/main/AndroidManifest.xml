@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--android:name=".homescreen.HomeActivity"-->
+
+        <!-- android:name=".homescreen.HomeActivity" -->
         <activity
             android:name=".SplashActivity"
             android:label="YIFY Movies"
@@ -41,8 +42,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <!--android:name=".SplashActivity"-->
+        <!-- android:name=".SplashActivity" -->
         <activity android:name=".homescreen.HomeActivity" />
+        <activity android:name=".genre.GenreActivity"></activity>
     </application>
 
 </manifest>

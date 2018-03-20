@@ -25,6 +25,7 @@ import hotchemi.android.rate.AppRate;
 import hotchemi.android.rate.OnClickButtonListener;
 import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
+import yifimovies.tittojose.me.yifi.genre.GenreActivity;
 import yifimovies.tittojose.me.yifi.homescreen.genre.GenreListFragment;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
 import yifimovies.tittojose.me.yifi.utils.NetworkUtils;
@@ -126,11 +127,18 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.drawer_torrent_app:
                         navigateToTorrentPlayStore();
                         break;
+                    case R.id.drawer_genre:
+                        navigateGenreScreen();
+                        break;
                 }
                 drawerLayout.closeDrawers();
                 return true;
             }
         });
+    }
+
+    private void navigateGenreScreen() {
+        startActivity(new Intent(HomeActivity.this, GenreActivity.class));
     }
 
     private void navigateToTorrentPlayStore() {

@@ -69,19 +69,96 @@ public abstract class MoviesListBaseFragment extends Fragment {
     int ADS_PER_ITEMS = 7;
     private boolean isLastPage = false;
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.activity_main, container, false);
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            page = 0;
+        }
+        initializeMoviesList();
+
+    }
+
+    private void initializeMoviesList() {
+
+        setAdPlacementId();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                page = 0;
+                loadMovieData(page++);
+            }
+        });
+
+
+        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (mAdapter.getItemViewType(position)) {
+                    case MoviesRecyclerAdapter.NATIVE_AD:
+                        return 2;
+                    case MoviesRecyclerAdapter.MOVIE:
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
+        moviesRecyclerView.setLayoutManager(layoutManager);
+        moviesRecyclerView.setHasFixedSize(true);
+        moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && !isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                            && firstVisibleItemPosition >= 0
+                            && totalItemCount >= PAGE_SIZE) {
+                        loadMovieData(page++);
+                    }
+                }
+            }
+        });
+
+
+        loadMovieData(page++);
+    }
+
+
     private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
         public void onItemClickListener(Movie movie, ImageView imageView) {
             ActivityOptions options = null;
             Intent i = new Intent(getActivity(), MovieDetailActivity.class);
             i.putExtra("movie", movie);
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//
-//                options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, imageView, getString(R.string.picture_transition_name));
-//
-//                ActivityCompat.startActivity(MainActivity.this, i, options.toBundle());
-//            } else {
-
             startActivity(i);
             getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 //            }
@@ -206,81 +283,12 @@ public abstract class MoviesListBaseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        setAdPlacementId();
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                page = 0;
-                loadMovieData(page++);
-            }
-        });
-
-
-        final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (mAdapter.getItemViewType(position)) {
-                    case MoviesRecyclerAdapter.NATIVE_AD:
-                        return 2;
-                    case MoviesRecyclerAdapter.MOVIE:
-                        return 1;
-                    default:
-                        return -1;
-                }
-            }
-        });
-        moviesRecyclerView.setLayoutManager(layoutManager);
-        moviesRecyclerView.setHasFixedSize(true);
-        moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-                if (!isLoading && !isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                            && firstVisibleItemPosition >= 0
-                            && totalItemCount >= PAGE_SIZE) {
-                        loadMovieData(page++);
-                    }
-                }
-            }
-        });
-
-
-        loadMovieData(page++);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.activity_main, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
-
 
     private void loadMovieData(final int page) {
         isLoading = true;
         if (page >= 1) {
             paginationProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        if (mAdapter == null) {
+        } else {
             swipeRefreshLayout.setRefreshing(true);
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();

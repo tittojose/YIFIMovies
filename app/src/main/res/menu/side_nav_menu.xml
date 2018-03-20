@@ -4,6 +4,12 @@
     <group>
 
         <item
+            android:id="@+id/drawer_genre"
+            android:checkable="false"
+            android:icon="@drawable/ic_theaters"
+            android:title="Genre" />
+
+        <item
             android:id="@+id/drawer_rate_app"
             android:checkable="false"
             android:icon="@drawable/ic_star"
