@@ -201,7 +201,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
         }
     }
 
-    private NativeAd nativeAd;
 
     public MoviesListBaseFragment() {
         // Required empty public constructor
@@ -216,7 +215,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                nativeAd = new NativeAd(getContext(), "334553013694096_334884876994243");
                 page = 0;
                 loadMovieData(page++);
             }
