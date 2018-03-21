@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/genreBackground"
     android:orientation="vertical">
 
@@ -29,7 +30,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
-            android:text="Sample"
+            tools:text="Sci-Fi"
             android:textColor="#BBBCBD"
             android:textSize="17sp"
             android:textStyle="normal" />

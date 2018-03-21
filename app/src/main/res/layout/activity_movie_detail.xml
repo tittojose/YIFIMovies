@@ -143,12 +143,12 @@
                 android:layout_margin="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:lineSpacingExtra="1dp"
-                android:text="Sample"
                 android:textColor="#b8b8bb"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage" />
+                app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage"
+                tools:text="Description" />
 
             <View
                 android:id="@+id/dividerDescriptionBottom"
@@ -164,7 +164,11 @@
                 android:id="@+id/rvMovieGenre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp" />
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:listitem="@layout/item_movie_genre" />
         </LinearLayout>
 
 
@@ -174,22 +178,34 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="#25252f"
-            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutMovieDetailContents">
 
             <TextView
                 android:id="@+id/tvDownloadsLabel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="DOWNLOADS"
                 android:textColor="#fff"
                 android:textSize="13sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvMovieDownloads"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel"
+                tools:listitem="@layout/item_download_list" />
 
             <Button
                 android:id="@+id/btn720Download"
@@ -242,11 +258,11 @@
         <!--app:layout_constraintStart_toStartOf="parent"-->
         <!--app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/native_ad_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">

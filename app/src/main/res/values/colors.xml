@@ -8,4 +8,5 @@
     <color name="divider">#303030</color>
     <color name="genreBackground">#15181e</color>
     <color name="blackBackground">#15181e</color>
+    <color name="secondary_text_label_color">#b8b8bb</color>
 </resources>

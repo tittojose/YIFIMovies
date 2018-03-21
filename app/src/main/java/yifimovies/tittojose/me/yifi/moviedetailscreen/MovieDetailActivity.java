@@ -81,7 +81,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView movieRatingTextView;
 
     @BindView(R.id.rvMovieGenre)
-    RecyclerView movieGenereRecyclerView;
+    RecyclerView movieGenreRecyclerView;
+
+    @BindView(R.id.rvMovieDownloads)
+    RecyclerView movieDownloadRecyclerView;
 
     @BindView(R.id.layoutTorrentDownloads)
     ViewGroup downloadsLayout;
@@ -195,9 +198,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         moviePlayTimeTextView.setText(movie.getRuntime() + " mins");
         movieRatingTextView.setText(movie.getRating() + " stars");
         initializeMovieGenreList(movie.getGenres());
-        initializeDownloadButtons(movie);
+        initializeDownloadList(movie.getTorrents());
+//        initializeDownloadButtons(movie);
         initializeYoutubeTrailerView();
-        initializeBannerAdd();
+//        initializeBannerAdd();
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -209,6 +213,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         loadNativeAds();
     }
+
 
     private void loadNativeAds() {
 
@@ -281,14 +286,14 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeBannerAdd() {
-//        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
-
-//        adBannerContainer.addView(adView);
-
-        // Request an ad
-//        adView.loadAd();
-    }
+//    private void initializeBannerAdd() {
+////        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
+//
+////        adBannerContainer.addView(adView);
+//
+//        // Request an ad
+////        adView.loadAd();
+//    }
 
     private void initializeYoutubeTrailerView() {
         if (movie.getYtTrailerCode() != null && !movie.getYtTrailerCode().isEmpty()) {
@@ -326,13 +331,24 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (genres != null && genres.size() >= 0) {
             MovieGenreRecyclerAdapter movieGenreRecyclerAdapter = new MovieGenreRecyclerAdapter(MovieDetailActivity.this, genres);
             final GridLayoutManager layoutManager = new GridLayoutManager(MovieDetailActivity.this, 3);
-            movieGenereRecyclerView.setLayoutManager(layoutManager);
-            movieGenereRecyclerView.setHasFixedSize(true);
-            movieGenereRecyclerView.setAdapter(movieGenreRecyclerAdapter);
+            movieGenreRecyclerView.setLayoutManager(layoutManager);
+            movieGenreRecyclerView.setHasFixedSize(true);
+            movieGenreRecyclerView.setAdapter(movieGenreRecyclerAdapter);
         } else {
 
         }
 
+    }
+
+
+    private void initializeDownloadList(List<Torrent> torrents) {
+        if (torrents != null && torrents.size() >= 0) {
+            MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, torrents);
+            movieDownloadRecyclerView.setHasFixedSize(true);
+            movieDownloadRecyclerView.setAdapter(movieGenreRecyclerAdapter);
+        } else {
+
+        }
     }
 
     private void initializeDownloadButtons(Movie movie) {
