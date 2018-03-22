@@ -7,4 +7,5 @@
     <string name="share_movie_torrent">Share movie torrent</string>
     <string name="trorrent_app_redirect_message">Cannot find any apps in the phone to download this movie. You will be redirected the torrent app. Please install and retry.</string>
     <string name="torrent_link">http://play.google.com/store/apps/details?id=me.tittojose.mutorrent</string>
+    <string name="share_torrent_app_promo_text">Shared via : YIFY Movie Browser - https://play.google.com/store/apps/details?id=yifimovies.tittojose.me.yifi</string>
 </resources>

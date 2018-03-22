@@ -199,7 +199,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieRatingTextView.setText(movie.getRating() + " stars");
         initializeMovieGenreList(movie.getGenres());
         initializeDownloadList(movie.getTorrents());
-//        initializeDownloadButtons(movie);
+        initializeDownloadButtons(movie);
         initializeYoutubeTrailerView();
 //        initializeBannerAdd();
 
@@ -417,15 +417,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (movie.getTorrents() != null && movie.getTorrents().size() > 0) {
             for (Torrent torrent : movie.getTorrents()) {
                 if (torrent.getQuality().equalsIgnoreCase("720p")) {
-                    hd720pDownload.setVisibility(View.VISIBLE);
+//                    hd720pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[0] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("720p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("1080p")) {
-                    fullHD1080pDownload.setVisibility(View.VISIBLE);
+//                    fullHD1080pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[1] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("1080p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("3D")) {
-                    threeDDownload.setVisibility(View.VISIBLE);
+//                    threeDDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[2] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("3D", torrent.getUrl());
                 }
@@ -488,7 +488,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         String downloadLinks = this.downloadLinksURL;
 
 
-        return movieTitle + "\n\n" + downloadLinks;
+        return movieTitle + "\n\n" + downloadLinks + "\n\n" + getString(R.string.share_torrent_app_promo_text);
     }
 
 
