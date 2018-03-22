@@ -138,10 +138,23 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void navigateGenreScreen() {
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "GenreScreenRedirect");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "GenreScreenRedirect");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
         startActivity(new Intent(HomeActivity.this, GenreActivity.class));
     }
 
     private void navigateToTorrentPlayStore() {
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "TorrentAppRedirect");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "TorrentAppRedirect");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
     }
 
@@ -157,7 +170,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "ShareApp");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ShareAppClicked");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "click");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
@@ -180,7 +193,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "RateApp");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "RateAppClicked");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "click");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 

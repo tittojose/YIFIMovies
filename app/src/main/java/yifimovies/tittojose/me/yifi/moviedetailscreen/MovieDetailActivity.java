@@ -206,9 +206,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "MovieDetail");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, movie.getTitle());
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "movie");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MovieDetail");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "MovieDetail");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         loadNativeAds();
@@ -467,7 +467,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent, "Share movie torrent"));
 
                 Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "ShareMovieTorrent");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ShareMovieTorrent");
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "ShareMovieTorrent");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);

@@ -47,8 +47,8 @@ public class GenreListFragment extends Fragment {
                 if (getActivity() != null) {
                     mFirebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
                     Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Genre");
-                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, genreModel.getGenreName());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, genreModel.getGenreName());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Genre");
                     bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Genre");
                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
