@@ -343,11 +343,73 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void initializeDownloadList(List<Torrent> torrents) {
         if (torrents != null && torrents.size() >= 0) {
-            MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, torrents);
+            MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, movie.getTitle(), torrents, new MovieTorrentDownloaderAdapter.DownloadTorrentClickListener() {
+                @Override
+                public void onDownloadTorrentClicked(String torrentLink) {
+
+                    try {
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setDataAndType(Uri.parse(torrentLink), "application/x-bittorrent");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(i);
+                    } catch (Exception e) {
+                        launchTorrentAppSearch();
+                    }
+                }
+
+                @Override
+                public void onDownloadMagnetClicked(String torrentLink) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(torrentLink)));
+                    } catch (Exception e) {
+                        launchTorrentAppSearch();
+                    }
+                }
+            });
             movieDownloadRecyclerView.setHasFixedSize(true);
             movieDownloadRecyclerView.setAdapter(movieGenreRecyclerAdapter);
         } else {
 
+        }
+    }
+
+    private void launchTorrentAppSearch() {
+        try {
+            Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.trorrent_app_redirect_message, Snackbar.LENGTH_LONG);
+            View snackbarView = snackbar.getView();
+            TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setMaxLines(5);
+
+            snackbar.setAction("Search", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+            });
+            snackbar.addCallback(new Snackbar.Callback() {
+
+                @Override
+                public void onDismissed(Snackbar snackbar, int event) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
+                    } catch (Exception e) {
+                        Log.e(TAG, e.toString());
+                    }
+                }
+
+                @Override
+                public void onShown(Snackbar snackbar) {
+
+                }
+            });
+            snackbar.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
