@@ -111,6 +111,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private MediaView mediaView;
     private NativeAd mAds;
     private LinearLayout nativeAdContainer;
+    private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
     public void onDownloadClick(View v) {
@@ -296,6 +297,41 @@ public class MovieDetailActivity extends AppCompatActivity {
 //    }
 
     private void initializeYoutubeTrailerView() {
+        playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+            @Override
+            public void onLoading() {
+
+            }
+
+            @Override
+            public void onLoaded(String s) {
+
+            }
+
+            @Override
+            public void onAdStarted() {
+
+            }
+
+            @Override
+            public void onVideoStarted() {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "YoutubePlayerStarted");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "YoutubePlayer");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+            }
+
+            @Override
+            public void onVideoEnded() {
+
+            }
+
+            @Override
+            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+            }
+        };
         if (movie.getYtTrailerCode() != null && !movie.getYtTrailerCode().isEmpty()) {
             YouTubePlayerSupportFragment mYoutubePlayerFragment = new YouTubePlayerSupportFragment();
             mYoutubePlayerFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -303,6 +339,38 @@ public class MovieDetailActivity extends AppCompatActivity {
                 public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                     if (!b) {
                         youTubePlayer.cueVideo(movie.getYtTrailerCode());
+                        playerStateChangeListener = new YouTubePlayer.PlayerStateChangeListener() {
+                            @Override
+                            public void onLoading() {
+
+                            }
+
+                            @Override
+                            public void onLoaded(String s) {
+
+                            }
+
+                            @Override
+                            public void onAdStarted() {
+
+                            }
+
+                            @Override
+                            public void onVideoStarted() {
+
+                            }
+
+                            @Override
+                            public void onVideoEnded() {
+
+                            }
+
+                            @Override
+                            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                            }
+                        };
+                        youTubePlayer.setPlayerStateChangeListener(playerStateChangeListener);
                     } else {
                         hideYTTrailerLayout();
                     }
