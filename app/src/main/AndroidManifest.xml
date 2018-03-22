@@ -45,9 +45,7 @@
         <!-- android:name=".SplashActivity" -->
         <activity android:name=".homescreen.HomeActivity" />
         <activity android:name=".genre.GenreActivity"></activity>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="809e1eac78c718a10e863417ba6f72f0215798b9" />
+
     </application>
 
 </manifest>
