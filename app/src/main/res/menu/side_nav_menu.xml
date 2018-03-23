@@ -21,11 +21,6 @@
             android:icon="@drawable/ic_share"
             android:title="Share" />
 
-        <item
-            android:id="@+id/drawer_torrent_app"
-            android:checkable="false"
-            android:icon="@drawable/magnet"
-            android:title="Torrent Downloader" />
 
 
     </group>

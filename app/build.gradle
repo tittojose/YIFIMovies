@@ -26,7 +26,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 10
-        versionName "1.5.0"
+        versionName "1.5.1"
         manifestPlaceholders = [onesignal_app_id               : "854eb9d2-3826-45e0-aab2-d7dd6ebc9cb4",
                                 // Project number pulled from dashboard, local value is ignored.
                                 onesignal_google_project_number: "REMOTE"]

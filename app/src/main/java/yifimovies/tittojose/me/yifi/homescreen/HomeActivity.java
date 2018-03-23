@@ -124,9 +124,9 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.drawer_share_app:
                         startShareAppIntent();
                         break;
-                    case R.id.drawer_torrent_app:
-                        navigateToTorrentPlayStore();
-                        break;
+//                    case R.id.drawer_torrent_app:
+//                        navigateToTorrentPlayStore();
+//                        break;
                     case R.id.drawer_genre:
                         navigateGenreScreen();
                         break;
