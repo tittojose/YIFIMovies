@@ -5,7 +5,7 @@ package yifimovies.tittojose.me.yifi;
  */
 
 public class Constants {
-    public static String BASE_URL = "https://yifytorrent.me/api/";
+    public static String BASE_URL = "https://yts.am/api/";
     public static String BASE_URL_KEY = "apiendpoint";
 
     public static String TORRENT_APP_LINK = "http://play.google.com/store/apps/details?id=me.tittojose.mutorrent";
