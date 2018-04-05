@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
 
     <application
         android:name=".YiFyMoviesApp"
@@ -17,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- android:name=".homescreen.HomeActivity" -->
         <activity
             android:name=".SplashActivity"
             android:label="YIFY Movies"
@@ -44,7 +42,7 @@
             android:resource="@array/preloaded_fonts" />
         <!-- android:name=".SplashActivity" -->
         <activity android:name=".homescreen.HomeActivity" />
-        <activity android:name=".genre.GenreActivity"></activity>
+        <activity android:name=".genre.GenreActivity" />
 
     </application>
 

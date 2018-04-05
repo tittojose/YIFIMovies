@@ -8,304 +8,324 @@
     android:background="#17171C"
     tools:context="yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity">
 
-
-    <android.support.constraint.ConstraintLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-
-        <ImageView
-            android:id="@+id/imageViewMovieTitleImage"
-            android:layout_width="0dp"
-            android:layout_height="260dp"
-            android:scaleType="centerInside"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="0dp"
-            android:layout_height="260dp"
-            android:background="#64000000"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tvMovieTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="14dp"
-            android:layout_marginStart="14dp"
-            android:fontFamily="sans-serif"
-            android:maxLines="2"
-            android:text="Title"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/layoutMovieDetailContents"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="#25252f"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view">
+
+            <ImageView
+                android:id="@+id/imageViewMovieTitleImage"
+                android:layout_width="0dp"
+                android:layout_height="260dp"
+                android:scaleType="centerInside"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="260dp"
+                android:background="#64000000"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/tvMovieTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginStart="14dp"
+                android:fontFamily="sans-serif"
+                android:maxLines="2"
+                android:text="Title"
+                android:textColor="#ffffff"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/imageViewMovieTitleImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layoutMovieDetailContents"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:background="#25252f"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view">
 
-                <TextView
-                    android:id="@+id/tvMovieYear"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center_horizontal"
-                    android:text="2017"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvMovieYear"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_horizontal"
+                        android:text="2017"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="2dp"
+                        android:background="#fff" />
+
+                    <TextView
+                        android:id="@+id/tvMoviePlayTime"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_horizontal"
+                        android:text="91 min"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="2dp"
+                        android:background="#fff" />
+
+                    <TextView
+                        android:id="@+id/tvMovieRating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center_horizontal"
+                        android:text="6.1 star"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
 
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="2dp"
-                    android:background="#fff" />
+                    android:id="@+id/dividerDescriptionTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="#616161" />
 
                 <TextView
-                    android:id="@+id/tvMoviePlayTime"
-                    android:layout_width="0dp"
+                    android:id="@+id/tvMovieDescription"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center_horizontal"
-                    android:text="91 min"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:layout_margin="16dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:lineSpacingExtra="1dp"
+                    android:textColor="#b8b8bb"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage"
+                    tools:text="Description" />
 
                 <View
-                    android:layout_width="2dp"
-                    android:layout_height="2dp"
-                    android:background="#fff" />
+                    android:id="@+id/dividerDescriptionBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:background="#616161"
+                    android:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/tvMovieRating"
-                    android:layout_width="0dp"
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMovieGenre"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center_horizontal"
-                    android:text="6.1 star"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
-
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_movie_genre" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/dividerDescriptionTop"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutTorrentDownloads"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="#616161" />
-
-            <TextView
-                android:id="@+id/tvMovieDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:fontFamily="@font/roboto_medium"
-                android:lineSpacingExtra="1dp"
-                android:textColor="#b8b8bb"
-                android:textSize="13sp"
+                android:background="#25252f"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewMovieTitleImage"
-                tools:text="Description" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutMovieDetailContents">
 
-            <View
-                android:id="@+id/dividerDescriptionBottom"
+                <TextView
+                    android:id="@+id/tvDownloadsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="DOWNLOADS"
+                    android:textColor="#fff"
+                    android:textSize="13sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMovieDownloads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel"
+                    tools:listitem="@layout/item_download_list" />
+
+                <Button
+                    android:id="@+id/btn720Download"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="720p"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/btn10800Download"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
+
+                <Button
+
+                    android:id="@+id/btn10800Download"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="1080p"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toRightOf="@+id/btn720Download"
+                    app:layout_constraintRight_toLeftOf="@id/btn3DDownload"
+                    app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
+
+                <Button
+                    android:id="@+id/btn3DDownload"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="3D"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
+                    app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!--<LinearLayout-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:id="@+id/banner_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:orientation="vertical"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />-->
+            <LinearLayout
+                android:id="@+id/native_ad_container"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="#616161"
-                android:visibility="visible" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvMovieGenre"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:orientation="horizontal"
-                app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                app:spanCount="3"
-                tools:listitem="@layout/item_movie_genre" />
-        </LinearLayout>
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/layoutTorrentDownloads"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#25252f"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutMovieDetailContents">
-
-            <TextView
-                android:id="@+id/tvDownloadsLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="DOWNLOADS"
-                android:textColor="#fff"
-                android:textSize="13sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvMovieDownloads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel"
-                tools:listitem="@layout/item_download_list" />
-
-            <Button
-                android:id="@+id/btn720Download"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="720p"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/btn10800Download"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
-
-            <Button
-
-                android:id="@+id/btn10800Download"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="1080p"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toRightOf="@+id/btn720Download"
-                app:layout_constraintRight_toLeftOf="@id/btn3DDownload"
-                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
-
-            <Button
-                android:id="@+id/btn3DDownload"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="3D"
-                android:textAllCaps="false"
+                android:orientation="vertical"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
-                app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">
+
+                <include
+                    layout="@layout/item_native_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/youtubeViewMovieTrailerContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="#25252f"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/native_ad_container">
+
+                <TextView
+                    android:id="@+id/tvMovieTrailerLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="TRAILER"
+                    android:textColor="#fff"
+                    android:textSize="13sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/youtubeViewMovieTrailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMovieTrailerLbl" />
+            </android.support.constraint.ConstraintLayout>
+
 
         </android.support.constraint.ConstraintLayout>
 
-        <!--<LinearLayout-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:id="@+id/banner_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:orientation="vertical"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads" />-->
-        <LinearLayout
-            android:id="@+id/native_ad_container"
-            android:layout_width="match_parent"
+
+        <com.like.LikeButton
+            android:id="@+id/star_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutTorrentDownloads">
-
-            <include
-                layout="@layout/item_native_ad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/youtubeViewMovieTrailerContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#25252f"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/native_ad_container">
-
-            <TextView
-                android:id="@+id/tvMovieTrailerLbl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="TRAILER"
-                android:textColor="#fff"
-                android:textSize="13sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <FrameLayout
-                android:id="@+id/youtubeViewMovieTrailer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvMovieTrailerLbl" />
-        </android.support.constraint.ConstraintLayout>
-
-
-    </android.support.constraint.ConstraintLayout>
+            android:layout_marginEnd="8dp"
+            app:elevation="7dp"
+            app:icon_size="25dp"
+            app:icon_type="heart"
+            app:layout_anchor="@id/imageViewMovieTitleImage"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_constraintBottom_toTopOf="@+id/layoutMovieDetailContents"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </android.support.design.widget.CoordinatorLayout>
 </ScrollView>
