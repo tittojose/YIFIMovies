@@ -3,16 +3,18 @@
 
     <item>
         <shape android:shape="oval">
-            <size
-                android:width="28dp"
-                android:height="28dp" />
-            <gradient
-                android:centerX="0%"
-                android:centerY="0%"
-                android:endColor="@color/colorPrimary"
-                android:gradientRadius="400"
-                android:startColor="@color/colorPrimary"
-                android:type="radial" />
+            <solid android:color="#6e2b2b2b" />
+            <!--shadow Color-->
+        </shape>
+    </item>
+
+    <item
+        android:bottom="1dp"
+        android:left="0dp"
+        android:right="1dp"
+        android:top="0dp">
+        <shape android:shape="oval">
+            <solid android:color="#791c23" />
         </shape>
     </item>
 </layer-list>

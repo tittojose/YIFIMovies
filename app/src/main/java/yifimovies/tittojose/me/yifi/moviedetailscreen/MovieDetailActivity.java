@@ -197,7 +197,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         movieDescriptionText.setText(movie.getDescriptionFull());
         movieYearTextView.setText(String.format("%d", (long) movie.getYear()));
         moviePlayTimeTextView.setText(movie.getRuntime() + " mins");
-        movieRatingTextView.setText(movie.getRating() + " stars");
+        movieRatingTextView.setText(movie.getRating() + "");
         initializeMovieGenreList(movie.getGenres());
         initializeDownloadList(movie.getTorrents());
         initializeDownloadButtons(movie);
