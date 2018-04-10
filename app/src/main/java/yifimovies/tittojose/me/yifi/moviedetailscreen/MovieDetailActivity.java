@@ -1,6 +1,8 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -391,6 +394,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void initializeDownloadList(List<Torrent> torrents) {
         if (torrents != null && torrents.size() >= 0) {
+
+            int width = getWidthOfTorrentItem(torrents);
+
             MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, movie.getTitle(), torrents, new MovieTorrentDownloaderAdapter.DownloadTorrentClickListener() {
                 @Override
                 public void onDownloadTorrentClicked(String torrentLink) {
@@ -413,11 +419,27 @@ public class MovieDetailActivity extends AppCompatActivity {
                         launchTorrentAppSearch();
                     }
                 }
-            });
+            }, width);
             movieDownloadRecyclerView.setHasFixedSize(true);
             movieDownloadRecyclerView.setAdapter(movieGenreRecyclerAdapter);
         } else {
 
+        }
+    }
+
+    private int getWidthOfTorrentItem(List<Torrent> torrents) {
+
+        if (torrents.size() == 2) {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            try {
+                display.getRealSize(size);
+            } catch (NoSuchMethodError err) {
+                display.getSize(size);
+            }
+            return (size.x / 2);
+        } else {
+            return 0;
         }
     }
 
@@ -552,5 +574,9 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         super.onDestroy();
 
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

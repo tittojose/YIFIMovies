@@ -3,9 +3,11 @@ package yifimovies.tittojose.me.yifi.moviedetailscreen;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
@@ -25,6 +27,7 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
 
     public interface DownloadTorrentClickListener {
         void onDownloadTorrentClicked(String torrentLink);
+
         void onDownloadMagnetClicked(String torrentLink);
     }
 
@@ -32,12 +35,15 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
     private String movieName;
     private List<Torrent> torrents;
     private DownloadTorrentClickListener downloadTorrentClickListener;
+    private int width;
 
-    public MovieTorrentDownloaderAdapter(Context context, String movieName, List<Torrent> torrents, DownloadTorrentClickListener downloadTorrentClickListener) {
+    public MovieTorrentDownloaderAdapter(Context context, String movieName, List<Torrent> torrents, DownloadTorrentClickListener downloadTorrentClickListener, int width) {
         this.context = context;
         this.movieName = movieName;
         this.torrents = torrents;
         this.downloadTorrentClickListener = downloadTorrentClickListener;
+
+        this.width = width;
     }
 
     @NonNull
@@ -46,6 +52,13 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View downloadItem = inflater.inflate(R.layout.item_download_list, parent, false);
+
+        if (width != 0) {
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) downloadItem.getLayoutParams();
+            layoutParams.width = width;
+            downloadItem.setLayoutParams(layoutParams);
+        }
+
         return new MovieTorrentDownloaderAdapter.TorrentViewHolder(downloadItem);
     }
 
