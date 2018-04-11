@@ -331,10 +331,10 @@
         </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/layoutBookmark"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginRight="16dp"
-            android:background="@drawable/circular_text"
             app:elevation="7dp"
             app:layout_anchor="@id/imageViewMovieTitleImage"
             app:layout_anchorGravity="bottom|right|end">

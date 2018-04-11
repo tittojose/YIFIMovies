@@ -3,6 +3,8 @@ package yifimovies.tittojose.me.yifi.moviedetailscreen;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -37,6 +39,8 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,7 @@ import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.Torrent;
+import yifimovies.tittojose.me.yifi.bookmark.model.BookmarkPrefModel;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -98,6 +103,12 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.btnBookmark)
+    LikeButton bookmarkButton;
+
+    @BindView(R.id.layoutBookmark)
+    LinearLayout bookmarkLayout;
 
     String[] torrentDownloadStrings = new String[3];
 
@@ -206,6 +217,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         initializeDownloadButtons(movie);
         initializeYoutubeTrailerView();
 //        initializeBannerAdd();
+        initializeBookmarkState();
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -216,6 +228,42 @@ public class MovieDetailActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         loadNativeAds();
+    }
+
+    private void initializeBookmarkState() {
+
+        Drawable backgrounds[] = new Drawable[2];
+        Resources res = getResources();
+
+
+        if (BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie)) {
+            backgrounds[1] = res.getDrawable(R.drawable.circular_bg);
+            backgrounds[0] = res.getDrawable(R.drawable.circular_primary_bg);
+        } else {
+            backgrounds[0] = res.getDrawable(R.drawable.circular_bg);
+            backgrounds[1] = res.getDrawable(R.drawable.circular_primary_bg);
+        }
+
+        final TransitionDrawable crossfader = new TransitionDrawable(backgrounds);
+
+        bookmarkLayout.setBackground(crossfader);
+
+
+        bookmarkButton.setLiked(BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie));
+        bookmarkButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                crossfader.reverseTransition(300);
+                BookmarkPrefModel.addMovieToBookmark(MovieDetailActivity.this, movie);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                crossfader.reverseTransition(300);
+
+                BookmarkPrefModel.removeMovieToBookmark(MovieDetailActivity.this, movie);
+            }
+        });
     }
 
 
@@ -290,14 +338,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-//    private void initializeBannerAdd() {
-////        adView = new AdView(this, FB_AD_BANNER_ID, AdSize.BANNER_HEIGHT_90);
-//
-////        adBannerContainer.addView(adView);
-//
-//        // Request an ad
-////        adView.loadAd();
-//    }
 
     private void initializeYoutubeTrailerView() {
 
@@ -574,9 +614,5 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
         super.onDestroy();
 
-    }
-
-    public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
