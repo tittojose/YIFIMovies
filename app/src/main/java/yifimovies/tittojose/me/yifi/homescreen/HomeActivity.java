@@ -25,6 +25,7 @@ import hotchemi.android.rate.AppRate;
 import hotchemi.android.rate.OnClickButtonListener;
 import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
+import yifimovies.tittojose.me.yifi.bookmark.BookmarkActivity;
 import yifimovies.tittojose.me.yifi.genre.GenreActivity;
 import yifimovies.tittojose.me.yifi.homescreen.genre.GenreListFragment;
 import yifimovies.tittojose.me.yifi.search.SearchSuggestionActivity;
@@ -130,11 +131,24 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.drawer_genre:
                         navigateGenreScreen();
                         break;
+
+                    case R.id.drawer_bookmark:
+                        navigateBookmarkScreen();
+                        break;
                 }
                 drawerLayout.closeDrawers();
                 return true;
             }
         });
+    }
+
+    private void navigateBookmarkScreen() {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "BookmarkScreen");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "BookmarkScreen");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        startActivity(new Intent(HomeActivity.this, BookmarkActivity.class));
     }
 
     private void navigateGenreScreen() {

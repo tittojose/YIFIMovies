@@ -125,16 +125,18 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
 
                             android:src="@drawable/star" />
+
                         <TextView
-                            android:layout_marginLeft="3dp"
                             android:id="@+id/tvMovieRating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center_horizontal"
                             android:text="6.1"
@@ -338,13 +340,13 @@
             app:layout_anchorGravity="bottom|right|end">
 
             <com.like.LikeButton
-                android:id="@+id/star_button"
+                android:id="@+id/btnBookmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:icon_size="25dp"
                 app:icon_type="heart"
                 app:like_drawable="@drawable/ic_favorite_selected"
-                app:unlike_drawable="@drawable/ic_favorite" />
+                app:unlike_drawable="@drawable/ic_favorite_border" />
         </LinearLayout>
 
 

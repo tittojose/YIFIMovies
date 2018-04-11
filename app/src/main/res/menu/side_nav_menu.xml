@@ -2,7 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group>
-
+        <item
+            android:id="@+id/drawer_bookmark"
+            android:checkable="false"
+            android:icon="@drawable/ic_favorite"
+            android:title="Bookmarks" />
         <item
             android:id="@+id/drawer_genre"
             android:checkable="false"
@@ -20,7 +24,6 @@
             android:checkable="false"
             android:icon="@drawable/ic_share"
             android:title="Share" />
-
 
 
     </group>
