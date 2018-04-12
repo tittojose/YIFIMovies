@@ -8,8 +8,8 @@
     android:background="#17171C"
     tools:context="yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayoutMovieDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

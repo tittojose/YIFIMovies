@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -255,6 +256,8 @@ public class MovieDetailActivity extends AppCompatActivity {
             public void liked(LikeButton likeButton) {
 //                crossfader.reverseTransition(300);
                 BookmarkPrefModel.addMovieToBookmark(MovieDetailActivity.this, movie);
+                Snackbar.make(getWindow().getDecorView() //app context can not cast in activity
+                        .findViewById(android.R.id.content), "Movie added to your favorites list.", Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
@@ -262,6 +265,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 //                crossfader.reverseTransition(300);
 
                 BookmarkPrefModel.removeMovieToBookmark(MovieDetailActivity.this, movie);
+                Snackbar.make(getWindow().getDecorView() //app context can not cast in activity
+                        .findViewById(android.R.id.content), "Movie removed from favorites list.", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
