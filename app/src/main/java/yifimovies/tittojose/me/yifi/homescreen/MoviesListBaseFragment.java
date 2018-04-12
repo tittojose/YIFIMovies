@@ -124,7 +124,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
             }
         });
         moviesRecyclerView.setLayoutManager(layoutManager);
-        moviesRecyclerView.setHasFixedSize(true);
+//        moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

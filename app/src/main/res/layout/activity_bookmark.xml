@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".bookmark.BookmarkActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarBookmarkedMovies"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewBookmarkedMoviesList"
@@ -12,4 +20,4 @@
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="2" />
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

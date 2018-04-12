@@ -35,7 +35,7 @@
     <com.facebook.ads.MediaView
         android:id="@+id/mediaView"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/movie_list_item_image_height" />
+        android:layout_height="@dimen/ad_list_item_image_height" />
 
     <RelativeLayout
         android:layout_marginLeft="10dp"
