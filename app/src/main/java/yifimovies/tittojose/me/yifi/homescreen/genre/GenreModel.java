@@ -60,21 +60,30 @@ public class GenreModel {
 
     public static List<GenreModel> getGenreModelList() {
         List<GenreModel> genreModelList = new ArrayList<>();
-        genreModelList.add(new GenreModel("Comedy", R.drawable.ic_genre_comedy_large));
-        genreModelList.add(new GenreModel("Sci-Fi", R.drawable.ic_genre_scifi_large));
-        genreModelList.add(new GenreModel("Horror", R.drawable.ic_genre_horror_large));
-        genreModelList.add(new GenreModel("Romance", R.drawable.ic_genre_romance_large));
-        genreModelList.add(new GenreModel("Action", R.drawable.ic_genre_action_large));
-        genreModelList.add(new GenreModel("Thriller", R.drawable.ic_genre_thriller_large));
-        genreModelList.add(new GenreModel("Drama", R.drawable.ic_genre_drama_large));
-        genreModelList.add(new GenreModel("Mystery", R.drawable.ic_genre_mystery_large));
-        genreModelList.add(new GenreModel("Crime", R.drawable.ic_genre_crime_large));
-        genreModelList.add(new GenreModel("Animation", R.drawable.ic_genre_animation));
-        genreModelList.add(new GenreModel("Adventure", R.drawable.ic_genre_adventure_large));
-        genreModelList.add(new GenreModel("Fantasy", R.drawable.ic_genre_fantasy_large));
-//        genreModelList.add(new GenreModel("Comedy-Romance", R.drawable.ic_genre_comedy_large));
-//        genreModelList.add(new GenreModel("Action-Comedy", R.drawable.ic_genre_action_large));
-//        genreModelList.add(new GenreModel("SuperHero", R.drawable.ic_genre_history_large));
+        genreModelList.add(new GenreModel("Action", R.drawable.ic_genre_comedy_large));
+        genreModelList.add(new GenreModel("Adventure", R.drawable.ic_genre_scifi_large));
+        genreModelList.add(new GenreModel("Animation", R.drawable.ic_genre_horror_large));
+        genreModelList.add(new GenreModel("Biography", R.drawable.ic_genre_romance_large));
+        genreModelList.add(new GenreModel("Comedy", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Crime", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Documentary", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Drama", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Family", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Fantasy", R.drawable.ic_genre_action_large));
+//        genreModelList.add(new GenreModel("Film Noir", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("History", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Horror", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Music", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Musical", R.drawable.ic_genre_action_large));
+        genreModelList.add(new GenreModel("Mystery", R.drawable.ic_genre_thriller_large));
+        genreModelList.add(new GenreModel("Romance", R.drawable.ic_genre_drama_large));
+        genreModelList.add(new GenreModel("Sci-Fi", R.drawable.ic_genre_drama_large));
+//        genreModelList.add(new GenreModel("Short", R.drawable.ic_genre_mystery_large));
+        genreModelList.add(new GenreModel("Sport", R.drawable.ic_genre_crime_large));
+//        genreModelList.add(new GenreModel("Superhero", R.drawable.ic_genre_animation));
+        genreModelList.add(new GenreModel("Thriller", R.drawable.ic_genre_adventure_large));
+        genreModelList.add(new GenreModel("War", R.drawable.ic_genre_fantasy_large));
+        genreModelList.add(new GenreModel("Western", R.drawable.ic_genre_fantasy_large));
         return genreModelList;
     }
 }
