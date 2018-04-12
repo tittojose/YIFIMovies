@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.ads.AdError;
 import com.facebook.ads.NativeAd;
@@ -37,6 +39,9 @@ public class BookmarkActivity extends AppCompatActivity {
     @BindView(R.id.toolbarBookmarkedMovies)
     Toolbar toolbar;
 
+    @BindView(R.id.tveEmptyBookmark)
+    TextView emptyBookmark;
+
     private MoviesRecyclerAdapter mAdapter;
     private int lastAdPosition = -1;
     private int ADS_PER_ITEMS = 7;
@@ -56,38 +61,47 @@ public class BookmarkActivity extends AppCompatActivity {
         listBookmarkedMovies = new ArrayList<>();
         listBookmarkedMovies.addAll(BookmarkPrefModel.getListBookmarkedMovies(BookmarkActivity.this));
 
-        mAdapter = new MoviesRecyclerAdapter(BookmarkActivity.this, listBookmarkedMovies, new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
-            @Override
-            public void onItemClickListener(Movie movie, ImageView imageView) {
-                ActivityOptions options = null;
-                Intent i = new Intent(BookmarkActivity.this, MovieDetailActivity.class);
-                i.putExtra("movie", movie);
-                startActivity(i);
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            }
-        });
+        if (listBookmarkedMovies.size() > 0) {
 
-        final GridLayoutManager layoutManager = new GridLayoutManager(BookmarkActivity.this, 2);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                switch (mAdapter.getItemViewType(position)) {
-                    case MoviesRecyclerAdapter.NATIVE_AD:
-                        return 2;
-                    case MoviesRecyclerAdapter.MOVIE:
-                        return 1;
-                    default:
-                        return -1;
+            bookmarkedRecyclerView.setVisibility(View.VISIBLE);
+            emptyBookmark.setVisibility(View.GONE);
+
+            mAdapter = new MoviesRecyclerAdapter(BookmarkActivity.this, listBookmarkedMovies, new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
+                @Override
+                public void onItemClickListener(Movie movie, ImageView imageView) {
+                    ActivityOptions options = null;
+                    Intent i = new Intent(BookmarkActivity.this, MovieDetailActivity.class);
+                    i.putExtra("movie", movie);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                 }
-            }
-        });
+            });
+
+            final GridLayoutManager layoutManager = new GridLayoutManager(BookmarkActivity.this, 2);
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    switch (mAdapter.getItemViewType(position)) {
+                        case MoviesRecyclerAdapter.NATIVE_AD:
+                            return 2;
+                        case MoviesRecyclerAdapter.MOVIE:
+                            return 1;
+                        default:
+                            return -1;
+                    }
+                }
+            });
 
 
-        bookmarkedRecyclerView.setLayoutManager(layoutManager);
+            bookmarkedRecyclerView.setLayoutManager(layoutManager);
 //        bookmarkedRecyclerView.setHasFixedSize(true);
 
-        bookmarkedRecyclerView.setAdapter(mAdapter);
-        loadAdsToList(listBookmarkedMovies.size());
+            bookmarkedRecyclerView.setAdapter(mAdapter);
+            loadAdsToList(listBookmarkedMovies.size());
+        } else {
+            bookmarkedRecyclerView.setVisibility(View.GONE);
+            emptyBookmark.setVisibility(View.VISIBLE);
+        }
     }
 
 
