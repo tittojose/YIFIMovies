@@ -335,6 +335,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginRight="16dp"
+            android:background="@drawable/circular_primary_bg"
             app:elevation="7dp"
             app:layout_anchor="@id/imageViewMovieTitleImage"
             app:layout_anchorGravity="bottom|right|end">

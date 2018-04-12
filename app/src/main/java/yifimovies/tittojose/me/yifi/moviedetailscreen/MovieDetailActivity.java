@@ -232,34 +232,34 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void initializeBookmarkState() {
 
-        Drawable backgrounds[] = new Drawable[2];
-        Resources res = getResources();
-
-
-        if (BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie)) {
-            backgrounds[1] = res.getDrawable(R.drawable.circular_bg);
-            backgrounds[0] = res.getDrawable(R.drawable.circular_primary_bg);
-        } else {
-            backgrounds[0] = res.getDrawable(R.drawable.circular_bg);
-            backgrounds[1] = res.getDrawable(R.drawable.circular_primary_bg);
-        }
-
-        final TransitionDrawable crossfader = new TransitionDrawable(backgrounds);
-
-        bookmarkLayout.setBackground(crossfader);
+//        Drawable backgrounds[] = new Drawable[2];
+//        Resources res = getResources();
+//
+//
+//        if (BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie)) {
+//            backgrounds[1] = res.getDrawable(R.drawable.circular_bg);
+//            backgrounds[0] = res.getDrawable(R.drawable.circular_primary_bg);
+//        } else {
+//            backgrounds[0] = res.getDrawable(R.drawable.circular_bg);
+//            backgrounds[1] = res.getDrawable(R.drawable.circular_primary_bg);
+//        }
+//
+//        final TransitionDrawable crossfader = new TransitionDrawable(backgrounds);
+//
+//        bookmarkLayout.setBackground(crossfader);
 
 
         bookmarkButton.setLiked(BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie));
         bookmarkButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                crossfader.reverseTransition(300);
+//                crossfader.reverseTransition(300);
                 BookmarkPrefModel.addMovieToBookmark(MovieDetailActivity.this, movie);
             }
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                crossfader.reverseTransition(300);
+//                crossfader.reverseTransition(300);
 
                 BookmarkPrefModel.removeMovieToBookmark(MovieDetailActivity.this, movie);
             }
