@@ -146,6 +146,10 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
                 <View
