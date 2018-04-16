@@ -149,8 +149,8 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                         movieSuggestionsRecyclerView.setAdapter(mAdapter);
                         progressLayout.setVisibility(View.VISIBLE);
                         return true;
-                    }else {
-                       Bundle bundle = new Bundle();
+                    } else {
+                        Bundle bundle = new Bundle();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Empty search");
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
                         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
