@@ -45,7 +45,7 @@ public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.genreTextView.setText(genreModelList.get(position).getGenreName());
-        holder.genreImageView.setImageResource(genreModelList.get(position).getGenreIcon());
+//        holder.genreImageView.setImageResource(genreModelList.get(position).getGenreIcon());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
