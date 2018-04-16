@@ -205,6 +205,7 @@ public abstract class MoviesListBaseFragment extends Fragment {
                             moviesRecyclerView.setVisibility(View.GONE);
                             errorLayout.setVisibility(View.VISIBLE);
                         }
+                        swipeRefreshLayout.setRefreshing(false);
                         ((HomeActivity) getActivity()).handleError("");
                     } catch (Exception e) {
                         Log.e(TAG, "onResponse: " + e.toString());
