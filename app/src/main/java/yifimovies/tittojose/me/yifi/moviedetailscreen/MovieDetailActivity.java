@@ -255,6 +255,13 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void liked(LikeButton likeButton) {
 //                crossfader.reverseTransition(300);
+                //Analytics
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Add_Bookmark");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Add_Bookmark");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 BookmarkPrefModel.addMovieToBookmark(MovieDetailActivity.this, movie);
                 Snackbar.make(getWindow().getDecorView() //app context can not cast in activity
                         .findViewById(android.R.id.content), "Movie added to your favorites list.", Snackbar.LENGTH_SHORT).show();
@@ -263,6 +270,12 @@ public class MovieDetailActivity extends AppCompatActivity {
             @Override
             public void unLiked(LikeButton likeButton) {
 //                crossfader.reverseTransition(300);
+//Analytics
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Remove_Bookmark");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Remove_Bookmark");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                 BookmarkPrefModel.removeMovieToBookmark(MovieDetailActivity.this, movie);
                 Snackbar.make(getWindow().getDecorView() //app context can not cast in activity
@@ -444,9 +457,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, movie.getTitle(), torrents, new MovieTorrentDownloaderAdapter.DownloadTorrentClickListener() {
                 @Override
-                public void onDownloadTorrentClicked(String torrentLink) {
+                public void onDownloadTorrentClicked(String torrentLink, String quality) {
 
                     try {
+
+                        //Analytics
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "DownloadTorrentClicked_" + quality);
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "DownloadTorrentClicked_" + quality);
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setDataAndType(Uri.parse(torrentLink), "application/x-bittorrent");
                         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -457,8 +478,16 @@ public class MovieDetailActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onDownloadMagnetClicked(String torrentLink) {
+                public void onDownloadMagnetClicked(String torrentLink, String quality) {
                     try {
+
+                        //Analytics
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "onDownloadMagnetClicked_" + quality);
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "onDownloadMagnetClicked_" + quality);
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(torrentLink)));
                     } catch (Exception e) {
                         launchTorrentAppSearch();

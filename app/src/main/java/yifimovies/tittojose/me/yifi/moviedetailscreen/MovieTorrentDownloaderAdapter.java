@@ -26,9 +26,9 @@ import yifimovies.tittojose.me.yifi.api.model.Torrent;
 class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDownloaderAdapter.TorrentViewHolder> {
 
     public interface DownloadTorrentClickListener {
-        void onDownloadTorrentClicked(String torrentLink);
+        void onDownloadTorrentClicked(String torrentLink, String quality);
 
-        void onDownloadMagnetClicked(String torrentLink);
+        void onDownloadMagnetClicked(String torrentLink, String quality);
     }
 
     private Context context;
@@ -76,7 +76,7 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
                             + "&dn=" + URLEncoder.encode(movieName, "utf-8") +
                             "&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337";
 
-                    downloadTorrentClickListener.onDownloadMagnetClicked(torrentLink);
+                    downloadTorrentClickListener.onDownloadMagnetClicked(torrentLink, torrent.getQuality());
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -89,7 +89,7 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
             @Override
             public void onClick(View view) {
 
-                downloadTorrentClickListener.onDownloadTorrentClicked(torrent.getUrl());
+                downloadTorrentClickListener.onDownloadTorrentClicked(torrent.getUrl(), torrent.getQuality());
             }
         });
     }
