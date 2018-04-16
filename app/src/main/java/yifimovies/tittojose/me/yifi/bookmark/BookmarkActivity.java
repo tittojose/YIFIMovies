@@ -58,6 +58,12 @@ public class BookmarkActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         listBookmarkedMovies = new ArrayList<>();
         listBookmarkedMovies.addAll(BookmarkPrefModel.getListBookmarkedMovies(BookmarkActivity.this));
 
@@ -103,7 +109,6 @@ public class BookmarkActivity extends AppCompatActivity {
             emptyBookmark.setVisibility(View.VISIBLE);
         }
     }
-
 
     private void loadAdsToList(final int size) {
 
