@@ -17,7 +17,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -30,13 +29,13 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import yifimovies.tittojose.me.yifi.homescreen.MoviesRecyclerAdapter;
-import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
+import yifimovies.tittojose.me.yifi.homescreen.MoviesRecyclerAdapter;
+import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 
 /**
  * Created by titto.jose on 16-01-2018.

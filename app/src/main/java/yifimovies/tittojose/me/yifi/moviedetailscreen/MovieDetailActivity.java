@@ -1,13 +1,9 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
