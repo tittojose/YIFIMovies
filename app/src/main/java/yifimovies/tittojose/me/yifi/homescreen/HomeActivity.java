@@ -238,6 +238,13 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.search:
+
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Search_Click");
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
+                bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
                 startActivity(new Intent(HomeActivity.this, SearchSuggestionActivity.class));
                 overridePendingTransition(0, 0);
                 break;

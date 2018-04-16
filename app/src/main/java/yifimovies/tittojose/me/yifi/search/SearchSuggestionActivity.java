@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +113,7 @@ public class SearchSuggestionActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
         }
     };
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @OnClick(R.id.btnSearchBack)
     void onBackButtonClicked(View v) {
@@ -124,20 +127,35 @@ public class SearchSuggestionActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         searchEditText.requestFocus();
         searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String queryString = searchEditText.getText().toString();
-                    moviesService = MoviesAPIClient.getMoviesAPIService();
-                    suggestionAPICall = moviesService.getMovieSuggestions(queryString);
-                    suggestionAPICall.enqueue(apiCallback);
-                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
-                    movieSuggestionsRecyclerView.setAdapter(mAdapter);
-                    progressLayout.setVisibility(View.VISIBLE);
-                    return true;
+                    if (!searchEditText.getText().toString().isEmpty()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, searchEditText.getText().toString());
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+                        String queryString = searchEditText.getText().toString();
+                        moviesService = MoviesAPIClient.getMoviesAPIService();
+                        suggestionAPICall = moviesService.getMovieSuggestions(queryString);
+                        suggestionAPICall.enqueue(apiCallback);
+                        mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
+                        movieSuggestionsRecyclerView.setAdapter(mAdapter);
+                        progressLayout.setVisibility(View.VISIBLE);
+                        return true;
+                    }else {
+                       Bundle bundle = new Bundle();
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Empty search");
+                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
+                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
+                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+                    }
                 }
                 return false;
             }
