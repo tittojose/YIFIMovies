@@ -5,6 +5,10 @@
         <value>https://yts.am/api/</value>
     </entry>
     <entry>
+        <key>fallback_api_endpoint</key>
+        <value>https://yts.ag/api/</value>
+    </entry>
+    <entry>
         <key>torrentapplink</key>
         <value>http://play.google.com/store/apps/details?id=me.tittojose.mutorrent</value>
     </entry>

@@ -61,6 +61,8 @@ public class SearchSuggestionActivity extends AppCompatActivity {
     @BindView(R.id.coordinatorSearch)
     CoordinatorLayout parentCoordinatorLayout;
 
+    int retryCount = 0;
+
 
     private MoviesService moviesService;
     private Call<MovieAPIResponse> suggestionAPICall;
@@ -86,22 +88,32 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                     snackbar.show();
                 }
             } else {
-                Snackbar snackbar = Snackbar
-                        .make(parentCoordinatorLayout, "Network error. Please try again.", Snackbar.LENGTH_LONG);
-                snackbar.show();
+                if (retryCount == 0) {
+                    String queryString = searchEditText.getText().toString();
+                    retryApiCall(queryString);
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(parentCoordinatorLayout, "Network error. Please try again.", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         }
 
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
-            //TODO : Handle error.
-            progressLayout.setVisibility(View.GONE);
-            Snackbar snackbar = Snackbar
-                    .make(parentCoordinatorLayout, "No Internet connection available. Please check your network connectivity and try again.", Snackbar.LENGTH_LONG);
+            if (retryCount == 0) {
+                String queryString = searchEditText.getText().toString();
+                retryApiCall(queryString);
+            } else {
+                progressLayout.setVisibility(View.GONE);
+                Snackbar snackbar = Snackbar
+                        .make(parentCoordinatorLayout, "No Internet connection available. Please check your network connectivity and try again.", Snackbar.LENGTH_LONG);
 
-            snackbar.show();
+                snackbar.show();
+            }
         }
     };
+
 
     private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
         @Override
@@ -134,6 +146,9 @@ public class SearchSuggestionActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if (!searchEditText.getText().toString().isEmpty()) {
+
+                        movies = new ArrayList<>();
+
                         Bundle bundle = new Bundle();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, searchEditText.getText().toString());
                         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
@@ -141,12 +156,12 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                         String queryString = searchEditText.getText().toString();
-                        moviesService = MoviesAPIClient.getMoviesAPIService();
-                        suggestionAPICall = moviesService.getMovieSuggestions(queryString);
-                        suggestionAPICall.enqueue(apiCallback);
+
+                        makeApiCall(queryString);
+
                         mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
                         movieSuggestionsRecyclerView.setAdapter(mAdapter);
-                        progressLayout.setVisibility(View.VISIBLE);
+
                         return true;
                     } else {
                         Bundle bundle = new Bundle();
@@ -165,6 +180,22 @@ public class SearchSuggestionActivity extends AppCompatActivity {
         movieSuggestionsRecyclerView.setLayoutManager(layoutManager);
         movieSuggestionsRecyclerView.setHasFixedSize(true);
 
+    }
+
+    private void makeApiCall(String queryString) {
+        progressLayout.setVisibility(View.VISIBLE);
+        moviesService = MoviesAPIClient.getMoviesAPIService();
+        suggestionAPICall = moviesService.getMovieSuggestions(queryString);
+        suggestionAPICall.enqueue(apiCallback);
+    }
+
+    private void retryApiCall(String queryString) {
+        Log.d("OkHttp", "retryApiCall: ");
+        retryCount++;
+        progressLayout.setVisibility(View.VISIBLE);
+        moviesService = MoviesAPIClient.getMoviesAPIFallbackService();
+        suggestionAPICall = moviesService.getMovieSuggestions(queryString);
+        suggestionAPICall.enqueue(apiCallback);
     }
 
     @Override

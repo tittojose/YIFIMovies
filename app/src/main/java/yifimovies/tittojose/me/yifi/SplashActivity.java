@@ -1,6 +1,7 @@
 package yifimovies.tittojose.me.yifi;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -31,26 +32,37 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void getDataEndPointData() {
+
+        if (BuildConfig.DEBUG) {
+
+            startHomeActivity();
+        } else {
+            setConstantValuesFromFirebaseRemote();
+            long cacheExpiration = 900;
+
+            mFirebaseRemoteConfig.fetch(cacheExpiration)
+                    .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                mFirebaseRemoteConfig.activateFetched();
+                            }
+                            setConstantValuesFromFirebaseRemote();
+                            startHomeActivity();
+                        }
+                    });
+        }
+    }
+
+    private void startHomeActivity() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void setConstantValuesFromFirebaseRemote() {
         Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
         Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
-        long cacheExpiration = 900;
-
-        mFirebaseRemoteConfig.fetch(cacheExpiration)
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-//                            Toast.makeText(SplashActivity.this, "Fetch Success",
-//                                    Toast.LENGTH_SHORT).show();
-                            mFirebaseRemoteConfig.activateFetched();
-                        }
-                        Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
-                        Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
-
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
+        Constants.FALLBACK_BASE_URL = mFirebaseRemoteConfig.getString(Constants.FALLBACK_BASE_URL_KEY);
     }
 }

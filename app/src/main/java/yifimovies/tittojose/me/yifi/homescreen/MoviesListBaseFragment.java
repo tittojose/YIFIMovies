@@ -69,6 +69,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
     int ADS_PER_ITEMS = 7;
     private boolean isLastPage = false;
 
+    int retryCount = 0;
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -161,9 +163,10 @@ public abstract class MoviesListBaseFragment extends Fragment {
             i.putExtra("movie", movie);
             startActivity(i);
             getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-//            }
+
         }
     };
+
     public Callback<MovieAPIResponse> apiCallback = new Callback<MovieAPIResponse>() {
         @Override
         public void onResponse(Call<MovieAPIResponse> call, Response<MovieAPIResponse> response) {
@@ -179,7 +182,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
                         if (page == 1) {
                             movies = new ArrayList<>();
-//                    movies = response.body().getData().getMovies();
                             movies.addAll(response.body().getData().getMovies());
                             mAdapter = new MoviesRecyclerAdapter(getActivity(), movies, recyclerAdapterListener);
                             moviesRecyclerView.setAdapter(mAdapter);
@@ -200,39 +202,55 @@ public abstract class MoviesListBaseFragment extends Fragment {
                         }
                     }
                 } else {
-                    try {
-                        if (movies.size() == 0) {
-                            moviesRecyclerView.setVisibility(View.GONE);
-                            errorLayout.setVisibility(View.VISIBLE);
+
+                    Log.d(TAG, "onResponse: " + response.errorBody().toString());
+
+                    if (retryCount == 0) {
+                        retryCount++;
+                        retryAPI();
+                    } else {
+
+                        try {
+                            if (movies.size() == 0) {
+                                moviesRecyclerView.setVisibility(View.GONE);
+                                errorLayout.setVisibility(View.VISIBLE);
+                            }
+                            swipeRefreshLayout.setRefreshing(false);
+                            ((HomeActivity) getActivity()).handleError("");
+                        } catch (Exception e) {
+                            Log.e(TAG, "onResponse: " + e.toString());
                         }
-                        swipeRefreshLayout.setRefreshing(false);
-                        ((HomeActivity) getActivity()).handleError("");
-                    } catch (Exception e) {
-                        Log.e(TAG, "onResponse: " + e.toString());
                     }
                 }
             } catch (Exception e) {
                 Log.e(TAG, "onResponse: " + e.toString());
             }
+
         }
 
         @Override
         public void onFailure(Call<MovieAPIResponse> call, Throwable t) {
-            try {
-                if (movies.size() == 0) {
-                    moviesRecyclerView.setVisibility(View.GONE);
-                    errorLayout.setVisibility(View.VISIBLE);
+            if (retryCount == 0) {
+                retryCount++;
+                retryAPI();
+            } else {
+
+                try {
+                    if (movies.size() == 0) {
+                        moviesRecyclerView.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                    isLoading = false;
+                    paginationProgressBar.setVisibility(View.GONE);
+                    ((HomeActivity) getActivity()).handleError("");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                swipeRefreshLayout.setRefreshing(false);
-                isLoading = false;
-                paginationProgressBar.setVisibility(View.GONE);
-//            Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-                ((HomeActivity) getActivity()).handleError("");
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     };
+
 
     private void loadAdsToList() {
         try {
@@ -293,6 +311,12 @@ public abstract class MoviesListBaseFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();
+        makeMoviesAPICall();
+    }
+
+    private void retryAPI() {
+        Log.d("OkHttp", "retryAPI: ");
+        moviesService = MoviesAPIClient.getMoviesAPIFallbackService();
         makeMoviesAPICall();
     }
 
