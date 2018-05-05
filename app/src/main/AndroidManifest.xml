@@ -43,7 +43,7 @@
         <!-- android:name=".SplashActivity" -->
         <activity android:name=".homescreen.HomeActivity" />
         <activity android:name=".genre.GenreActivity" />
-        <activity android:name=".bookmark.BookmarkActivity"></activity>
+        <activity android:name=".bookmark.BookmarkActivity" />
     </application>
 
 </manifest>
