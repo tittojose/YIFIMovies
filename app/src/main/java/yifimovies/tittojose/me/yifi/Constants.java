@@ -14,5 +14,8 @@ public class Constants {
     public static String TORRENT_APP_LINK = "http://play.google.com/store/apps/details?id=me.tittojose.mutorrent";
     public static String TORRENT_APP_LINK_KEY = "torrentapplink";
 
+    public static String RESTRICTED_MOVIES = "6683,7807";
+    public static String RESTRICTED_MOVIES_KEY = "restricted_movies";
+
 
 }

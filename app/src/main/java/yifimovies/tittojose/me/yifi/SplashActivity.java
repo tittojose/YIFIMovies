@@ -64,5 +64,6 @@ public class SplashActivity extends AppCompatActivity {
         Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
         Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
         Constants.FALLBACK_BASE_URL = mFirebaseRemoteConfig.getString(Constants.FALLBACK_BASE_URL_KEY);
+        Constants.RESTRICTED_MOVIES = mFirebaseRemoteConfig.getString(Constants.RESTRICTED_MOVIES_KEY);
     }
 }

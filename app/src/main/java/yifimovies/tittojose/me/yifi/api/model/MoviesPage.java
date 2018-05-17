@@ -1,5 +1,7 @@
 package yifimovies.tittojose.me.yifi.api.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class MoviesPage {
 
+    public static final String TAG = MoviesPage.class.getSimpleName();
     @SerializedName("movie_count")
     private Integer movieCount;
 
@@ -47,6 +50,7 @@ public class MoviesPage {
     }
 
     public List<Movie> getMovies() {
+        Log.d(TAG, "getMovies: ");
         return movies;
     }
 

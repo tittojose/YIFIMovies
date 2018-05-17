@@ -12,4 +12,8 @@
         <key>torrentapplink</key>
         <value>http://play.google.com/store/apps/details?id=me.tittojose.mutorrent</value>
     </entry>
+    <entry>
+        <key>restricted_movies</key>
+        <value></value>
+    </entry>
 </defaultsMap><!-- END xml_defaults -->
