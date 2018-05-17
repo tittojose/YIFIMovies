@@ -5,17 +5,19 @@ package yifimovies.tittojose.me.yifi;
  */
 
 public class Constants {
-    public static String BASE_URL = "https://yts.am/api/";
-    public static String BASE_URL_KEY = "apiendpoint";
+    public static String PRIMARY_API_END_POINT = "https://yts.am/api/";
+    public static String PRIMARY_API_END_POINT_KEY = "primary_api_endpoint";
 
-    public static String FALLBACK_BASE_URL = "https://yts.ag/api/";
-    public static String FALLBACK_BASE_URL_KEY = "fallback_api_endpoint";
+    public static String BASE_API_END_POINT = "https://yts.pe/api/";
+    public static String BASE_API_END_POINT_KEY = "apiendpoint";
 
     public static String TORRENT_APP_LINK = "http://play.google.com/store/apps/details?id=me.tittojose.mutorrent";
     public static String TORRENT_APP_LINK_KEY = "torrentapplink";
 
-    public static String RESTRICTED_MOVIES = "6683,7807";
+    public static String RESTRICTED_MOVIES = "";
     public static String RESTRICTED_MOVIES_KEY = "restricted_movies";
 
+
+    public static String ONESIGNAL_API_TYPE = "ONESIGNAL_API_TYPE";
 
 }

@@ -33,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getDataEndPointData() {
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
 
             startHomeActivity();
         } else {
@@ -61,9 +61,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setConstantValuesFromFirebaseRemote() {
-        Constants.BASE_URL = mFirebaseRemoteConfig.getString(Constants.BASE_URL_KEY);
+        Constants.BASE_API_END_POINT = mFirebaseRemoteConfig.getString(Constants.BASE_API_END_POINT_KEY);
+        Constants.PRIMARY_API_END_POINT = mFirebaseRemoteConfig.getString(Constants.PRIMARY_API_END_POINT_KEY);
         Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
-        Constants.FALLBACK_BASE_URL = mFirebaseRemoteConfig.getString(Constants.FALLBACK_BASE_URL_KEY);
         Constants.RESTRICTED_MOVIES = mFirebaseRemoteConfig.getString(Constants.RESTRICTED_MOVIES_KEY);
     }
 }

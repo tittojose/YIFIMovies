@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.facebook.ads.AdError;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdsManager;
+import com.onesignal.OneSignal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;
@@ -312,12 +314,14 @@ public abstract class MoviesListBaseFragment extends Fragment {
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();
         makeMoviesAPICall();
+        OneSignal.sendTag(Constants.ONESIGNAL_API_TYPE, Constants.PRIMARY_API_END_POINT);
     }
 
     private void retryAPI() {
         Log.d("OkHttp", "retryAPI: ");
         moviesService = MoviesAPIClient.getMoviesAPIFallbackService();
         makeMoviesAPICall();
+        OneSignal.sendTag(Constants.ONESIGNAL_API_TYPE, Constants.BASE_API_END_POINT);
     }
 
     protected abstract void makeMoviesAPICall();

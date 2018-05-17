@@ -2,11 +2,11 @@
 <defaultsMap>
     <entry>
         <key>apiendpoint</key>
-        <value>https://yts.am/api/</value>
+        <value>https://yts.pe/api/</value>
     </entry>
     <entry>
-        <key>fallback_api_endpoint</key>
-        <value>https://yts.ag/api/</value>
+        <key>primary_api_endpoint</key>
+        <value>https://yts.am/api/</value>
     </entry>
     <entry>
         <key>torrentapplink</key>

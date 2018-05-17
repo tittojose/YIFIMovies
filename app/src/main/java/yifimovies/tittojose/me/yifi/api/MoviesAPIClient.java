@@ -1,6 +1,5 @@
 package yifimovies.tittojose.me.yifi.api;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
@@ -9,8 +8,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse;
 
-import static yifimovies.tittojose.me.yifi.Constants.BASE_URL;
-import static yifimovies.tittojose.me.yifi.Constants.FALLBACK_BASE_URL;
+import static yifimovies.tittojose.me.yifi.Constants.BASE_API_END_POINT;
+import static yifimovies.tittojose.me.yifi.Constants.PRIMARY_API_END_POINT;
 
 /**
  * Created by titto.jose on 14-12-2017.
@@ -31,7 +30,7 @@ public class MoviesAPIClient {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .addConverterFactory( GsonConverterFactory.create( builder.create()))
+                    .addConverterFactory(GsonConverterFactory.create(builder.create()))
                     .client(client)
                     .build();
         }
@@ -51,13 +50,13 @@ public class MoviesAPIClient {
                     .registerTypeAdapter(CallingParty.class, new CustomDeserializer())*/;
 
 
-        GsonConverterFactory.create( builder.create());
+        GsonConverterFactory.create(builder.create());
 //
 //        GsonConverterFactory converter = new GsonConverterFactory(gson);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory( GsonConverterFactory.create( builder.create()))
+                .addConverterFactory(GsonConverterFactory.create(builder.create()))
                 .client(client)
                 .build();
 
@@ -66,10 +65,10 @@ public class MoviesAPIClient {
 
 
     public static MoviesService getMoviesAPIService() {
-        return MoviesAPIClient.getClient(BASE_URL).create(MoviesService.class);
+        return MoviesAPIClient.getClient(PRIMARY_API_END_POINT).create(MoviesService.class);
     }
 
     public static MoviesService getMoviesAPIFallbackService() {
-        return MoviesAPIClient.getFallbackClient(FALLBACK_BASE_URL).create(MoviesService.class);
+        return MoviesAPIClient.getFallbackClient(BASE_API_END_POINT).create(MoviesService.class);
     }
 }

@@ -32,10 +32,10 @@ public class RestrictedContentFilter implements JsonDeserializer<MovieAPIRespons
             while (iterator.hasNext()) {
 
                 JsonObject movieItem = iterator.next().getAsJsonObject();
-                long movieId = movieItem.get("id").getAsLong();
+                String title = movieItem.get("title").getAsString();
                 String[] split = Constants.RESTRICTED_MOVIES.split(",");
                 for (int i = 0; i < split.length; i++) {
-                    if (movieId == Long.valueOf(split[i])) {
+                    if (title.equalsIgnoreCase(split[i])) {
                         iterator.remove();
                     }
                 }
