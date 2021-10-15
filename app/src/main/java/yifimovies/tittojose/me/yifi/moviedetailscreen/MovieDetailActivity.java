@@ -4,13 +4,14 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -26,12 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdChoicesView;
-import com.facebook.ads.AdError;
-import com.facebook.ads.AdListener;
-import com.facebook.ads.MediaView;
-import com.facebook.ads.NativeAd;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
@@ -55,8 +51,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     public static final String TAG = MovieDetailActivity.class.getSimpleName();
     private static String YOUTUBE_API_KEY = "AIzaSyBcdx13v4s97QAxxM921ka4WGfCt_91CCU";
-    private static String FB_AD_BANNER_ID = "334553013694096_358571807958883";
-
 
     @BindView(R.id.imageViewMovieTitleImage)
     ImageView movieTitleImage;
@@ -112,16 +106,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private Movie movie;
     private String downloadLinksURL = "";
-    private View adContainer;
-    private String AD_PLACEMENT_ID = "334553013694096_358571807958883";
-    private ImageView adImage;
-    private TextView tvAdTitle;
-    private TextView tvAdBody;
-    private Button btnCTA;
-    private LinearLayout adChoicesContainer;
-    private MediaView mediaView;
-    private NativeAd mAds;
-    private LinearLayout nativeAdContainer;
     private YouTubePlayer.PlayerStateChangeListener playerStateChangeListener;
 
     @OnClick({R.id.btn3DDownload, R.id.btn10800Download, R.id.btn720Download})
@@ -147,10 +131,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         } catch (Exception e) {
             try {
                 Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.trorrent_app_redirect_message, Snackbar.LENGTH_LONG);
-                View snackbarView = snackbar.getView();
-                TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setMaxLines(5);
-
                 snackbar.setAction("Search", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -162,7 +142,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                     }
                 });
                 snackbar.addCallback(new Snackbar.Callback() {
-
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         try {
@@ -213,9 +192,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         initializeDownloadList(movie.getTorrents());
         initializeDownloadButtons(movie);
         initializeYoutubeTrailerView();
-//        initializeBannerAdd();
         initializeBookmarkState();
-
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
@@ -223,35 +200,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MovieDetail");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "MovieDetail");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-        loadNativeAds();
     }
 
     private void initializeBookmarkState() {
-
-//        Drawable backgrounds[] = new Drawable[2];
-//        Resources res = getResources();
-//
-//
-//        if (BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie)) {
-//            backgrounds[1] = res.getDrawable(R.drawable.circular_bg);
-//            backgrounds[0] = res.getDrawable(R.drawable.circular_primary_bg);
-//        } else {
-//            backgrounds[0] = res.getDrawable(R.drawable.circular_bg);
-//            backgrounds[1] = res.getDrawable(R.drawable.circular_primary_bg);
-//        }
-//
-//        final TransitionDrawable crossfader = new TransitionDrawable(backgrounds);
-//
-//        bookmarkLayout.setBackground(crossfader);
-
-
         bookmarkButton.setLiked(BookmarkPrefModel.isMovieBookmarked(MovieDetailActivity.this, movie));
         bookmarkButton.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-//                crossfader.reverseTransition(300);
-                //Analytics
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Add_Bookmark");
@@ -265,8 +220,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             @Override
             public void unLiked(LikeButton likeButton) {
-//                crossfader.reverseTransition(300);
-//Analytics
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Remove_Bookmark");
@@ -280,81 +233,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
-
-    private void loadNativeAds() {
-
-        this.adContainer = findViewById(R.id.nativeAdContainer);
-        adImage = findViewById(R.id.adImage);
-        tvAdTitle = findViewById(R.id.tvAdTitle);
-        tvAdBody = findViewById(R.id.tvAdBody);
-        btnCTA = findViewById(R.id.btnCTA);
-        adChoicesContainer = findViewById(R.id.adChoicesContainer);
-        mediaView = findViewById(R.id.mediaView);
-
-        try {
-            mAds = new NativeAd(MovieDetailActivity.this, AD_PLACEMENT_ID);
-            mAds.setAdListener(new AdListener() {
-
-                @Override
-                public void onError(Ad ad, AdError error) {
-                    // Ad error callback
-                    nativeAdContainer = findViewById(R.id.native_ad_container);
-                    nativeAdContainer.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAdLoaded(Ad ad) {
-                    // Ad loaded callback
-                    try {
-                        if (ad != null) {
-                            mAds.unregisterView();
-                        }
-
-
-                        nativeAdContainer = findViewById(R.id.native_ad_container);
-                        nativeAdContainer.setVisibility(View.VISIBLE);
-
-                        tvAdTitle.setText(mAds.getAdTitle());
-                        tvAdBody.setText(mAds.getAdBody());
-                        NativeAd.downloadAndDisplayImage(mAds.getAdIcon(), adImage);
-                        btnCTA.setText(mAds.getAdCallToAction());
-                        AdChoicesView adChoicesView = new AdChoicesView(MovieDetailActivity.this, mAds, true);
-                        adChoicesContainer.removeAllViews();
-                        adChoicesContainer.addView(adChoicesView);
-                        mediaView.setNativeAd(mAds);
-
-                        List<View> clickableViews = new ArrayList<>();
-                        clickableViews.add(adImage);
-                        clickableViews.add(btnCTA);
-                        clickableViews.add(mediaView);
-                        mAds.registerViewForInteraction(nativeAdContainer, clickableViews);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onAdClicked(Ad ad) {
-                    // Ad clicked callback
-                }
-
-                @Override
-                public void onLoggingImpression(Ad ad) {
-                    // Ad impression logged callback
-                }
-            });
-
-            mAds.loadAd();
-//            mAds.loadAds();
-        } catch (Exception e) {
-            Log.e(TAG, "loadAdsToList: " + e.toString());
-        }
-    }
-
-
     private void initializeYoutubeTrailerView() {
-
         if (movie.getYtTrailerCode() != null && !movie.getYtTrailerCode().isEmpty()) {
             YouTubePlayerSupportFragment mYoutubePlayerFragment = new YouTubePlayerSupportFragment();
             mYoutubePlayerFragment.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
@@ -416,7 +295,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 @Override
                 public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
                     Toast.makeText(MovieDetailActivity.this, "Youtube initialized error", Toast.LENGTH_SHORT);
-
                 }
             });
             FragmentManager fragmentManager = getSupportFragmentManager();
@@ -433,30 +311,25 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initializeMovieGenreList(List<String> genres) {
-        if (genres != null && genres.size() >= 0) {
+        if (genres != null) {
+            genres.size();
             MovieGenreRecyclerAdapter movieGenreRecyclerAdapter = new MovieGenreRecyclerAdapter(MovieDetailActivity.this, genres);
             final GridLayoutManager layoutManager = new GridLayoutManager(MovieDetailActivity.this, 3);
             movieGenreRecyclerView.setLayoutManager(layoutManager);
             movieGenreRecyclerView.setHasFixedSize(true);
             movieGenreRecyclerView.setAdapter(movieGenreRecyclerAdapter);
-        } else {
-
         }
-
     }
 
 
     private void initializeDownloadList(List<Torrent> torrents) {
-        if (torrents != null && torrents.size() >= 0) {
-
+        if (torrents != null) {
+            torrents.size();
             int width = getWidthOfTorrentItem(torrents);
-
             MovieTorrentDownloaderAdapter movieGenreRecyclerAdapter = new MovieTorrentDownloaderAdapter(MovieDetailActivity.this, movie.getTitle(), torrents, new MovieTorrentDownloaderAdapter.DownloadTorrentClickListener() {
                 @Override
                 public void onDownloadTorrentClicked(String torrentLink, String quality) {
-
                     try {
-
                         //Analytics
                         Bundle bundle = new Bundle();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
@@ -476,7 +349,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 @Override
                 public void onDownloadMagnetClicked(String torrentLink, String quality) {
                     try {
-
                         //Analytics
                         Bundle bundle = new Bundle();
                         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, movie.getTitle());
@@ -492,13 +364,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             }, width);
             movieDownloadRecyclerView.setHasFixedSize(true);
             movieDownloadRecyclerView.setAdapter(movieGenreRecyclerAdapter);
-        } else {
-
         }
     }
 
     private int getWidthOfTorrentItem(List<Torrent> torrents) {
-
         if (torrents.size() == 2) {
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
@@ -516,10 +385,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void launchTorrentAppSearch() {
         try {
             Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), R.string.trorrent_app_redirect_message, Snackbar.LENGTH_LONG);
-            View snackbarView = snackbar.getView();
-            TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setMaxLines(5);
-
             snackbar.setAction("Search", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -557,15 +422,12 @@ public class MovieDetailActivity extends AppCompatActivity {
         if (movie.getTorrents() != null && movie.getTorrents().size() > 0) {
             for (Torrent torrent : movie.getTorrents()) {
                 if (torrent.getQuality().equalsIgnoreCase("720p")) {
-//                    hd720pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[0] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("720p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("1080p")) {
-//                    fullHD1080pDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[1] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("1080p", torrent.getUrl());
                 } else if (torrent.getQuality().equalsIgnoreCase("3D")) {
-//                    threeDDownload.setVisibility(View.VISIBLE);
                     torrentDownloadStrings[2] = torrent.getUrl();
                     generateShareEmailBodyDownloadLinks("3D", torrent.getUrl());
                 }
@@ -597,7 +459,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.share_movie_torrent:
                 Intent intent = new Intent(Intent.ACTION_SEND);
@@ -611,7 +472,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "ShareMovieTorrent");
                 bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "ShareMovieTorrent");
                 mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
                 break;
 
             case android.R.id.home:
@@ -626,8 +486,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private String generateShareEmailBody() {
         String movieTitle = movie.getTitle() + " - " + movie.getYear();
         String downloadLinks = this.downloadLinksURL;
-
-
         return movieTitle + "\n\n" + downloadLinks + "\n\n" + getString(R.string.share_torrent_app_promo_text);
     }
 
@@ -635,14 +493,5 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void generateShareEmailBodyDownloadLinks(String type, String url) {
         String downloadLink = "\t" + type + " - " + url + "\n\n";
         this.downloadLinksURL += downloadLink;
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mAds != null) {
-            mAds.destroy();
-        }
-        super.onDestroy();
-
     }
 }

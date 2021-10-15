@@ -6,14 +6,8 @@ package yifimovies.tittojose.me.yifi.homescreen;
 
 public class MostDownloaded extends MoviesListBaseFragment {
 
-
     @Override
     protected void makeMoviesAPICall() {
         moviesService.getMostDownloadedMovies(page, PAGE_SIZE).enqueue(apiCallback);
-    }
-
-    @Override
-    protected void setAdPlacementId() {
-        AD_PLACEMENT_ID = "334553013694096_350306885452042";
     }
 }

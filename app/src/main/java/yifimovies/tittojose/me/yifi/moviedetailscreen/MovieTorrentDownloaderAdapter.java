@@ -1,8 +1,10 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +42,6 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
         this.movieName = movieName;
         this.torrents = torrents;
         this.downloadTorrentClickListener = downloadTorrentClickListener;
-
         this.width = width;
     }
 
@@ -50,13 +51,11 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View downloadItem = inflater.inflate(R.layout.item_download_list, parent, false);
-
         if (width != 0) {
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) downloadItem.getLayoutParams();
             layoutParams.width = width;
             downloadItem.setLayoutParams(layoutParams);
         }
-
         return new MovieTorrentDownloaderAdapter.TorrentViewHolder(downloadItem);
     }
 
@@ -65,31 +64,19 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
         final Torrent torrent = torrents.get(position);
         holder.title.setText(torrent.getQuality());
         holder.downloadSize.setText(torrent.getSize());
-        holder.magnetDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.magnetDownload.setOnClickListener(view -> {
+            try {
+                String torrentLink = "magnet:?xt=urn:btih:" + torrent.getHash()
+                        + "&dn=" + URLEncoder.encode(movieName, "utf-8") +
+                        "&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337";
 
-                try {
-                    String torrentLink = "magnet:?xt=urn:btih:" + torrent.getHash()
-                            + "&dn=" + URLEncoder.encode(movieName, "utf-8") +
-                            "&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Fp4p.arenabg.ch%3A1337&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337";
-
-                    downloadTorrentClickListener.onDownloadMagnetClicked(torrentLink, torrent.getQuality());
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-
+                downloadTorrentClickListener.onDownloadMagnetClicked(torrentLink, torrent.getQuality());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
         });
 
-        holder.torrentDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                downloadTorrentClickListener.onDownloadTorrentClicked(torrent.getUrl(), torrent.getQuality());
-            }
-        });
+        holder.torrentDownload.setOnClickListener(view -> downloadTorrentClickListener.onDownloadTorrentClicked(torrent.getUrl(), torrent.getQuality()));
     }
 
     @Override
@@ -110,7 +97,6 @@ class MovieTorrentDownloaderAdapter extends RecyclerView.Adapter<MovieTorrentDow
 
         @BindView(R.id.layoutMagnetDownload)
         ViewGroup magnetDownload;
-
 
         public TorrentViewHolder(View itemView) {
             super(itemView);

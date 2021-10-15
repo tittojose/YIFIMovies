@@ -3,19 +3,15 @@ package yifimovies.tittojose.me.yifi.bookmark;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.ads.AdError;
-import com.facebook.ads.NativeAd;
-import com.facebook.ads.NativeAdsManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +26,6 @@ import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 
 public class BookmarkActivity extends AppCompatActivity {
 
-    private static final String AD_PLACEMENT_ID = "334553013694096_370926686723395";
-    public static final String TAG = "BookmarkActivity";
-
     @BindView(R.id.recyclerViewBookmarkedMoviesList)
     RecyclerView bookmarkedRecyclerView;
 
@@ -43,8 +36,6 @@ public class BookmarkActivity extends AppCompatActivity {
     TextView emptyBookmark;
 
     private MoviesRecyclerAdapter mAdapter;
-    private int lastAdPosition = -1;
-    private int ADS_PER_ITEMS = 7;
     private List<Object> listBookmarkedMovies;
 
     @Override
@@ -87,63 +78,21 @@ public class BookmarkActivity extends AppCompatActivity {
             layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    switch (mAdapter.getItemViewType(position)) {
-                        case MoviesRecyclerAdapter.NATIVE_AD:
-                            return 2;
-                        case MoviesRecyclerAdapter.MOVIE:
-                            return 1;
-                        default:
-                            return -1;
+                    if (mAdapter.getItemViewType(position) == MoviesRecyclerAdapter.MOVIE) {
+                        return 1;
                     }
+                    return -1;
                 }
             });
 
 
             bookmarkedRecyclerView.setLayoutManager(layoutManager);
-//        bookmarkedRecyclerView.setHasFixedSize(true);
+            bookmarkedRecyclerView.setHasFixedSize(true);
 
             bookmarkedRecyclerView.setAdapter(mAdapter);
-            loadAdsToList(listBookmarkedMovies.size());
         } else {
             bookmarkedRecyclerView.setVisibility(View.GONE);
             emptyBookmark.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void loadAdsToList(final int size) {
-
-        final int numberOfAds = size / 6;
-
-        try {
-            final NativeAdsManager mAds = new NativeAdsManager(BookmarkActivity.this, AD_PLACEMENT_ID, numberOfAds);
-
-            mAds.setListener(new NativeAdsManager.Listener() {
-                @Override
-                public void onAdsLoaded() {
-                    try {
-                        int num = numberOfAds;
-                        while (num > 0 && lastAdPosition + ADS_PER_ITEMS < size) {
-                            NativeAd nativeAd1 = mAds.nextNativeAd();
-                            lastAdPosition += ADS_PER_ITEMS;
-                            num--;
-                            listBookmarkedMovies.add(lastAdPosition, nativeAd1);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    mAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onAdError(AdError adError) {
-
-                }
-            });
-
-            mAds.loadAds();
-        } catch (Exception e) {
-            Log.e(TAG, "loadAdsToList: " + e.toString());
         }
     }
 
@@ -162,8 +111,6 @@ public class BookmarkActivity extends AppCompatActivity {
                 return true;
 
         }
-
         return super.onOptionsItemSelected(item);
     }
-
 }

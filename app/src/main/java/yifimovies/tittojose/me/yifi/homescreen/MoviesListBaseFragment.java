@@ -3,33 +3,25 @@ package yifimovies.tittojose.me.yifi.homescreen;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-
-import com.facebook.ads.AdError;
-import com.facebook.ads.NativeAd;
-import com.facebook.ads.NativeAdsManager;
-import com.onesignal.OneSignal;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import yifimovies.tittojose.me.yifi.Constants;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient;
 import yifimovies.tittojose.me.yifi.api.MoviesService;
@@ -44,9 +36,6 @@ import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 public abstract class MoviesListBaseFragment extends Fragment {
 
     private static final String TAG = MoviesListBaseFragment.class.getSimpleName();
-
-    public String AD_PLACEMENT_ID;
-
     public MoviesService moviesService;
 
     @BindView(R.id.recyclerViewMoviesList)
@@ -58,7 +47,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-
     @BindView(R.id.errorLayout)
     ViewGroup errorLayout;
 
@@ -68,11 +56,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
     public final int PAGE_SIZE = 20;
     public int page = 0;
     int lastAdPosition = -1;
-    int ADS_PER_ITEMS = 7;
     private boolean isLastPage = false;
-
     int retryCount = 0;
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -83,10 +68,8 @@ public abstract class MoviesListBaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_main, container, false);
         ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -97,38 +80,26 @@ public abstract class MoviesListBaseFragment extends Fragment {
             page = 0;
         }
         initializeMoviesList();
-
     }
 
     private void initializeMoviesList() {
-
-        setAdPlacementId();
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                page = 0;
-                loadMovieData(page++);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            page = 0;
+            loadMovieData(page++);
         });
-
 
         final GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                switch (mAdapter.getItemViewType(position)) {
-                    case MoviesRecyclerAdapter.NATIVE_AD:
-                        return 2;
-                    case MoviesRecyclerAdapter.MOVIE:
-                        return 1;
-                    default:
-                        return -1;
+                if (mAdapter.getItemViewType(position) == MoviesRecyclerAdapter.MOVIE) {
+                    return 1;
                 }
+                return -1;
             }
         });
         moviesRecyclerView.setLayoutManager(layoutManager);
-//        moviesRecyclerView.setHasFixedSize(true);
+        moviesRecyclerView.setHasFixedSize(true);
         moviesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -151,8 +122,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
                 }
             }
         });
-
-
         loadMovieData(page++);
     }
 
@@ -165,7 +134,6 @@ public abstract class MoviesListBaseFragment extends Fragment {
             i.putExtra("movie", movie);
             startActivity(i);
             getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-
         }
     };
 
@@ -190,11 +158,9 @@ public abstract class MoviesListBaseFragment extends Fragment {
 
                             Log.d(TAG, "onResponse: ");
                             lastAdPosition = -1;
-                            loadAdsToList();
                         } else {
                             movies.addAll(response.body().getData().getMovies());
                             mAdapter.notifyDataSetChanged();
-                            loadAdsToList();
                         }
 
                         int currentTotalItem = page * PAGE_SIZE;
@@ -253,57 +219,9 @@ public abstract class MoviesListBaseFragment extends Fragment {
         }
     };
 
-
-    private void loadAdsToList() {
-        try {
-            final NativeAdsManager mAds = new NativeAdsManager(getActivity(), AD_PLACEMENT_ID, 3);
-
-            mAds.setListener(new NativeAdsManager.Listener() {
-                @Override
-                public void onAdsLoaded() {
-                    try {
-                        NativeAd nativeAd1 = mAds.nextNativeAd();
-                        NativeAd nativeAd2 = mAds.nextNativeAd();
-                        NativeAd nativeAd3 = mAds.nextNativeAd();
-
-                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                            lastAdPosition += ADS_PER_ITEMS;
-                            movies.add(lastAdPosition, nativeAd1);
-                        }
-
-                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                            lastAdPosition += ADS_PER_ITEMS;
-                            movies.add(lastAdPosition, nativeAd2);
-                        }
-
-                        if (lastAdPosition + ADS_PER_ITEMS < movies.size()) {
-                            lastAdPosition += ADS_PER_ITEMS;
-                            movies.add(lastAdPosition, nativeAd3);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    mAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onAdError(AdError adError) {
-
-                }
-            });
-
-            mAds.loadAds();
-        } catch (Exception e) {
-            Log.e(TAG, "loadAdsToList: " + e.toString());
-        }
-    }
-
-
     public MoviesListBaseFragment() {
         // Required empty public constructor
     }
-
 
     private void loadMovieData(final int page) {
         isLoading = true;
@@ -314,18 +232,13 @@ public abstract class MoviesListBaseFragment extends Fragment {
         }
         moviesService = MoviesAPIClient.getMoviesAPIService();
         makeMoviesAPICall();
-        OneSignal.sendTag(Constants.ONESIGNAL_API_TYPE, Constants.PRIMARY_API_END_POINT);
     }
 
     private void retryAPI() {
         Log.d("OkHttp", "retryAPI: ");
         moviesService = MoviesAPIClient.getMoviesAPIFallbackService();
         makeMoviesAPICall();
-        OneSignal.sendTag(Constants.ONESIGNAL_API_TYPE, Constants.BASE_API_END_POINT);
     }
 
     protected abstract void makeMoviesAPICall();
-
-    protected abstract void setAdPlacementId();
-
 }

@@ -8,12 +8,12 @@
     android:background="#17171C"
     tools:context="yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayoutMovieDetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +58,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -185,19 +185,19 @@
                     android:visibility="visible" />
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMovieGenre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:orientation="horizontal"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
                     tools:listitem="@layout/item_movie_genre" />
             </LinearLayout>
 
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutTorrentDownloads"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -221,12 +221,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMovieDownloads"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel"
@@ -270,7 +270,7 @@
                     app:layout_constraintLeft_toRightOf="@+id/btn10800Download"
                     app:layout_constraintTop_toBottomOf="@id/tvDownloadsLabel" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--<LinearLayout-->
             <!--android:layout_marginTop="16dp"-->
@@ -298,7 +298,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/youtubeViewMovieTrailerContainer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -329,10 +329,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvMovieTrailerLbl" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/layoutBookmark"
@@ -355,5 +355,5 @@
         </LinearLayout>
 
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </ScrollView>

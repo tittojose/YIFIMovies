@@ -1,15 +1,14 @@
 package yifimovies.tittojose.me.yifi.homescreen.genre;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
@@ -43,9 +42,8 @@ public class GenreRecyclerAdapter extends RecyclerView.Adapter<GenreRecyclerAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.genreTextView.setText(genreModelList.get(position).getGenreName());
-//        holder.genreImageView.setImageResource(genreModelList.get(position).getGenreIcon());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

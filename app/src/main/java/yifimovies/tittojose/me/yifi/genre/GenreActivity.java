@@ -1,12 +1,10 @@
 package yifimovies.tittojose.me.yifi.genre;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
@@ -30,7 +28,6 @@ public class GenreActivity extends AppCompatActivity {
         genreModelList = GenreModel.getGenreModelList();
         setupViewPager();
     }
-
 
     private void setupViewPager() {
         viewPager.setOffscreenPageLimit(2);
