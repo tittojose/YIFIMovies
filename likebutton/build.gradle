@@ -1,10 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 group='com.github.jd-alexander'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 31
 
     lintOptions {
         abortOnError false
@@ -12,9 +11,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 31
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
