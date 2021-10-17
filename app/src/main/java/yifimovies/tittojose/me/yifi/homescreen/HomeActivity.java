@@ -4,19 +4,20 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.BindView;
@@ -152,24 +153,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void navigateGenreScreen() {
-
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "GenreScreenRedirect");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "GenreScreenRedirect");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
         startActivity(new Intent(HomeActivity.this, GenreActivity.class));
-    }
-
-    private void navigateToTorrentPlayStore() {
-
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "TorrentAppRedirect");
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "TorrentAppRedirect");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "NavDrawer");
-        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.TORRENT_APP_LINK)));
     }
 
     private void startShareAppIntent() {
@@ -202,8 +191,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
         }
-
-
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "RateApp");
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "RateAppClicked");

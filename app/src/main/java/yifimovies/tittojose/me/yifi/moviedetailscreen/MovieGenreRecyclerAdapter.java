@@ -1,14 +1,12 @@
 package yifimovies.tittojose.me.yifi.moviedetailscreen;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
@@ -19,15 +17,12 @@ import yifimovies.tittojose.me.yifi.R;
 
 public class MovieGenreRecyclerAdapter extends RecyclerView.Adapter<MovieGenreRecyclerAdapter.MovieGenreHolder> {
 
-
     List<String> genres;
     Context context;
-
 
     public MovieGenreRecyclerAdapter(Context context, List<String> genres) {
         this.context = context;
         this.genres = genres;
-
     }
 
     @Override
@@ -41,9 +36,7 @@ public class MovieGenreRecyclerAdapter extends RecyclerView.Adapter<MovieGenreRe
     @Override
     public void onBindViewHolder(final MovieGenreHolder holder, int position) {
         final String genre = genres.get(position);
-
         holder.genreTextView.setText(genre);
-
     }
 
     @Override
@@ -57,12 +50,9 @@ public class MovieGenreRecyclerAdapter extends RecyclerView.Adapter<MovieGenreRe
         @BindView(R.id.tvGenreMovieListItem)
         TextView genreTextView;
 
-
         MovieGenreHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
-
 }

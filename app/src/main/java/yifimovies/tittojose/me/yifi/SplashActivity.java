@@ -1,10 +1,10 @@
 package yifimovies.tittojose.me.yifi;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,8 +25,8 @@ public class SplashActivity extends AppCompatActivity {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .build();
-        mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
 
         getDataEndPointData();
     }
@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                mFirebaseRemoteConfig.activateFetched();
+                                mFirebaseRemoteConfig.activate();
                             }
                             setConstantValuesFromFirebaseRemote();
                             startHomeActivity();
@@ -64,6 +64,5 @@ public class SplashActivity extends AppCompatActivity {
         Constants.BASE_API_END_POINT = mFirebaseRemoteConfig.getString(Constants.BASE_API_END_POINT_KEY);
         Constants.PRIMARY_API_END_POINT = mFirebaseRemoteConfig.getString(Constants.PRIMARY_API_END_POINT_KEY);
         Constants.TORRENT_APP_LINK = mFirebaseRemoteConfig.getString(Constants.TORRENT_APP_LINK_KEY);
-        Constants.RESTRICTED_MOVIES = mFirebaseRemoteConfig.getString(Constants.RESTRICTED_MOVIES_KEY);
     }
 }

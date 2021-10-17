@@ -1,22 +1,16 @@
 package yifimovies.tittojose.me.yifi.homescreen;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.facebook.ads.Ad;
-import com.facebook.ads.AdChoicesView;
-import com.facebook.ads.MediaView;
-import com.facebook.ads.NativeAd;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,8 +33,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     MoviesRecyclerAdapterListener listener;
 
     public static final int MOVIE = 0;
-    public static final int NATIVE_AD = 1;
-
 
     public MoviesRecyclerAdapter(Context context, List<Object> moviesList, MoviesRecyclerAdapterListener listener) {
         this.movies = moviesList;
@@ -55,9 +47,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (viewType == MOVIE) {
             View movieView = inflater.inflate(R.layout.item_movie_list, parent, false);
             return new MoviesViewHolder(movieView);
-        } else if (viewType == NATIVE_AD) {
-            View nativeAdItem = inflater.inflate(R.layout.item_native_ad, parent, false);
-            return new NativeAdViewHolder(nativeAdItem);
         } else {
             return null;
         }
@@ -68,10 +57,9 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         int itemType = getItemViewType(position);
         if (itemType == MOVIE) {
-
             final Movie movie = (Movie) movies.get(position);
             final MoviesViewHolder moviesViewHolder = (MoviesViewHolder) holder;
-            moviesViewHolder.movieTitle.setText(movie.getTitle() + " - (" + movie.getYear()+")");
+            moviesViewHolder.movieTitle.setText(movie.getTitle() + " - (" + movie.getYear() + ")");
             moviesViewHolder.rating.setText(String.format("%d", (long) movie.getRating()));
             Glide.with(context)
                     .load(movie.getMediumCoverImage())
@@ -83,31 +71,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     listener.onItemClickListener(movie, moviesViewHolder.movieImage);
                 }
             });
-        } else if (itemType == NATIVE_AD) {
-            NativeAdViewHolder nativeAdViewHolder = (NativeAdViewHolder) holder;
-            NativeAd nativeAd = (NativeAd) movies.get(position);
-
-            ImageView adImage = nativeAdViewHolder.adImage;
-            TextView tvAdTitle = nativeAdViewHolder.tvAdTitle;
-            TextView tvAdBody = nativeAdViewHolder.tvAdBody;
-            Button btnCTA = nativeAdViewHolder.btnCTA;
-            LinearLayout adChoicesContainer = nativeAdViewHolder.adChoicesContainer;
-            MediaView mediaView = nativeAdViewHolder.mediaView;
-
-            tvAdTitle.setText(nativeAd.getAdTitle());
-            tvAdBody.setText(nativeAd.getAdBody());
-            NativeAd.downloadAndDisplayImage(nativeAd.getAdIcon(), adImage);
-            btnCTA.setText(nativeAd.getAdCallToAction());
-            AdChoicesView adChoicesView = new AdChoicesView(context, nativeAd, true);
-            adChoicesContainer.removeAllViews();
-            adChoicesContainer.addView(adChoicesView);
-            mediaView.setNativeAd(nativeAd);
-
-            List<View> clickableViews = new ArrayList<>();
-            clickableViews.add(adImage);
-            clickableViews.add(btnCTA);
-            clickableViews.add(mediaView);
-            nativeAd.registerViewForInteraction(nativeAdViewHolder.container, clickableViews);
         }
     }
 
@@ -121,8 +84,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Object item = movies.get(position);
         if (item instanceof Movie) {
             return MOVIE;
-        } else if (item instanceof Ad) {
-            return NATIVE_AD;
         } else {
             return -1;
         }
@@ -142,29 +103,6 @@ public class MoviesRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public MoviesViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
         }
     }
-
-    private static class NativeAdViewHolder extends RecyclerView.ViewHolder {
-        ImageView adImage;
-        TextView tvAdTitle;
-        TextView tvAdBody;
-        Button btnCTA;
-        View container;
-        LinearLayout adChoicesContainer;
-        MediaView mediaView;
-
-        NativeAdViewHolder(View itemView) {
-            super(itemView);
-            this.container = itemView;
-            adImage = itemView.findViewById(R.id.adImage);
-            tvAdTitle = itemView.findViewById(R.id.tvAdTitle);
-            tvAdBody = itemView.findViewById(R.id.tvAdBody);
-            btnCTA = itemView.findViewById(R.id.btnCTA);
-            adChoicesContainer = itemView.findViewById(R.id.adChoicesContainer);
-            mediaView = itemView.findViewById(R.id.mediaView);
-        }
-    }
-
 }

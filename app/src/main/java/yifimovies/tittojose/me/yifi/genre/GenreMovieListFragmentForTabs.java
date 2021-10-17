@@ -26,9 +26,4 @@ public class GenreMovieListFragmentForTabs extends MoviesListBaseFragment {
     protected void makeMoviesAPICall() {
         moviesService.getMoviesForGenre(genreType, page, PAGE_SIZE).enqueue(apiCallback);
     }
-
-    @Override
-    protected void setAdPlacementId() {
-        AD_PLACEMENT_ID = "334553013694096_361205744362156";
-    }
 }

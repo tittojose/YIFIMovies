@@ -1,11 +1,11 @@
 package yifimovies.tittojose.me.yifi.homescreen.genre;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
 import butterknife.BindView;
@@ -39,8 +39,6 @@ public class MoviesListForGenreActivity extends AppCompatActivity {
         genreMovieListFragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.layoutGenreMoviesContainer, genreMovieListFragment);
         fragmentTransaction.commit();
-
-
     }
 
     @Override
@@ -51,14 +49,10 @@ public class MoviesListForGenreActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

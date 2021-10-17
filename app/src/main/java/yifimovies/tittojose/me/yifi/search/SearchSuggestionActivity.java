@@ -2,13 +2,13 @@ package yifimovies.tittojose.me.yifi.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
@@ -41,9 +42,7 @@ import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
  * Created by titto.jose on 16-01-2018.
  */
 
-
 public class SearchSuggestionActivity extends AppCompatActivity {
-
 
     private static final String TAG = SearchSuggestionActivity.class.getSimpleName();
     @BindView(R.id.toolbar)
@@ -62,8 +61,6 @@ public class SearchSuggestionActivity extends AppCompatActivity {
     CoordinatorLayout parentCoordinatorLayout;
 
     int retryCount = 0;
-
-
     private MoviesService moviesService;
     private Call<MovieAPIResponse> suggestionAPICall;
     private List<Object> movies = new ArrayList<>();
@@ -74,7 +71,6 @@ public class SearchSuggestionActivity extends AppCompatActivity {
             if (response.isSuccessful()) {
                 progressLayout.setVisibility(View.GONE);
                 if (response.body() != null && response.body().getData() != null && response.body().getData().getMovies() != null && response.body().getData().getMovies().size() > 0) {
-//                    movies = response.body().getData().getMovies();
                     try {
                         movies.addAll(response.body().getData().getMovies());
                         mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
@@ -108,21 +104,17 @@ public class SearchSuggestionActivity extends AppCompatActivity {
                 progressLayout.setVisibility(View.GONE);
                 Snackbar snackbar = Snackbar
                         .make(parentCoordinatorLayout, "No Internet connection available. Please check your network connectivity and try again.", Snackbar.LENGTH_LONG);
-
                 snackbar.show();
             }
         }
     };
 
 
-    private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
-        @Override
-        public void onItemClickListener(Movie movie, ImageView imageView) {
-            Intent i = new Intent(SearchSuggestionActivity.this, MovieDetailActivity.class);
-            i.putExtra("movie", movie);
-            startActivity(i);
-            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-        }
+    private MoviesRecyclerAdapter.MoviesRecyclerAdapterListener recyclerAdapterListener = (movie, imageView) -> {
+        Intent i = new Intent(SearchSuggestionActivity.this, MovieDetailActivity.class);
+        i.putExtra("movie", movie);
+        startActivity(i);
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
     };
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -137,44 +129,34 @@ public class SearchSuggestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_suggestions);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         searchEditText.requestFocus();
-        searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (!searchEditText.getText().toString().isEmpty()) {
+        searchEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (!searchEditText.getText().toString().isEmpty()) {
+                    movies = new ArrayList<>();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, searchEditText.getText().toString());
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-                        movies = new ArrayList<>();
+                    String queryString = searchEditText.getText().toString();
+                    makeApiCall(queryString);
+                    mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
+                    movieSuggestionsRecyclerView.setAdapter(mAdapter);
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, searchEditText.getText().toString());
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
-                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
-                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-
-                        String queryString = searchEditText.getText().toString();
-
-                        makeApiCall(queryString);
-
-                        mAdapter = new MoviesRecyclerAdapter(SearchSuggestionActivity.this, movies, recyclerAdapterListener);
-                        movieSuggestionsRecyclerView.setAdapter(mAdapter);
-
-                        return true;
-                    } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Empty search");
-                        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
-                        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
-                        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-                    }
+                    return true;
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "Empty search");
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Search");
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Search");
+                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
                 }
-                return false;
             }
+            return false;
         });
-
 
         final GridLayoutManager layoutManager = new GridLayoutManager(SearchSuggestionActivity.this, 2);
         movieSuggestionsRecyclerView.setLayoutManager(layoutManager);
