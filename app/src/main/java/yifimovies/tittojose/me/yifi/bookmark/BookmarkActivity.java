@@ -5,23 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
 import yifimovies.tittojose.me.yifi.api.model.Movie;
 import yifimovies.tittojose.me.yifi.bookmark.model.BookmarkPrefModel;
-import yifimovies.tittojose.me.yifi.homescreen.MoviesRecyclerAdapter;
+import yifimovies.tittojose.me.yifi.ui.home.MoviesRecyclerAdapter;
 import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity;
 
 public class BookmarkActivity extends AppCompatActivity {
@@ -36,7 +33,7 @@ public class BookmarkActivity extends AppCompatActivity {
     TextView emptyBookmark;
 
     private MoviesRecyclerAdapter mAdapter;
-    private List<Object> listBookmarkedMovies;
+    private List<Movie> listBookmarkedMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +60,9 @@ public class BookmarkActivity extends AppCompatActivity {
             bookmarkedRecyclerView.setVisibility(View.VISIBLE);
             emptyBookmark.setVisibility(View.GONE);
 
-            mAdapter = new MoviesRecyclerAdapter(BookmarkActivity.this, listBookmarkedMovies, new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
+            mAdapter = new MoviesRecyclerAdapter(listBookmarkedMovies, new MoviesRecyclerAdapter.MoviesRecyclerAdapterListener() {
                 @Override
-                public void onItemClickListener(Movie movie, ImageView imageView) {
+                public void onItemClickListener(@Nullable Movie movie) {
                     ActivityOptions options = null;
                     Intent i = new Intent(BookmarkActivity.this, MovieDetailActivity.class);
                     i.putExtra("movie", movie);
@@ -75,16 +72,6 @@ public class BookmarkActivity extends AppCompatActivity {
             });
 
             final GridLayoutManager layoutManager = new GridLayoutManager(BookmarkActivity.this, 2);
-            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if (mAdapter.getItemViewType(position) == MoviesRecyclerAdapter.MOVIE) {
-                        return 1;
-                    }
-                    return -1;
-                }
-            });
-
 
             bookmarkedRecyclerView.setLayoutManager(layoutManager);
             bookmarkedRecyclerView.setHasFixedSize(true);

@@ -8,7 +8,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import yifimovies.tittojose.me.yifi.R;
-import yifimovies.tittojose.me.yifi.homescreen.ViewPagerAdapter;
+import yifimovies.tittojose.me.yifi.ui.home.ViewPagerAdapter;
 import yifimovies.tittojose.me.yifi.homescreen.genre.GenreModel;
 
 public class GenreActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi.homescreen
+package yifimovies.tittojose.me.yifi.ui.home
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -7,25 +7,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import butterknife.BindView
 import butterknife.ButterKnife
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_movies_list.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import yifimovies.tittojose.me.yifi.R
 import yifimovies.tittojose.me.yifi.api.MoviesAPIClient
 import yifimovies.tittojose.me.yifi.api.MoviesService
+import yifimovies.tittojose.me.yifi.api.model.Movie
 import yifimovies.tittojose.me.yifi.api.model.MovieAPIResponse
-import yifimovies.tittojose.me.yifi.homescreen.MoviesRecyclerAdapter.MoviesRecyclerAdapterListener
-import yifimovies.tittojose.me.yifi.homescreen.model.MovieListType
+import yifimovies.tittojose.me.yifi.ui.home.MoviesRecyclerAdapter.MoviesRecyclerAdapterListener
 import yifimovies.tittojose.me.yifi.moviedetailscreen.MovieDetailActivity
+import yifimovies.tittojose.me.yifi.ui.home.model.MovieListType
 import java.util.*
 
 /**
@@ -35,7 +32,7 @@ class MoviesListFragment : Fragment() {
     @JvmField
     var moviesService: MoviesService? = null
 
-    private var movies: MutableList<Any> = ArrayList()
+    private var movies: MutableList<Movie> = ArrayList()
     private var mAdapter: RecyclerView.Adapter<*>? = null
     private var isLoading = true
 
@@ -50,7 +47,7 @@ class MoviesListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_main, container, false)
+        val view = inflater.inflate(R.layout.fragment_movies_list, container, false)
         ButterKnife.bind(this, view)
         return view
     }
@@ -69,19 +66,9 @@ class MoviesListFragment : Fragment() {
             loadMovieData(page++)
         }
         val layoutManager = GridLayoutManager(activity, 2)
-        layoutManager.spanSizeLookup = object : SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (mAdapter!!.getItemViewType(position) == MoviesRecyclerAdapter.MOVIE) {
-                    1
-                } else -1
-            }
-        }
         recyclerViewMoviesList!!.layoutManager = layoutManager
         recyclerViewMoviesList!!.setHasFixedSize(true)
         recyclerViewMoviesList!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-            }
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -98,12 +85,14 @@ class MoviesListFragment : Fragment() {
         loadMovieData(page++)
     }
 
-    private val recyclerAdapterListener = MoviesRecyclerAdapterListener { movie, imageView ->
-        val options: ActivityOptions? = null
-        val i = Intent(activity, MovieDetailActivity::class.java)
-        i.putExtra("movie", movie)
-        startActivity(i)
-        requireActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+    private val recyclerAdapterListener = object : MoviesRecyclerAdapterListener {
+        override fun onItemClickListener(movie: Movie?) {
+            val options: ActivityOptions? = null
+            val i = Intent(activity, MovieDetailActivity::class.java)
+            i.putExtra("movie", movie)
+            startActivity(i)
+            requireActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up)
+        }
     }
 
     @JvmField
@@ -120,7 +109,7 @@ class MoviesListFragment : Fragment() {
                         if (page == 1) {
                             movies = ArrayList()
                             movies.addAll(response.body()!!.data.movies)
-                            mAdapter = MoviesRecyclerAdapter(activity, movies, recyclerAdapterListener)
+                            mAdapter = MoviesRecyclerAdapter(movies, recyclerAdapterListener)
                             recyclerViewMoviesList!!.adapter = mAdapter
                             Log.d(TAG, "onResponse: ")
                             lastAdPosition = -1
@@ -145,7 +134,6 @@ class MoviesListFragment : Fragment() {
                                 errorLayout!!.visibility = View.VISIBLE
                             }
                             swipeRefreshLayout!!.isRefreshing = false
-                            (activity as HomeActivity?)!!.handleError("")
                         } catch (e: Exception) {
                             Log.e(TAG, "onResponse: $e")
                         }
@@ -169,7 +157,6 @@ class MoviesListFragment : Fragment() {
                     swipeRefreshLayout!!.isRefreshing = false
                     isLoading = false
                     progressPagination!!.visibility = View.GONE
-                    (activity as HomeActivity?)!!.handleError("")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

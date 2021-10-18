@@ -1,4 +1,4 @@
-package yifimovies.tittojose.me.yifi.homescreen.model
+package yifimovies.tittojose.me.yifi.ui.home.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

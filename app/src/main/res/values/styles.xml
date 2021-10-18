@@ -7,16 +7,12 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowExitTransition">@transition/main_exit</item>
-        <item name="android:windowReenterTransition">@transition/main_reenter</item>
         <item name="android:windowBackground">@color/blackBackground</item>
     </style>
 
 
     <style name="AppTheme.Detail" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowEnterTransition">@transition/detail_enter</item>
     </style>
 
     <style name="Theme.Transparent" parent="AppTheme">
