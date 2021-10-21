@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +29,7 @@ import java.util.*
 /**
  * Created by titto.jose on 21-12-2017.
  */
+@AndroidEntryPoint
 class MoviesListFragment : Fragment() {
     @JvmField
     var moviesService: MoviesService? = null
@@ -96,8 +98,8 @@ class MoviesListFragment : Fragment() {
     }
 
     @JvmField
-    var apiCallback: Callback<MovieAPIResponse> = object : Callback<MovieAPIResponse> {
-        override fun onResponse(call: Call<MovieAPIResponse>, response: Response<MovieAPIResponse>) {
+    var apiCallback: Callback<MovieAPIResponse?> = object : Callback<MovieAPIResponse?> {
+        override fun onResponse(call: Call<MovieAPIResponse?>, response: Response<MovieAPIResponse?>) {
             try {
                 if (response.isSuccessful) {
                     errorLayout!!.visibility = View.GONE
@@ -105,20 +107,20 @@ class MoviesListFragment : Fragment() {
                     progressPagination!!.visibility = View.GONE
                     isLoading = false
                     swipeRefreshLayout!!.isRefreshing = false
-                    if (response.body()!!.data.movies != null && response.body()!!.data.movies.size > 0) {
+                    if (response.body()!!.data!!.movies != null && response.body()!!.data!!.movies!!.isNotEmpty()) {
                         if (page == 1) {
                             movies = ArrayList()
-                            movies.addAll(response.body()!!.data.movies)
+                            response.body()!!.data!!.movies?.let { movies.addAll(it) }
                             mAdapter = MoviesRecyclerAdapter(movies, recyclerAdapterListener)
                             recyclerViewMoviesList!!.adapter = mAdapter
                             Log.d(TAG, "onResponse: ")
                             lastAdPosition = -1
                         } else {
-                            movies.addAll(response.body()!!.data.movies)
+                            response.body()!!.data!!.movies?.let { movies.addAll(it) }
                             mAdapter!!.notifyDataSetChanged()
                         }
                         val currentTotalItem = page * PAGE_SIZE
-                        if (currentTotalItem >= response.body()!!.data.movieCount) {
+                        if (currentTotalItem >= response.body()!!.data!!.movieCount!!) {
                             isLastPage = true
                         }
                     }
@@ -144,7 +146,7 @@ class MoviesListFragment : Fragment() {
             }
         }
 
-        override fun onFailure(call: Call<MovieAPIResponse>, t: Throwable) {
+        override fun onFailure(call: Call<MovieAPIResponse?>, t: Throwable) {
             if (retryCount == 0) {
                 retryCount++
                 retryAPI()

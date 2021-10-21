@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import hotchemi.android.rate.AppRate
 import kotlinx.android.synthetic.main.fragment_home.*
 import yifimovies.tittojose.me.yifi.R
@@ -24,6 +26,7 @@ import yifimovies.tittojose.me.yifi.ui.home.model.MovieListType
 import yifimovies.tittojose.me.yifi.utils.NetworkUtils
 import java.lang.Exception
 
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
